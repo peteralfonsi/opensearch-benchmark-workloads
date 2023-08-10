@@ -8,7 +8,7 @@ import csv
 import time
 
 # Notify IFTTT when script is done
-def send_ifft_notification(webhook, type):
+def send_slack_notification(webhook, type):
     slackurl = webhook
 
     data = {
@@ -154,7 +154,7 @@ def main():
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
 
-    num_queries = 250 # Number of times to execute the query for each date range
+    num_queries = 5 # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
 
     miss_took_times = []
@@ -162,6 +162,9 @@ def main():
     daily_p99_latencies = []
     daily_p95_latencies = []
     daily_p90_latencies = []
+    daily_medians = []
+    daily_mins = []
+    daily_max = []
 
     # Get the current date and time
     current_datetime = datetime.datetime.now()
@@ -206,6 +209,9 @@ def main():
         daily_p99_latencies.append(p99_latency)
         daily_p95_latencies.append(p95_latency)
         daily_p90_latencies.append(p90_latency)
+        daily_medians.append(median)
+        daily_mins.append(min(response_times[1:]))
+        daily_max.append(max(response_times[1:]))
         
         with open(save_path + filename, 'a') as csv_file:
             csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {args.type} \n')
@@ -236,7 +242,7 @@ def main():
     for daily_p99_latency in enumerate(daily_p99_latencies, start=1):
         print(f"{daily_p99_latency}")
 
-    send_ifft_notification(args.webhook, args.type)
+    send_slack_notification(args.webhook, args.type)
 
 if __name__ == '__main__':
     main()
