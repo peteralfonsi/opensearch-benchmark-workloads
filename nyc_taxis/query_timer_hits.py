@@ -8,19 +8,18 @@ import csv
 import time
 
 # Notify IFTTT when script is done
-def send_ifft_notification(api_key, type):
-    event_name = 'script_done'  # Event name from your IFTTT applet
-    url = f'https://maker.ifttt.com/trigger/{event_name}/with/key/{api_key}'
+def send_ifft_notification(webhook, type):
+    slackurl = webhook
 
     data = {
-        "Cache Type": type
+        "value1": type
     }
 
-    response = requests.post(url, json=data)
+    response = requests.post(slackurl, json=data)
     if response.status_code == 200:
-        print("IFTTT notification sent successfully.")
+        print("Slack notification sent successfully.")
     else:
-        print("Failed to send IFTTT notification.")
+        print("Failed to send Slack notification.")
 
 # Expensive query to be used
 def expensive_1(day, cache, **kwargs):
@@ -148,19 +147,20 @@ def main():
     parser.add_argument('--days',     help='Number of days in the range to keep increasing to')
     parser.add_argument('--cache',    help='True for cache enabled and false otherwise, defaults to FALSE.', default='false')
     parser.add_argument('--type', help='Type of cache we are using, for logging purposes')
-    parser.add_argument('--apikey', help='IFTTT API key for notifying when the script is finished.')
+    parser.add_argument('--webhook', help='Slack webhook for notifying when the script is finished.')
     args = parser.parse_args()
 
     # Get baseline hit count
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
 
-    num_queries = 50 # Number of times to execute the query for each date range
+    num_queries = 250 # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
 
     miss_took_times = []
     daily_averages = []
     daily_p99_latencies = []
+    daily_p95_latencies = []
     daily_p90_latencies = []
 
     # Get the current date and time
@@ -197,24 +197,30 @@ def main():
         median = np.median(response_times[1:])
         average_response_time = sum(response_times[1:]) / (num_queries - 1) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
         p99_latency = np.percentile(response_times[1:], 99) # Calculate p99 latency
+        p95_latency = np.percentile(response_times[1:], 95) # Calculate p95
         p90_latency = np.percentile(response_times[1:], 90) # Calculate p90
+
 
         # Collect the data
         daily_averages.append(average_response_time)
         daily_p99_latencies.append(p99_latency)
+        daily_p95_latencies.append(p95_latency)
         daily_p90_latencies.append(p90_latency)
         
         with open(save_path + filename, 'a') as csv_file:
             csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {args.type} \n')
             for value in response_times:
                 csv_file.write(str(value) + '\n')
+            csv_file.write(f"Average response time: {average_response_time} \n")
             csv_file.write(f"Median response time: {median} \n")
-            csv_file.write(f"p99 latency: {p99_latency} \n")
-            csv_file.write(f"p90 latency: {p90_latency} \n ")
+            csv_file.write(f"p99 latency: {round(p99_latency, 3)} \n")
+            csv_file.write(f"p95 latency: {round(p95_latency, 3)} \n")
+            csv_file.write(f"p90 latency: {round(p90_latency, 3)} \n ")
+            csv_file.write(f"Minimum: {min(response_times)} \n ")
+            csv_file.write(f"Maximum: {max(response_times[1:])} \n ")
             csv_file.write("\n")
         
-        print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}. Waiting 10 seconds before moving to the next day or ending the run.")
-
+        print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}.")
 
     # print items in tabular
     print(f"Results for cache of type {args.type}")
@@ -230,7 +236,7 @@ def main():
     for daily_p99_latency in enumerate(daily_p99_latencies, start=1):
         print(f"{daily_p99_latency}")
 
-    send_ifft_notification(args.apikey, args.type)
+    send_ifft_notification(args.webhook, args.type)
 
 if __name__ == '__main__':
     main()
