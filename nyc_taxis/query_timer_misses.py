@@ -4,6 +4,16 @@ from opensearchpy import OpenSearch
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Notify IFTTT when script is done
+def send_ifft_notification(api_key):
+    event_name = 'script_done'  # Event name from your IFTTT applet
+    url = f'https://maker.ifttt.com/trigger/{event_name}/with/key/{api_key}'
+
+    response = requests.post(url)
+    if response.status_code == 200:
+        print("IFTTT notification sent successfully.")
+    else:
+        print("Failed to send IFTTT notification.")
 
 # Expensive query to be used
 def expensive_1(day, cache, **kwargs):
@@ -86,7 +96,6 @@ def expensive_1(day, cache, **kwargs):
 
 # Function to send the query and measure the response time
 def send_query_and_measure_time(day, hit_count, endpoint, username, password, cache):
-
     query = expensive_1(day, cache)
 
     # Connect to the OpenSearch domain using the provided endpoint and credentials
@@ -103,6 +112,7 @@ def send_query_and_measure_time(day, hit_count, endpoint, username, password, ca
 
     return took_time
 
+# Function to retrieve the cache stats to check hit counts
 def get_request_cache_stats(endpoint, username, password):
     url = f"{endpoint}/_nodes/stats/indices/request_cache"
     response = requests.get(url, auth=(username, password))
@@ -119,7 +129,7 @@ def clearcache(args):
     response = requests.post(url, auth=(args.username, args.password))
 
     if response.status_code == 200:
-        print("Request cache cleared successfully." + str(response))
+        print("Request cache cleared successfully.")
     else:
         print("Failed to clear request cache." + str(response.status_code))
 
@@ -130,6 +140,7 @@ def main():
     parser.add_argument('--password', help='Password for authentication')
     parser.add_argument('--days',     help='Number of days in the range to keep increasing to')
     parser.add_argument('--cache',    help='True for cache enabled and false otherwise, defaults to FALSE.', default='false')
+    parser.add_argument('--apikey', help='IFTTT API key for notifying when the script is finished.')
     args = parser.parse_args()
 
     # Clear cache
@@ -140,7 +151,7 @@ def main():
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
 
     num_queries = 50 # Number of times to execute the query for each date range
-    save_path = '/home/ec2-user/opensearch-benchmark-workloads/nyc_taxis'  # Path to save images to
+    save_path = '/home/ec2-user/opensearch-benchmark-workloads/nyc_taxis/results'  # Path to save results
 
     miss_took_times = []
     daily_averages = []
@@ -148,14 +159,14 @@ def main():
 
     # Execute the query multiple times and measure the response time
     for day in range(1, int(args.days) + 1):
-        print(f"Starting iterations for range : 1 to {day}")
-        response_times = []
+        print(f"Starting iterations for range: Jan 1 00:00:00 to Jan {day} 11:59:59")
+        response_times = [] 
         for x in range(1, num_queries + 1):
-            response_time = send_query_and_measure_time(day, hit_count, args.endpoint, args.username, args.password, args.cache)
+            response_time = send_query_and_measure_time(day, hit_count, args.endpoint, args.username, args.password, args.cache) # Get took time for query
             new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))[
-                'indices']['request_cache']['hit_count']
+                'indices']['request_cache']['hit_count'] # Check new number of hits
 
-            if new_hits > hit_count:
+            if new_hits > hit_count: # If hit count increased
                 print(f"Hit. Took time: {response_time}")
                 hit_count = new_hits
                 isHit = True
@@ -165,50 +176,16 @@ def main():
                 isHit = False
 
             # Append a tuple with response time and hit/miss status
-            response_times.append((response_time, isHit))
+            response_times.append(response_time)
             print(f"Response {x} received.")
 
-        # Separate response times and hit/miss indicators for plotting
-        hit_miss_colors = ['g' if isHit else 'r' for _, isHit in response_times]
-
-        # Calculate the average response time. Add [1:] to response_times_only in line 186 and 188 if calculating for hits,
-        # to ignore first miss. 186 is / num_queries for misses, num_queries - 1 for hits.
-        response_times_only = [response[0] for response in response_times]
-        average_response_time = sum(response_times_only) / (num_queries)
-        p99_latency = np.percentile(response_times_only, 99)
+        average_response_time = sum(response_times) / (num_queries - 1)
+        p99_latency = np.percentile(response_times, 99)
+        p90_latency = np.percentile(response_times, 90)
 
         # collating the data
         daily_averages.append(average_response_time)
         daily_p99_latencies.append(p99_latency)
-
-        # Plot the response times on a graph
-        plt.scatter(range(1, num_queries + 1), response_times_only, c=hit_miss_colors, label='Response Times')
-        plt.axhline(y=average_response_time, color='r', linestyle='--', label='Average Response Time')
-
-        # Find indices of highest hit and miss. Comment out line below if calculating misses. TODO: buggy
-        # highest_hit_index = max([i for i, (_, isHit) in enumerate(response_times) if isHit])
-        # highest_miss_index = max([i for i, (_, isHit) in enumerate(response_times) if not isHit])
-
-        # Draw lines at the highest hit and miss points
-        # plt.axvline(x=highest_hit_index + 1, color='g', linestyle=':', label='Highest Hit')
-        # plt.axvline(x=highest_miss_index + 1, color='r', linestyle=':', label='Highest Miss')
-
-        plt.yscale('log')  # Set log scale on y-axis
-
-        # Set x-axis ticks to prevent overlap
-        step = max(1, num_queries // 10)  # Display every 10th tick label
-        plt.xticks(range(1, num_queries + 1, step), rotation=45)
-
-        # Add a text annotation for the average and p99 response times
-        plt.text(num_queries + 0.5, average_response_time, f'Avg: {average_response_time:.2f} ms', color='r', va='center')
-        plt.text(num_queries + 0.5, p99_latency, f'p99: {p99_latency:.2f} ms', color='b', va='bottom')
-
-        plt.xlabel('Query Number')
-        plt.ylabel('Response Time (milliseconds)')
-        plt.title('OpenSearch Query Response Time from Jan 1 to Jan ' + str(day))
-        plt.legend()
-
-        plt.tight_layout()  # Ensure labels and annotations fit within the figure
         
         # Save the figure to the specified folder
         save_filename = 'PoC_time_50hits_plot_until_jan' + str(day) + '.png'  # You can change the filename if needed
@@ -247,6 +224,8 @@ def main():
     plt.close()
 
     print("Cumulative file saved to ", save_path)
+
+    send_ifft_notification(args.apikey)
 
 if __name__ == '__main__':
     main()
