@@ -189,10 +189,10 @@ def main():
             response_times.append(response_time)
             print(f"Response {x} received.")
 
-        median = np.median(response_times[1:])
-        average_response_time = sum(response_times[1:]) / (num_queries - 1) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
-        p99_latency = np.percentile(response_times[1:], 99) # Calculate p99 latency
-        p90_latency = np.percentile(response_times[1:], 90) # Calculate p90
+        median = np.median(response_times)
+        average_response_time = sum(response_times) / (num_queries) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
+        p99_latency = np.percentile(response_times, 99) # Calculate p99 latency
+        p90_latency = np.percentile(response_times, 90) # Calculate p90
 
         # Collect the data
         daily_averages.append(average_response_time)
