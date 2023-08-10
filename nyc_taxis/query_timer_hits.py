@@ -195,7 +195,7 @@ def main():
 
             # Append a tuple with response time and hit/miss status
             response_times.append(response_time)
-            print(f"Response {x} received.")
+            print(f"Response {x}/{num_queries} received.")
 
         median = np.median(response_times[1:])
         average_response_time = sum(response_times[1:]) / (num_queries - 1) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
@@ -232,15 +232,15 @@ def main():
     print(f"Results for cache of type {args.type}")
     print("All average response times: ")
     for avg_time in enumerate(daily_averages, start=1):
-        print(f"{round(avg_time, 3)}")
+        print(f"{avg_time}")
 
     print("All Miss took times: ")
     for miss_took_time in enumerate(miss_took_times, start=1):
-        print(f"{round(miss_took_time, 3)}")
+        print(f"{miss_took_time}")
 
     print("All p90 response times:")
     for daily_p90_latency in enumerate(daily_p90_latencies, start=1):
-        print(f"{round(daily_p90_latency, 3)}")
+        print(f"{daily_p90_latency}")
 
     send_slack_notification(args.webhook, args.type)
 
