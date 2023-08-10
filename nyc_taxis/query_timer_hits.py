@@ -124,7 +124,6 @@ def get_request_cache_stats(endpoint, username, password):
     response = requests.get(url, auth=(username, password))
 
     if response.status_code == 200:
-        print(response.json())
         return response.json()
     else:
         print("Failed to retrieve request cache stats.")
