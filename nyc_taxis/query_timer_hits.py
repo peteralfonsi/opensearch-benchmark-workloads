@@ -216,7 +216,7 @@ def main():
             csv_file.write(f"p99 latency: {round(p99_latency, 3)} \n")
             csv_file.write(f"p95 latency: {round(p95_latency, 3)} \n")
             csv_file.write(f"p90 latency: {round(p90_latency, 3)} \n ")
-            csv_file.write(f"Minimum: {min(response_times)} \n ")
+            csv_file.write(f"Minimum: {min(response_times[1:])} \n ")
             csv_file.write(f"Maximum: {max(response_times[1:])} \n ")
             csv_file.write("\n")
         
