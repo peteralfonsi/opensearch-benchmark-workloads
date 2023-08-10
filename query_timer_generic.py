@@ -1,22 +1,12 @@
 import argparse
-import random
-import time
 import requests
-from datetime import datetime
 from opensearchpy import OpenSearch
 import matplotlib.pyplot as plt
 import numpy as np
 
 
-# Define a function to generate random data
-def random_date(start, end):
-    delta = end - start
-    return start + delta * random.random()
-
-
 # Expensive query to be used
 def expensive_1(day, cache, **kwargs):
-
     return {
         "body": {
             "size": 0,
@@ -97,9 +87,6 @@ def expensive_1(day, cache, **kwargs):
 # Function to send the query and measure the response time
 def send_query_and_measure_time(day, hit_count, endpoint, username, password, cache):
 
-    # start_time = time.time()
-
-    # Assuming you have the 'expensive_1' function declared in the same file
     query = expensive_1(day, cache)
 
     # Connect to the OpenSearch domain using the provided endpoint and credentials
@@ -114,10 +101,7 @@ def send_query_and_measure_time(day, hit_count, endpoint, username, password, ca
     response = os.search(index=query['index'], body=query['body'], request_timeout=60, request_cache=cache)
     took_time = response['took']
 
-    # end_time = time.time()
-    # response_time = end_time - start_time
     return took_time
-
 
 def get_request_cache_stats(endpoint, username, password):
     url = f"{endpoint}/_nodes/stats/indices/request_cache"
@@ -129,16 +113,8 @@ def get_request_cache_stats(endpoint, username, password):
         print("Failed to retrieve request cache stats.")
         return None
 
-
-def main():
-    parser = argparse.ArgumentParser(description='OpenSearch Query Response Time Plotter')
-    parser.add_argument('--endpoint', help='OpenSearch domain endpoint (https://example.com)')
-    parser.add_argument('--username', help='Username for authentication')
-    parser.add_argument('--password', help='Password for authentication')
-    parser.add_argument('--days',     help='Number of days the range to keep increasing to')
-    parser.add_argument('--cache',    help='true for cache enabled and false otherwise', default='false')
-    args = parser.parse_args()
-
+def clearcache(args):
+    # Clear cache and verify response
     url = f"{args.endpoint}/nyc_taxis/_cache/clear"
     response = requests.post(url, auth=(args.username, args.password))
 
@@ -147,13 +123,24 @@ def main():
     else:
         print("Failed to clear request cache." + str(response.status_code))
 
+def main():
+    parser = argparse.ArgumentParser(description='OpenSearch Query Response Time Plotter')
+    parser.add_argument('--endpoint', help='OpenSearch domain endpoint (https://example.com)')
+    parser.add_argument('--username', help='Username for authentication')
+    parser.add_argument('--password', help='Password for authentication')
+    parser.add_argument('--days',     help='Number of days in the range to keep increasing to')
+    parser.add_argument('--cache',    help='True for cache enabled and false otherwise, defaults to FALSE.', default='false')
+    args = parser.parse_args()
+
+    # Clear cache
+    clearcache(args)
+
+    # Get baseline hit count
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
-    # hit_count = data['nodes']['xxxxx']['indices']['request_cache']['hit_count']
 
-    # Number of times to execute the query and measure the response time
-    num_queries = 50
-    save_path = '/home/ec2-user/opensearch-benchmark-workloads/nyc_taxis'  # change this to image save path
+    num_queries = 50 # Number of times to execute the query for each date range
+    save_path = '/home/ec2-user/opensearch-benchmark-workloads/nyc_taxis'  # Path to save images to
 
     miss_took_times = []
     daily_averages = []
