@@ -8,11 +8,15 @@ import csv
 import time
 
 # Notify IFTTT when script is done
-def send_ifft_notification(api_key):
+def send_ifft_notification(api_key, type):
     event_name = 'script_done'  # Event name from your IFTTT applet
     url = f'https://maker.ifttt.com/trigger/{event_name}/with/key/{api_key}'
 
-    response = requests.post(url)
+    data = {
+        "Cache Type": type
+    }
+
+    response = requests.post(url, json=data)
     if response.status_code == 200:
         print("IFTTT notification sent successfully.")
     else:
@@ -152,7 +156,7 @@ def main():
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
 
     num_queries = 50 # Number of times to execute the query for each date range
-    save_path = '/Users/ohalpert/Desktop/opensearch-benchmark-workloads/nyc_taxis/results'  # Path to save results
+    save_path = 'results/'  # Path to save results
 
     miss_took_times = []
     daily_averages = []
@@ -166,7 +170,7 @@ def main():
     formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Create a filename using the formatted datetime
-    filename = f"results/results_{formatted_datetime}.csv"
+    filename = f"results_{formatted_datetime}.csv"
 
     # Execute the query multiple times and measure the response time
     for day in range(1, int(args.days) + 1):
@@ -200,7 +204,7 @@ def main():
         daily_p99_latencies.append(p99_latency)
         daily_p90_latencies.append(p90_latency)
         
-        with open(filename, 'a') as csv_file:
+        with open(save_path + filename, 'a') as csv_file:
             csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {args.type} \n')
             for value in response_times:
                 csv_file.write(str(value) + '\n')
@@ -210,7 +214,6 @@ def main():
             csv_file.write("\n")
         
         print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}. Waiting 10 seconds before moving to the next day or ending the run.")
-        time.sleep(10)  # Pause for 10 seconds
 
 
     # print items in tabular
@@ -227,7 +230,7 @@ def main():
     for daily_p99_latency in enumerate(daily_p99_latencies, start=1):
         print(f"{daily_p99_latency}")
 
-    send_ifft_notification(args.apikey)
+    send_ifft_notification(args.apikey, args.type)
 
 if __name__ == '__main__':
     main()
