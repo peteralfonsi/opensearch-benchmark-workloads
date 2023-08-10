@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime
 import csv
+import time
 
 # Notify IFTTT when script is done
 def send_ifft_notification(api_key):
@@ -208,7 +209,9 @@ def main():
             csv_file.write(f"p90 latency: {p90_latency} \n ")
             csv_file.write("\n")
         
-        print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}")
+        print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}. Waiting 10 seconds before moving to the next day or ending the run.")
+        time.sleep(10)  # Pause for 10 seconds
+
 
     # print items in tabular
     print(f"Results for cache of type {args.type}")
