@@ -233,15 +233,15 @@ def main():
     print(f"Results for cache of type {args.type}")
     print("All average response times: ")
     for avg_time in enumerate(daily_averages, start=1):
-        print(f"{avg_time}")
+        print(f"{round(avg_time, 3)}")
 
     print("All Miss took times: ")
     for miss_took_time in enumerate(miss_took_times, start=1):
-        print(f"{miss_took_time}")
+        print(f"{round(miss_took_time, 3)}")
 
-    print("All p99 response times:")
-    for daily_p99_latency in enumerate(daily_p99_latencies, start=1):
-        print(f"{daily_p99_latency}")
+    print("All p90 response times:")
+    for daily_p90_latency in enumerate(daily_p90_latencies, start=1):
+        print(f"{round(daily_p90_latency, 3)}")
 
     send_slack_notification(args.webhook, args.type)
 
