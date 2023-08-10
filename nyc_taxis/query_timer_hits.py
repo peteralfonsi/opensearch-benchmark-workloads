@@ -122,8 +122,10 @@ def send_query_and_measure_time(day, hit_count, endpoint, username, password, ca
 def get_request_cache_stats(endpoint, username, password):
     url = f"{endpoint}/_nodes/stats/indices/request_cache"
     response = requests.get(url, auth=(username, password))
+    print(response.json())
 
     if response.status_code == 200:
+        print(response.json())
         return response.json()
     else:
         print("Failed to retrieve request cache stats.")
@@ -154,7 +156,7 @@ def main():
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
 
-    num_queries = 5 # Number of times to execute the query for each date range
+    num_queries = 250 # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
 
     miss_took_times = []
