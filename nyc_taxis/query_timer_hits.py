@@ -122,7 +122,6 @@ def send_query_and_measure_time(day, hit_count, endpoint, username, password, ca
 def get_request_cache_stats(endpoint, username, password):
     url = f"{endpoint}/_nodes/stats/indices/request_cache"
     response = requests.get(url, auth=(username, password))
-    print(response.json())
 
     if response.status_code == 200:
         print(response.json())
