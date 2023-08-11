@@ -1,0 +1,98 @@
+Jan 1 to Jan 1 using cache of type: PoC Disk Only 
+6008
+44
+7
+6
+6
+Average response time: 15.75 
+Median response time: 6.5 
+p99 latency: 42.89 
+p95 latency: 38.45 
+p90 latency: 32.9 
+ Minimum: 6 
+ Maximum: 44 
+ 
+Jan 1 to Jan 2 using cache of type: PoC Disk Only 
+1074
+5
+5
+5
+5
+Average response time: 5.0 
+Median response time: 5.0 
+p99 latency: 5.0 
+p95 latency: 5.0 
+p90 latency: 5.0 
+ Minimum: 5 
+ Maximum: 5 
+ 
+Jan 1 to Jan 3 using cache of type: PoC Disk Only 
+484
+6
+5
+5
+5
+Average response time: 5.25 
+Median response time: 5.0 
+p99 latency: 5.97 
+p95 latency: 5.85 
+p90 latency: 5.7 
+ Minimum: 5 
+ Maximum: 6 
+ 
+Jan 1 to Jan 4 using cache of type: PoC Disk Only 
+470
+6
+5
+5
+5
+Average response time: 5.25 
+Median response time: 5.0 
+p99 latency: 5.97 
+p95 latency: 5.85 
+p90 latency: 5.7 
+ Minimum: 5 
+ Maximum: 6 
+ 
+Jan 1 to Jan 5 using cache of type: PoC Disk Only 
+533
+5
+5
+5
+6
+Average response time: 5.25 
+Median response time: 5.0 
+p99 latency: 5.97 
+p95 latency: 5.85 
+p90 latency: 5.7 
+ Minimum: 5 
+ Maximum: 6 
+ 
+Jan 1 to Jan 6 using cache of type: PoC Disk Only 
+622
+5
+5
+5
+5
+Average response time: 5.0 
+Median response time: 5.0 
+p99 latency: 5.0 
+p95 latency: 5.0 
+p90 latency: 5.0 
+ Minimum: 5 
+ Maximum: 5 
+ 
+Jan 1 to Jan 7 using cache of type: PoC Disk Only 
+663
+5
+5
+5
+4
+Average response time: 4.75 
+Median response time: 5.0 
+p99 latency: 5.0 
+p95 latency: 5.0 
+p90 latency: 5.0 
+ Minimum: 4 
+ Maximum: 5 
+ 
