@@ -7,7 +7,7 @@ import datetime
 import csv
 import time
 
-# Notify IFTTT when script is done
+# Notify Slack when script is done
 def send_slack_notification(webhook, type):
     slackurl = webhook
 
