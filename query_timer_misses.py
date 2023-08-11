@@ -8,7 +8,7 @@ import csv
 import time
 
 # Notify IFTTT when script is done
-def send_ifft_notification(webhook, type):
+def send_slack_notification(webhook, type):
     slackurl = webhook
 
     data = {
@@ -162,6 +162,9 @@ def main():
     daily_p99_latencies = []
     daily_p95_latencies = []
     daily_p90_latencies = []
+    daily_medians = []
+    daily_mins = []
+    daily_max = []
 
     # Get the current date and time
     current_datetime = datetime.datetime.now()
@@ -192,7 +195,7 @@ def main():
 
             # Append a tuple with response time and hit/miss status
             response_times.append(response_time)
-            print(f"Response {x} received.")
+            print(f"Response {x}/{num_queries} received.")
 
         median = np.median(response_times)
         average_response_time = sum(response_times) / (num_queries - 1) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
@@ -206,6 +209,9 @@ def main():
         daily_p99_latencies.append(p99_latency)
         daily_p95_latencies.append(p95_latency)
         daily_p90_latencies.append(p90_latency)
+        daily_medians.append(median)
+        daily_mins.append(min(response_times))
+        daily_max.append(max(response_times))
         
         with open(save_path + filename, 'a') as csv_file:
             csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {args.type} \n')
@@ -232,11 +238,11 @@ def main():
     for miss_took_time in enumerate(miss_took_times, start=1):
         print(f"{miss_took_time}")
 
-    print("All p99 response times:")
-    for daily_p99_latency in enumerate(daily_p99_latencies, start=1):
-        print(f"{daily_p99_latency}")
+    print("All p90 response times:")
+    for daily_p90_latency in enumerate(daily_p90_latencies, start=1):
+        print(f"{daily_p90_latency}")
 
-    send_ifft_notification(args.webhook, args.type)
+    send_slack_notification(args.webhook, args.type)
 
 if __name__ == '__main__':
     main()
