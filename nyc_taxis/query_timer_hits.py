@@ -176,7 +176,7 @@ def main():
     filename = f"results_{formatted_datetime}.csv"
 
     # Execute the query multiple times and measure the response time
-    for day in range(1, int(args.days) + 1):
+    for day in range(int(args.days), 0, -1):
         clearcache(args) # clear cache to start
         print(f"Starting iterations for range: Jan 1 00:00:00 to Jan {day} 11:59:59")
         response_times = []
