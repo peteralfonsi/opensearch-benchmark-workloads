@@ -181,10 +181,10 @@ def process_cache_type(args, cache_type):
                 print(f"Miss. Took time: {response_time}")
                 isHit = False
 
-        # Append a tuple with response time and hit/miss status
-        response_times.append(response_time)
-        print(f"Response {x}/{num_queries} received.")
-        print(f"response_times size: {len(response_times)}")
+            # Append a tuple with response time and hit/miss status
+            response_times.append(response_time)
+            print(f"Response {x}/{num_queries} received.")
+            print(f"response_times size: {len(response_times)}")
 
         median = np.median(response_times[1:])
         print(f"median: {median}")
