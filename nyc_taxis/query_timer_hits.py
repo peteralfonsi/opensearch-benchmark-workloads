@@ -167,6 +167,7 @@ def process_cache_type(args, cache_type):
         print(f"Starting iterations for range: Jan 1 00:00:00 to Jan {day} 11:59:59")
         response_times = []
         for x in range(1, num_queries + 1):
+            time.sleep(1)
             response_time = send_query_and_measure_time(day, hit_count, args.endpoint, args.username, args.password,
                                                         args.cache)  # Get took time for query
             new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))[
