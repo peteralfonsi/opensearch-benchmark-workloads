@@ -141,7 +141,9 @@ def clearcache(args):
         print("Failed to clear request cache." + str(response.status_code))
 
 
+<<<<<<< Updated upstream
 def process_cache_type(args, cache_type):
+=======
     # Setup Excel document
     workbook = openpyxl.load_workbook('results1.xlsx')
     worksheet = workbook['Sheet1']
@@ -196,6 +198,7 @@ def process_cache_type(args, cache_type):
         cell = worksheet.cell(row=row, column=col)
         cell.value = value
 
+>>>>>>> Stashed changes
     # Get baseline hit count
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
@@ -242,6 +245,7 @@ def process_cache_type(args, cache_type):
             print(f"response_times size: {len(response_times)}")
 
         median = np.median(response_times[1:])
+<<<<<<< Updated upstream
         print(f"median: {median}")
         average_response_time = sum(response_times[1:]) / (
                     num_queries - 1)  # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
@@ -249,6 +253,7 @@ def process_cache_type(args, cache_type):
         p99_latency = np.percentile(response_times[1:], 99)  # Calculate p99 latency
         p95_latency = np.percentile(response_times[1:], 95)  # Calculate p95
         p90_latency = np.percentile(response_times[1:], 90)  # Calculate p90
+=======
         average_response_time = sum(response_times[1:]) / (num_queries - 1) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
         p99_latency = np.percentile(response_times[1:], 99) # Calculate p99 latency
         p95_latency = np.percentile(response_times[1:], 95) # Calculate p95
@@ -272,6 +277,7 @@ def process_cache_type(args, cache_type):
         row, col = cell_coordinates
         cell = worksheet.cell(row=row, column=col)
         cell.value = value
+>>>>>>> Stashed changes
 
         # Collect the data
         daily_averages.append(average_response_time)
