@@ -195,23 +195,6 @@ def process_cache_type(args, cache_type):
         minimum = min(response_times[1:])
         maximum = max(response_times[1:])
 
-        cachetype = {
-            "PoC Disk Only": 0,
-            "PoC Disk + Heap (30MB)": 1,
-            "PoC Heap Only": 2,
-            "OpenSearch Heap": 3
-        }
-
-        for x in range(7):
-            stats_to_fill = {
-                (0,0): average_response_time
-            }
-
-    for cell_coordinates, value in stats_to_fill.items():
-        row, col = cell_coordinates
-        cell = worksheet.cell(row=row, column=col)
-        cell.value = value
-
         # Collect the data
         daily_averages.append(average_response_time)
         daily_p99_latencies.append(p99_latency)
