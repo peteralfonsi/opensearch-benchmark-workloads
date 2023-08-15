@@ -255,6 +255,7 @@ def main():
         process_cache_type(args, cache_type)
         local_elapsed_time = (time.time() - local_start_time) / 60
         print(f"Time taken for cache_type {cache_type} : {local_elapsed_time} minutes")
+        time.sleep(660) # sleep for 31 mins before executing the next iteration.
 
     full_end_time_elapsed = (time.time() - full_start_time) / 60
     print(f"Time taken for full workload : {full_end_time_elapsed} minutes")
