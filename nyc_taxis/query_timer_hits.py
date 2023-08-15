@@ -249,12 +249,15 @@ def main():
     if args.type != 'all':
         caches = [args.type]
 
+    full_start_time = time.time()
     for cache_type in caches:# Execute the query multiple times and measure the response time
-        start_time = time.time()
+        local_start_time = time.time()
         process_cache_type(args, cache_type)
-        elapsed_time = (time.time() - start_time) / 60
-        print(f"Time take for cache_type {cache_type} : {elapsed_time} minutes")
+        local_elapsed_time = (time.time() - local_start_time) / 60
+        print(f"Time taken for cache_type {cache_type} : {local_elapsed_time} minutes")
 
+    full_end_time_elapsed = (time.time() - full_start_time) / 60
+    print(f"Time taken for full workload : {full_end_time_elapsed} minutes")
     send_slack_notification(args.webhook, args.type)
 
 if __name__ == '__main__':
