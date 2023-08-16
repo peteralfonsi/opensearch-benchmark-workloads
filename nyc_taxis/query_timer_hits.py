@@ -1,26 +1,29 @@
 import argparse
-from os import path
 import requests
 from opensearchpy import OpenSearch
-import matplotlib.pyplot as plt
 import numpy as np
 import datetime
-import csv
 import time
 import openpyxl
 import pytz
 
+
 # Notify Slack when script is done
-def send_slack_notification(webhook, type, averages):
-    if not webhook:
+def send_slack_notification(args, averages):
+    if not args.webhook:
         return
 
-    slackurl = webhook
+    averages_text = ""
+    for cache_type, average_list in averages.items():
+        averages_text += f"{cache_type}: {', '.join(str(avg) for avg in average_list)}\n"
+
+    slack_url = args.webhook
     data = {
-        "value1": type,
-        "value2": ", ".join(str(avg) for avg in averages)
+        "value1": args.type,
+        "value2": averages_text
     }
-    response = requests.post(slackurl, json=data)
+
+    response = requests.post(slack_url, json=data)
 
     if response.status_code == 200:
         print("Slack notification sent successfully.")
@@ -29,86 +32,86 @@ def send_slack_notification(webhook, type, averages):
 
 
 # Expensive query to be used
-def expensive_1(day, cache, **kwargs):
+def expensive_1(day, cache):
     return {
         "body": {
             "size": 0,
             "query": {
                 "bool": {
                     "filter": [
-                    {
-                        "range": {
-                            "pickup_datetime": {
-                                "gte": '2015-01-01 00:00:00',
-                                "lte": f"2015-01-{day:02d} 11:59:59"
+                        {
+                            "range": {
+                                "pickup_datetime": {
+                                    "gte": '2015-01-01 00:00:00',
+                                    "lte": f"2015-01-{day:02d} 11:59:59"
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "dropoff_datetime": {
+                                    "gte": '2015-01-01 00:00:00',
+                                    "lte": f"2015-01-{day:02d} 11:59:59"
+                                }
                             }
                         }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "vendor_id": "Vendor XYZ"
+                            }
+                        }
+                    ]
+                }
+            },
+            "aggs": {
+                "avg_surcharge": {
+                    "avg": {
+                        "field": "surcharge"
+                    }
+                },
+                "sum_total_amount": {
+                    "sum": {
+                        "field": "total_amount"
+                    }
+                },
+                "vendor_id_terms": {
+                    "terms": {
+                        "field": "vendor_id",
+                        "size": 100
                     },
-                    {
-                        "range": {
-                            "dropoff_datetime": {
-                                "gte": '2015-01-01 00:00:00',
-                                "lte": f"2015-01-{day:02d} 11:59:59"
+                    "aggs": {
+                        "avg_tip_per_vendor": {
+                            "avg": {
+                                "field": "tip_amount"
                             }
                         }
                     }
-                ],
-                "must_not": [
-                    {
-                        "term": {
-                            "vendor_id": "Vendor XYZ"
+                },
+                "pickup_location_grid": {
+                    "geohash_grid": {
+                        "field": "pickup_location",
+                        "precision": 5
+                    },
+                    "aggs": {
+                        "avg_tip_per_location": {
+                            "avg": {
+                                "field": "tip_amount"
+                            }
                         }
                     }
-                ]
+                }
             }
         },
-        "aggs": {
-            "avg_surcharge": {
-                "avg": {
-                    "field": "surcharge"
-                }
-            },
-            "sum_total_amount": {
-                "sum": {
-                    "field": "total_amount"
-                }
-            },
-            "vendor_id_terms": {
-                "terms": {
-                    "field": "vendor_id",
-                    "size": 100
-                },
-                "aggs": {
-                    "avg_tip_per_vendor": {
-                        "avg": {
-                            "field": "tip_amount"
-                        }
-                    }
-                }
-            },
-            "pickup_location_grid": {
-                "geohash_grid": {
-                    "field": "pickup_location",
-                    "precision": 5
-                },
-                "aggs": {
-                    "avg_tip_per_location": {
-                        "avg": {
-                            "field": "tip_amount"
-                        }
-                    }
-                }
-            }
-        }
-      },
         "index": 'nyc_taxis',
-        "request-cache" : cache,
+        "request-cache": cache,
         "request-timeout": 60
     }
 
 
 # Function to send the query and measure the response time
-def send_query_and_measure_time(day, hit_count, endpoint, username, password, cache):
+def send_query_and_measure_time(day, endpoint, username, password, cache):
     query = expensive_1(day, cache)
 
     # Connect to the OpenSearch domain using the provided endpoint and credentials
@@ -125,6 +128,7 @@ def send_query_and_measure_time(day, hit_count, endpoint, username, password, ca
 
     return took_time
 
+
 # Function to retrieve the cache stats to check hit counts
 def get_request_cache_stats(endpoint, username, password):
     url = f"{endpoint}/_nodes/stats/indices/request_cache"
@@ -136,6 +140,7 @@ def get_request_cache_stats(endpoint, username, password):
         print("Failed to retrieve request cache stats.")
         return None
 
+
 def clearcache(args):
     # Clear cache and verify response
     url = f"{args.endpoint}/nyc_taxis/_cache/clear"
@@ -145,6 +150,7 @@ def clearcache(args):
         print("Request cache cleared successfully.")
     else:
         print("Failed to clear request cache." + str(response.status_code))
+
 
 def process_cache_type(args, cache_type):
     # Get baseline hit count
@@ -177,26 +183,25 @@ def process_cache_type(args, cache_type):
     daily_medians = []
     daily_mins = []
     daily_max = []
-    
+
     for day in range(1, int(args.days) + 1):
         clearcache(args)  # clear cache to start
         print(f"Starting iterations for range: Jan 1 00:00:00 to Jan {day} 11:59:59")
         response_times = []
         for x in range(1, num_queries + 1):
             # time.sleep(1)
-            response_time = send_query_and_measure_time(day, hit_count, args.endpoint, args.username, args.password,
+            response_time = send_query_and_measure_time(day, args.endpoint, args.username, args.password,
                                                         args.cache)  # Get took time for query
-            new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))[
-                'indices']['request_cache']['hit_count']  # Check new number of hits
+            new_hits = \
+                next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))[
+                    'indices']['request_cache']['hit_count']  # Check new number of hits
 
             if new_hits > hit_count:  # If hit count increased
                 print(f"Hit. Took time: {response_time}")
                 hit_count = new_hits
-                isHit = True
             else:
                 miss_took_times.append(response_time)
                 print(f"Miss. Took time: {response_time}")
-                isHit = False
 
             # Append a tuple with response time and hit/miss status
             response_times.append(response_time)
@@ -204,10 +209,12 @@ def process_cache_type(args, cache_type):
             print(f"response_times size: {len(response_times)}")
 
         median = np.median(response_times[1:])
-        average_response_time = sum(response_times[1:]) / (num_queries - 1) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
-        p99_latency = np.percentile(response_times[1:], 99) # Calculate p99 latency
-        p95_latency = np.percentile(response_times[1:], 95) # Calculate p95
-        p90_latency = np.percentile(response_times[1:], 90) # Calculate p90
+        average_response_time = sum(response_times[1:]) / (
+                num_queries - 1)  # Average response time for num_queries - 1 hits, first was a miss before it got
+        # written to the cache
+        p99_latency = np.percentile(response_times[1:], 99)  # Calculate p99 latency
+        p95_latency = np.percentile(response_times[1:], 95)  # Calculate p95
+        p90_latency = np.percentile(response_times[1:], 90)  # Calculate p90
         minimum = min(response_times[1:])
         maximum = max(response_times[1:])
 
@@ -217,8 +224,8 @@ def process_cache_type(args, cache_type):
         daily_p95_latencies.append(p95_latency)
         daily_p90_latencies.append(p90_latency)
         daily_medians.append(median)
-        daily_mins.append(min(response_times[1:]))
-        daily_max.append(max(response_times[1:]))
+        daily_mins.append(minimum)
+        daily_max.append(maximum)
 
         with open(save_path + filename, 'a') as csv_file:
             csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {cache_type} \n')
@@ -262,6 +269,7 @@ def process_cache_type(args, cache_type):
 
     return excel_list
 
+
 def main():
     parser = argparse.ArgumentParser(description='OpenSearch Query Response Time Plotter')
     parser.add_argument('--endpoint', help='OpenSearch domain endpoint (https://example.com)')
@@ -276,19 +284,12 @@ def main():
 
     caches = ['diskOnly', 'diskAndHeap', 'ehcache_heap_only', 'os_cache_only']
 
-    cache_exceldict = {
-        'diskOnly': 0,
-        'diskAndHeap': 1,
-        'ehcache_heap_only': 2,
-        'os_cache_only': 3
-    }
-
     if args.type != 'all':
         caches = [args.type]
 
     full_start_time = time.time()
 
-    workbook = openpyxl.load_workbook('template.xlsx') # Load Excel template 
+    workbook = openpyxl.load_workbook('template.xlsx')  # Load Excel template
     # Get the current UTC time
     utc_datetime = datetime.datetime.now()
 
@@ -303,23 +304,27 @@ def main():
     excel_filename = f"results_{formatted_pst_datetime}_{args.type}.xlsx"
     workbook.save(excel_filename)
 
-    for cache_type in caches:# Execute the query multiple times and measure the response time
+    all_averages = {}
+
+    for cache_type in caches:  # Execute the query multiple times and measure the response time
         local_start_time = time.time()
         excel_list = process_cache_type(args, cache_type)
         local_elapsed_time = (time.time() - local_start_time) / 60
         print(f"Time taken for cache_type {cache_type} : {local_elapsed_time} minutes")
-        workbook = openpyxl.load_workbook(excel_filename) # Load Excel template 
+        workbook = openpyxl.load_workbook(excel_filename)  # Load Excel template
         worksheet = workbook['Sheet1']
         for index, metric in enumerate(excel_list):
             row = 4 + index * 7  # Calculate the row based on the index
             for y in range(int(args.days)):
-                worksheet.cell(row=row + cache_exceldict[cache_type], column=y + 2).value = excel_list[metric][y]
+                worksheet.cell(row=row + caches.index(cache_type), column=y + 2).value = excel_list[metric][y]
         workbook.save(excel_filename)
-        time.sleep(0) # sleep for x secs before executing the next iteration.
+        all_averages[cache_type] = excel_list['average_response_time']
+        time.sleep(0)  # sleep for x secs before executing the next iteration.
 
     full_end_time_elapsed = (time.time() - full_start_time) / 60
     print(f"Time taken for full workload : {full_end_time_elapsed} minutes")
-    send_slack_notification(args.webhook, args.type, excel_list['average_response_time'])
+    send_slack_notification(args, all_averages)
+
 
 if __name__ == '__main__':
     main()
