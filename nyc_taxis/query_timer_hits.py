@@ -7,6 +7,7 @@ import datetime
 import csv
 import time
 import openpyxl
+import pytz
 
 # Notify Slack when script is done
 def send_slack_notification(webhook, type):
@@ -145,13 +146,22 @@ def process_cache_type(args, cache_type):
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
 
-    # Format the datetime as a string for the filename
-    formatted_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    # Get the current UTC time
+    utc_datetime = datetime.datetime.now()
+
+    # Define the PST time zone using pytz
+    pst = pytz.timezone('US/Pacific')
+
+    # Convert the UTC time to the PST time zone
+    pst_datetime = utc_datetime.astimezone(pst)
+
+    # Format the PST datetime as desired
+    formatted_pst_datetime = pst_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Create a filename using the formatted datetime
-    filename = f"results_{formatted_datetime}_{cache_type}.csv"
+    filename = f"results_{formatted_pst_datetime}_{cache_type}.csv"
 
-    num_queries = 250 # Number of times to execute the query for each date range
+    num_queries = 4 # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
 
     miss_took_times = []
@@ -196,7 +206,7 @@ def process_cache_type(args, cache_type):
         maximum = max(response_times[1:])
 
         # Collect the data
-        daily_averages.append(average_response_time)
+        daily_averages.append((round(average_response_time, 3)))
         daily_p99_latencies.append(p99_latency)
         daily_p95_latencies.append(p95_latency)
         daily_p90_latencies.append(p90_latency)
@@ -219,19 +229,32 @@ def process_cache_type(args, cache_type):
 
             print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}.")
 
-        # print items in tabular
-        print(f"Results for cache of type {cache_type}")
-        print("All average response times: ")
-        for avg_time in enumerate(daily_averages, start=1):
-            print(f"{avg_time}")
+    # Collect relevant data for Excel sheet
+    excel_list = {
+        "average_response_time": daily_averages,
+        "median": daily_medians,
+        "p99_latency": daily_p99_latencies,
+        "p95_latency": daily_p95_latencies,
+        "p90_latency": daily_p90_latencies,
+        "minimum": daily_mins,
+        "maximum": daily_max
+    }
 
-        print("All Miss took times: ")
-        for miss_took_time in enumerate(miss_took_times, start=1):
-            print(f"{miss_took_time}")
+    # print items in tabular
+    print(f"Results for cache of type {cache_type}")
+    print("All average response times: ")
+    for avg_time in enumerate(daily_averages, start=1):
+        print(f"{avg_time}")
 
-        print("All p90 response times:")
-        for daily_p90_latency in enumerate(daily_p90_latencies, start=1):
-            print(f"{daily_p90_latency}")
+    print("All Miss took times: ")
+    for miss_took_time in enumerate(miss_took_times, start=1):
+        print(f"{miss_took_time}")
+
+    print("All p90 response times:")
+    for daily_p90_latency in enumerate(daily_p90_latencies, start=1):
+        print(f"{daily_p90_latency}")
+
+    return excel_list
 
 def main():
     parser = argparse.ArgumentParser(description='OpenSearch Query Response Time Plotter')
@@ -245,17 +268,46 @@ def main():
     args = parser.parse_args()
 
     caches = ['diskOnly', 'diskAndHeap', 'ehcache_heap_only', 'os_cache_only']
+    cache_exceldict = {
+        'diskOnly': 0,
+        'diskAndHeap': 1,
+        'ehcache_heap_only': 2,
+        'os_cache_only': 3
+    }
 
     if args.type != 'all':
         caches = [args.type]
 
     full_start_time = time.time()
+
+    workbook = openpyxl.load_workbook('template.xlsx') # Load Excel template 
+    # Get the current UTC time
+    utc_datetime = datetime.datetime.now()
+
+    # Define the PST time zone using pytz
+    pst = pytz.timezone('US/Pacific')
+
+    # Convert the UTC time to the PST time zone
+    pst_datetime = utc_datetime.astimezone(pst)
+
+    # Format the PST datetime as desired
+    formatted_pst_datetime = pst_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+    excel_filename = f"results_{formatted_pst_datetime}_{args.type}.xlsx"
+    workbook.save(excel_filename)
+
     for cache_type in caches:# Execute the query multiple times and measure the response time
         local_start_time = time.time()
-        process_cache_type(args, cache_type)
+        excel_list = process_cache_type(args, cache_type)
         local_elapsed_time = (time.time() - local_start_time) / 60
         print(f"Time taken for cache_type {cache_type} : {local_elapsed_time} minutes")
-        time.sleep(660) # sleep for 31 mins before executing the next iteration.
+        workbook = openpyxl.load_workbook(excel_filename) # Load Excel template 
+        worksheet = workbook['Sheet1']
+        for index, metric in enumerate(excel_list):
+            row = 4 + index * 7  # Calculate the row based on the index
+            for y in range(int(args.days)):
+                worksheet.cell(row=row + cache_exceldict[cache_type], column=y + 2).value = excel_list[metric][y]
+        workbook.save(excel_filename)
+        time.sleep(0) # sleep for 31 mins before executing the next iteration.
 
     full_end_time_elapsed = (time.time() - full_start_time) / 60
     print(f"Time taken for full workload : {full_end_time_elapsed} minutes")
