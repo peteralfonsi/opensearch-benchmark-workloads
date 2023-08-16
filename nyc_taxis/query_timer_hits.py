@@ -1,4 +1,5 @@
 import argparse
+from os import path
 import requests
 from opensearchpy import OpenSearch
 import matplotlib.pyplot as plt
@@ -10,18 +11,22 @@ import openpyxl
 import pytz
 
 # Notify Slack when script is done
-def send_slack_notification(webhook, type):
+def send_slack_notification(webhook, type, averages):
+    if not webhook:
+        return
+
     slackurl = webhook
-
     data = {
-        "value1": type
+        "value1": type,
+        "value2": ", ".join(str(avg) for avg in averages)
     }
-
     response = requests.post(slackurl, json=data)
+
     if response.status_code == 200:
         print("Slack notification sent successfully.")
     else:
-        print("Failed to send Slack notification.")
+        print(f"Failed to send Slack notification: {response.status_code}")
+
 
 # Expensive query to be used
 def expensive_1(day, cache, **kwargs):
@@ -161,7 +166,7 @@ def process_cache_type(args, cache_type):
     # Create a filename using the formatted datetime
     filename = f"results_{formatted_pst_datetime}_{cache_type}.csv"
 
-    num_queries = 250 # Number of times to execute the query for each date range
+    num_queries = 4 # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
 
     miss_took_times = []
@@ -172,12 +177,13 @@ def process_cache_type(args, cache_type):
     daily_medians = []
     daily_mins = []
     daily_max = []
+    
     for day in range(1, int(args.days) + 1):
         clearcache(args)  # clear cache to start
         print(f"Starting iterations for range: Jan 1 00:00:00 to Jan {day} 11:59:59")
         response_times = []
         for x in range(1, num_queries + 1):
-            time.sleep(1)
+            # time.sleep(1)
             response_time = send_query_and_measure_time(day, hit_count, args.endpoint, args.username, args.password,
                                                         args.cache)  # Get took time for query
             new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))[
@@ -264,10 +270,11 @@ def main():
     parser.add_argument('--days',     help='Number of days in the range to keep increasing to')
     parser.add_argument('--cache',    help='True for cache enabled and false otherwise, defaults to FALSE.', default='true')
     parser.add_argument('--type',     help='Type of cache we are using, for logging purposes', default='all')
-    parser.add_argument('--webhook',  help='Slack webhook for notifying when the script is finished.')
+    parser.add_argument('--webhook',  help='Slack webhook for notifying when the script is finished.', default=None)
     args = parser.parse_args()
 
     caches = ['diskOnly', 'diskAndHeap', 'ehcache_heap_only', 'os_cache_only']
+
     cache_exceldict = {
         'diskOnly': 0,
         'diskAndHeap': 1,
@@ -307,11 +314,11 @@ def main():
             for y in range(int(args.days)):
                 worksheet.cell(row=row + cache_exceldict[cache_type], column=y + 2).value = excel_list[metric][y]
         workbook.save(excel_filename)
-        time.sleep(0) # sleep for 31 mins before executing the next iteration.
+        time.sleep(0) # sleep for x secs before executing the next iteration.
 
     full_end_time_elapsed = (time.time() - full_start_time) / 60
     print(f"Time taken for full workload : {full_end_time_elapsed} minutes")
-    send_slack_notification(args.webhook, args.type)
+    send_slack_notification(args.webhook, args.type, excel_list['average_response_time'])
 
 if __name__ == '__main__':
     main()
