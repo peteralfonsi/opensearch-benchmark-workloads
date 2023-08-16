@@ -1,0 +1,26 @@
+Jan 1 to Jan 1 using cache of type: diskOnly 
+6096
+82
+10
+8
+Average response time: 33.333333333333336 
+Median response time: 10.0 
+p99 latency: 80.56 
+p95 latency: 74.8 
+p90 latency: 67.6 
+ Minimum: 8 
+ Maximum: 82 
+ 
+Jan 1 to Jan 2 using cache of type: diskOnly 
+4968
+9
+7
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.98 
+p95 latency: 8.9 
+p90 latency: 8.8 
+ Minimum: 7 
+ Maximum: 9 
+ 
