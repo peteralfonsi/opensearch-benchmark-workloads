@@ -166,7 +166,7 @@ def process_cache_type(args, cache_type):
     # Create a filename using the formatted datetime
     filename = f"results_{formatted_pst_datetime}_{cache_type}.csv"
 
-    num_queries = 4 # Number of times to execute the query for each date range
+    num_queries = int(args.numOfQueries) # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
 
     miss_took_times = []
@@ -271,6 +271,7 @@ def main():
     parser.add_argument('--cache',    help='True for cache enabled and false otherwise, defaults to FALSE.', default='true')
     parser.add_argument('--type',     help='Type of cache we are using, for logging purposes', default='all')
     parser.add_argument('--webhook',  help='Slack webhook for notifying when the script is finished.', default=None)
+    parser.add_argument('--numOfQueries',  help='Number of queries you want to make in each load.', default=250)
     args = parser.parse_args()
 
     caches = ['diskOnly', 'diskAndHeap', 'ehcache_heap_only', 'os_cache_only']
