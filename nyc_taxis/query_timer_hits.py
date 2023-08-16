@@ -161,7 +161,7 @@ def process_cache_type(args, cache_type):
     # Create a filename using the formatted datetime
     filename = f"results_{formatted_pst_datetime}_{cache_type}.csv"
 
-    num_queries = 4 # Number of times to execute the query for each date range
+    num_queries = 250 # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
 
     miss_took_times = []
