@@ -45,7 +45,7 @@ def expensive_1(day, cache):
                             "range": {
                                 "pickup_datetime": {
                                     "gte": "2015-01-01 00:00:00",
-                                    "lte": "2015-01-20 00:00:00"
+                                    "lte": f"2015-01-{day:02d} 11:59:59"
                                 }
                             }
                         },
@@ -53,7 +53,7 @@ def expensive_1(day, cache):
                             "range": {
                                 "dropoff_datetime": {
                                     "gte": "2015-01-01 00:00:00",
-                                    "lte": "2015-01-20 00:00:00"
+                                    "lte": f"2015-01-{day:02d} 11:59:59"
                                 }
                             }
                         }
@@ -175,6 +175,7 @@ def process_cache_type(args, cache_type):
 
             # Append a tuple with response time and hit/miss status
             response_times.append(response_time)
+
             print(f"Response {x}/{num_queries} received.")
             print(f"response_time : {response_times}")
             print(f"response_times size: {len(response_times)}")
