@@ -9,7 +9,7 @@ import pytz
 
 
 # Notify Slack when script is done
-def send_slack_notification(args, averages):
+def send_slack_notification(args, averages, excel_filename):
     if not args.webhook:
         return
 
@@ -20,7 +20,9 @@ def send_slack_notification(args, averages):
     slack_url = args.webhook
     data = {
         "value1": args.type,
-        "value2": averages_text
+        "value2": averages_text,
+        "value3": excel_filename,
+        "value4": args.note
     }
 
     response = requests.post(slack_url, json=data)
@@ -248,6 +250,7 @@ def main():
     parser.add_argument('--type',     help='Type of cache we are using, for logging purposes', default='all')
     parser.add_argument('--webhook',  help='Slack webhook for notifying when the script is finished.', default=None)
     parser.add_argument('--numOfQueries',  help='Number of queries you want to make in each load.', default=250)
+    parser.add_argument('--note',  help='Optional note to add to the test.', default="")
     args = parser.parse_args()
 
     caches = ['diskOnly', 'diskAndHeap', 'ehcache_heap_only', 'os_cache_only']
@@ -291,7 +294,7 @@ def main():
 
     full_end_time_elapsed = (time.time() - full_start_time) / 60
     print(f"Time taken for full workload : {full_end_time_elapsed} minutes")
-    send_slack_notification(args, all_averages)
+    send_slack_notification(args, all_averages, excel_filename)
 
 
 if __name__ == '__main__':
