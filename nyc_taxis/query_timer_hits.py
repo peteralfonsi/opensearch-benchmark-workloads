@@ -42,24 +42,17 @@ def expensive_1(day, cache):
                         {
                             "range": {
                                 "pickup_datetime": {
-                                    "gte": '2015-01-01 00:00:00',
-                                    "lte": '2015-01-02 00:00:00'
+                                    "gte": "2015-01-01 00:00:00",
+                                    "lte": "2015-01-10 00:00:00"
                                 }
                             }
                         },
                         {
                             "range": {
                                 "dropoff_datetime": {
-                                    "gte": '2015-01-01 00:00:00',
-                                    "lte": '2015-01-02 00:00:00'
+                                    "gte": "2015-01-01 00:00:00",
+                                    "lte": "2015-01-10 00:00:00"
                                 }
-                            }
-                        }
-                    ],
-                    "must_not": [
-                        {
-                            "term": {
-                                "vendor_id": "Vendor XYZ"
                             }
                         }
                     ]
@@ -74,32 +67,6 @@ def expensive_1(day, cache):
                 "sum_total_amount": {
                     "sum": {
                         "field": "total_amount"
-                    }
-                },
-                "vendor_id_terms": {
-                    "terms": {
-                        "field": "vendor_id",
-                        "size": 100
-                    },
-                    "aggs": {
-                        "avg_tip_per_vendor": {
-                            "avg": {
-                                "field": "tip_amount"
-                            }
-                        }
-                    }
-                },
-                "pickup_location_grid": {
-                    "geohash_grid": {
-                        "field": "pickup_location",
-                        "precision": 5
-                    },
-                    "aggs": {
-                        "avg_tip_per_location": {
-                            "avg": {
-                                "field": "tip_amount"
-                            }
-                        }
                     }
                 }
             }
