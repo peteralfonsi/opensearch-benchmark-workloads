@@ -140,7 +140,7 @@ def process_cache_type(args, cache_type):
     formatted_pst_datetime = pst_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Create a filename using the formatted datetime
-    filename = f"results_{formatted_pst_datetime}_{cache_type}.csv"
+    filename = f"results_{formatted_pst_datetime}_{cache_type}_{args.note}.csv"
 
     num_queries = int(args.numOfQueries) # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
