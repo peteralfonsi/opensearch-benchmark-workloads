@@ -45,7 +45,7 @@ def expensive_1(day, cache):
                             "range": {
                                 "pickup_datetime": {
                                     "gte": "2015-01-01 00:00:00",
-                                    "lte": "2015-01-10 00:00:00"
+                                    "lte": "2015-01-15 00:00:00"
                                 }
                             }
                         },
@@ -53,7 +53,7 @@ def expensive_1(day, cache):
                             "range": {
                                 "dropoff_datetime": {
                                     "gte": "2015-01-01 00:00:00",
-                                    "lte": "2015-01-10 00:00:00"
+                                    "lte": "2015-01-15 00:00:00"
                                 }
                             }
                         }
