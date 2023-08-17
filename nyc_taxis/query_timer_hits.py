@@ -80,6 +80,7 @@ def expensive_1(day, cache):
 # Function to send the query and measure the response time
 def send_query_and_measure_time(day, endpoint, username, password, cache):
     query = expensive_1(day, cache)
+    print(f"Query :  {query}")
 
     # Connect to the OpenSearch domain using the provided endpoint and credentials
     os = OpenSearch(
