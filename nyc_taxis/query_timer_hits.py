@@ -272,7 +272,7 @@ def main():
 
     # Format the PST datetime as desired
     formatted_pst_datetime = pst_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-    excel_filename = f"results_{formatted_pst_datetime}_{args.type}.xlsx"
+    excel_filename = f"results_{formatted_pst_datetime}_{args.type}_{args.note}.xlsx"
     workbook.save(excel_filename)
 
     all_averages = {}
