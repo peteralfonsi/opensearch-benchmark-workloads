@@ -41,40 +41,73 @@ def expensive_1(day, cache):
             "query": {
                 "bool": {
                     "filter": [
-                        {
-                            "range": {
-                                "pickup_datetime": {
-                                    "gte": "2015-01-01 00:00:00",
-                                    "lte": f"2015-01-{day:02d} 11:59:59"
-                                }
-                            }
-                        },
-                        {
-                            "range": {
-                                "dropoff_datetime": {
-                                    "gte": "2015-01-01 00:00:00",
-                                    "lte": f"2015-01-{day:02d} 11:59:59"
-                                }
+                    {
+                        "range": {
+                            "pickup_datetime": {
+                                "gte": '2015-01-01 00:00:00',
+                                "lte": f"2015-01-{day:02d} 11:59:59"
                             }
                         }
-                    ]
+                    },
+                    {
+                        "range": {
+                            "dropoff_datetime": {
+                                "gte": '2015-01-01 00:00:00',
+                                "lte": f"2015-01-{day:02d} 11:59:59"
+                            }
+                        }
+                    }
+                ],
+                "must_not": [
+                    {
+                        "term": {
+                            "vendor_id": "Vendor XYZ"
+                        }
+                    }
+                ]
+            }
+        },
+        "aggs": {
+            "avg_surcharge": {
+                "avg": {
+                    "field": "surcharge"
                 }
             },
-            "aggs": {
-                "avg_surcharge": {
-                    "avg": {
-                        "field": "surcharge"
-                    }
+            "sum_total_amount": {
+                "sum": {
+                    "field": "total_amount"
+                }
+            },
+            "vendor_id_terms": {
+                "terms": {
+                    "field": "vendor_id",
+                    "size": 100
                 },
-                "sum_total_amount": {
-                    "sum": {
-                        "field": "total_amount"
+                "aggs": {
+                    "avg_tip_per_vendor": {
+                        "avg": {
+                            "field": "tip_amount"
+                        }
+                    }
+                }
+            },
+            "pickup_location_grid": {
+                "geohash_grid": {
+                    "field": "pickup_location",
+                    "precision": 5
+                },
+                "aggs": {
+                    "avg_tip_per_location": {
+                        "avg": {
+                            "field": "tip_amount"
+                        }
                     }
                 }
             }
-        },
+        }
+      },
         "index": 'nyc_taxis',
-        "request-cache": cache,
+        "request-cache" : cache,
         "request-timeout": 60
     }
 
