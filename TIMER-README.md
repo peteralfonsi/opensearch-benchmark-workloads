@@ -22,7 +22,7 @@ pip install argparse requests opensearch-py numpy openpyxl pytz
     
 ## Usage/Examples
 
-Run the script with the required arguments to execute the queries, measure response times, and save the results to an Excel file. The script accepts the following command-line arguments:
+Run the script with the required arguments to execute the queries, measure response times, and then save the results to an Excel file. The script accepts the following command-line arguments:
 
 ```
 --endpoint: OpenSearch domain endpoint (https://example.com)
