@@ -1,35 +1,49 @@
-OpenSearch Benchmark Workloads
-------------
 
-This repository contains the default workload specifications for the OpenSearch benchmarking tool [OpenSearch Benchmark](https://github.com/opensearch-project/OpenSearch-Benchmark).
+# OpenSearch Query Timer
 
-You should not need to use this repository directly, except if you want to look under the hood or create your own workloads.
+This tool will allow you to send a query of your choosing to a running OpenSearch domain any number of times. The program has two main outputs:
 
-How to Contribute
------------------
+• A csv file that contains all the raw took times for each query
 
-If you want to contribute a workload, please ensure that it works against the main version of OpenSearch (i.e. submit PRs against the `main` branch). We can then check whether it's feasible to backport the track to earlier OpenSearch/Elasticsearch versions.
+• An Excel file with average, median, p99, p95, p90, minimum, and maximum took times
 
-After making changes to a workload, it's recommended for developers to run a simple test with that workload in `test-mode` to determine if there are any breaking changes. 
- 
-See all details in the [contributor guidelines](https://github.com/opensearch-project/opensearch-benchmark/blob/main/CONTRIBUTING.md).
 
-Backporting changes
--------------------
 
-With each pull request, maintainers of this repository will be responsible for determining if a change can be backported.
-Backporting a change involves cherry-picking a commit onto the branches which correspond to earlier versions of OpenSearch/Elasticsearch.
-This ensures that workloads work for the latest `main` version of OpenSearch as well as older versions. 
 
-Changes should be `git cherry-pick`ed from `main` to the most recent version of OpenSearch and backward from there. 
-Example:
+## Installation
+
+1. Clone this repository or download the script directly.
+
+2. Install the required Python packages using the following command: 
+
+```bash
+pip install argparse requests opensearch-py numpy openpyxl pytz
 ```
-main → OpenSearch 2 → OpenSearch 1 → Elasticsearch 7 → ... 
-```
-In the case of a merge conflict for a backported change a new pull request should be raised which merges the change.
+    
+## Usage/Examples
 
- 
-License
--------
- 
-There is no single license for this repository. Licenses are chosen per workload. They are typically licensed under the same terms as the source data. See the README files of each workload for more details.
+Run the script with the required arguments to execute the queries, measure response times, and save the results to an Excel file. The script accepts the following command-line arguments:
+
+```
+--endpoint: OpenSearch domain endpoint (https://example.com)
+--username: Username for authentication
+--password: Password for authentication
+--days: Number of days in the range to keep increasing to
+--cache: True for cache enabled and false otherwise (defaults to true)
+--type: Type of cache used (for logging purposes)
+--webhook: Slack webhook for notifying when the script is finished (optional)
+--numOfQueries: Number of queries to make in each run (default: 250)
+--note: Optional note to add to the test (default: "")
+```
+
+For example:
+```
+python query_timer_hits.py --endpoint https://example.com --username user --password password --days 10 --cache true --type all --webhook https://slack.webhook.url
+```
+
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
