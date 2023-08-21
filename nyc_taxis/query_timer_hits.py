@@ -245,6 +245,12 @@ def process_cache_type(args, cache_type):
     for daily_p90_latency in enumerate(daily_p90_latencies, start=1):
         print(f"{daily_p90_latency}")
 
+    for daily_p95_latency in enumerate(daily_p95_latencies, start=1):
+        print(f"{daily_p95_latency}")
+
+    for daily_p99_latency in enumerate(daily_p99_latencies, start=1):
+        print(f"{daily_p99_latency}")
+
     return excel_list
 
 
