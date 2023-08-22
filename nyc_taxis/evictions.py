@@ -414,22 +414,20 @@ def main():
     runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args.cache))
 
     print("Starting date_histogram_agg")
-    # runQuery(args, 'date_histogram_agg', date_histogram_agg(args.cache, random.randint(1,12)))
+    runQuery(args, 'date_histogram_agg', date_histogram_agg(args.cache, random.randint(1,12)))
 
     print("Starting autohisto_agg")
-    # runQuery(args, 'autohisto_agg', autohisto_agg(args.cache))
+    runQuery(args, 'autohisto_agg', autohisto_agg(args.cache))
 
     print("Starting range")
-    # runQuery(args, 'range', rangeQuery(args.cache))
+    runQuery(args, 'range', rangeQuery(args.cache))
 
     print("Starting distance_amount_agg")
-    # runQuery(args, 'distance_amount_agg', distance_amount_agg(args.cache))
+    runQuery(args, 'distance_amount_agg', distance_amount_agg(args.cache))
 
     print("Starting date_histogram_fixed_interval_with_metrics")
-    # runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
+    runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
 
-    hit_took_times=[1, 2, 3]
-    miss_took_times = [1, 2, 3]
     # calculate the stats for hits
     average_response_time_hits = sum(hit_took_times) / (args.num_queries - 1)
     median_hits = np.median(hit_took_times)
