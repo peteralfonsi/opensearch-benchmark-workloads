@@ -364,10 +364,11 @@ def clearcache(args):
         print("Failed to clear request cache." + str(response.status_code))
 
 
-def runQuery(args, query_name, query):
+def runQuery(args, query_name, query_func, query_args):
     start_time = time.time()
 
     # Get baseline hit count
+    query = query_func(query_args)
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
     numberOfQueries = int(args.num_queries)
@@ -419,23 +420,23 @@ def main():
     # Execute the query multiple times and measure the response time
     # clearcache(args)  # clear cache to start
     print("Starting date_histogram_calendar_interval")
-    runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args.cache))
+    runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval, args.cache)
 
 
     print("Starting date_histogram_agg")
-    runQuery(args, 'date_histogram_agg', date_histogram_agg(args.cache, random.randint(1,12)))
+    runQuery(args, 'date_histogram_agg', date_histogram_agg, args.cache, random.randint(1,12))
 
     print("Starting autohisto_agg")
-    runQuery(args, 'autohisto_agg', autohisto_agg(args.cache))
+    runQuery(args, 'autohisto_agg', autohisto_agg, args.cache)
 
     print("Starting range")
-    runQuery(args, 'range', rangeQuery(args.cache))
+    runQuery(args, 'range', rangeQuery, args.cache)
 
     print("Starting distance_amount_agg")
-    runQuery(args, 'distance_amount_agg', distance_amount_agg(args.cache))
+    runQuery(args, 'distance_amount_agg', distance_amount_agg, args.cache)
 
     print("Starting date_histogram_fixed_interval_with_metrics")
-    runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
+    runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics, args.cache,random.randint(1,12))
 
     # calculate the stats for hits
     average_response_time_hits = sum(hit_took_times) / int(args.num_queries)
