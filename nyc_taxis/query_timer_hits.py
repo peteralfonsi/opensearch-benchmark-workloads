@@ -215,44 +215,44 @@ def process_cache_type(args, cache_type):
                 print(f"response_time : {response_times}")
                 print(f"response_times size: {len(response_times)}")
 
-                median = np.median(response_times[1:])
-                print(f"median: {median}")
-                average_response_time = sum(response_times[1:]) / (
-                        num_queries - 1)  # Average response time for num_queries - 1 hits, first was a miss before it got
-                print(f"average_response_time : {average_response_time}")
-                print(f"all response_times : {response_times}")
-                print(f"sum(response_times[1:]) - 1 : {sum(response_times[1:])}")
-                print(f"num_queries - 1 : {num_queries - 1}")
-                # written to the cache
-                p99_latency = np.percentile(response_times[1:], 99)  # Calculate p99 latency
-                p95_latency = np.percentile(response_times[1:], 95)  # Calculate p95
-                p90_latency = np.percentile(response_times[1:], 90)  # Calculate p90
-                minimum = min(response_times[1:])
-                maximum = max(response_times[1:])
+            median = np.median(response_times[1:])
+            print(f"median: {median}")
+            average_response_time = sum(response_times[1:]) / (
+                    num_queries - 1)  # Average response time for num_queries - 1 hits, first was a miss before it got
+            print(f"average_response_time : {average_response_time}")
+            print(f"all response_times : {response_times}")
+            print(f"sum(response_times[1:]) - 1 : {sum(response_times[1:])}")
+            print(f"num_queries - 1 : {num_queries - 1}")
+            # written to the cache
+            p99_latency = np.percentile(response_times[1:], 99)  # Calculate p99 latency
+            p95_latency = np.percentile(response_times[1:], 95)  # Calculate p95
+            p90_latency = np.percentile(response_times[1:], 90)  # Calculate p90
+            minimum = min(response_times[1:])
+            maximum = max(response_times[1:])
 
-                # Collect the data
-                daily_averages.append((round(average_response_time, 3)))
-                daily_p99_latencies.append(p99_latency)
-                daily_p95_latencies.append(p95_latency)
-                daily_p90_latencies.append(p90_latency)
-                daily_medians.append(median)
-                daily_mins.append(minimum)
-                daily_max.append(maximum)
+            # Collect the data
+            daily_averages.append((round(average_response_time, 3)))
+            daily_p99_latencies.append(p99_latency)
+            daily_p95_latencies.append(p95_latency)
+            daily_p90_latencies.append(p90_latency)
+            daily_medians.append(median)
+            daily_mins.append(minimum)
+            daily_max.append(maximum)
 
-                with open(save_path + filename, 'a') as csv_file:
-                    csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {cache_type} \n')
-                    for value in response_times:
-                        csv_file.write(str(value) + '\n')
-                    csv_file.write(f"Average response time: {average_response_time} \n")
-                    csv_file.write(f"Median response time: {median} \n")
-                    csv_file.write(f"p99 latency: {round(p99_latency, 3)} \n")
-                    csv_file.write(f"p95 latency: {round(p95_latency, 3)} \n")
-                    csv_file.write(f"p90 latency: {round(p90_latency, 3)} \n ")
-                    csv_file.write(f"Minimum: {min(response_times[1:])} \n ")
-                    csv_file.write(f"Maximum: {max(response_times[1:])} \n ")
-                    csv_file.write("\n")
+            with open(save_path + filename, 'a') as csv_file:
+                csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {cache_type} \n')
+                for value in response_times:
+                    csv_file.write(str(value) + '\n')
+                csv_file.write(f"Average response time: {average_response_time} \n")
+                csv_file.write(f"Median response time: {median} \n")
+                csv_file.write(f"p99 latency: {round(p99_latency, 3)} \n")
+                csv_file.write(f"p95 latency: {round(p95_latency, 3)} \n")
+                csv_file.write(f"p90 latency: {round(p90_latency, 3)} \n ")
+                csv_file.write(f"Minimum: {min(response_times[1:])} \n ")
+                csv_file.write(f"Maximum: {max(response_times[1:])} \n ")
+                csv_file.write("\n")
 
-                    print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}.")
+                print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}.")
 
     # Collect relevant data for Excel sheet
     excel_list = {
