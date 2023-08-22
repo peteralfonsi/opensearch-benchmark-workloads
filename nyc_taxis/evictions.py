@@ -368,10 +368,11 @@ def runQuery(args, query_name, query):
     # Get baseline hit count
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
+    numberOfQueries = int(args.num_queries)
 
-    for x in range(1, args.num_queries + 1):
+    for x in range(1, numberOfQueries + 1):
         response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, query)  # Get took time for query
-        print(f"running {query_name} {x}/{args.num_queries} Response time: {response_time}")
+        print(f"running {query_name} {x}/{numberOfQueries} Response time: {response_time}")
         new_hits = \
         next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices'][
             'request_cache']['hit_count']  # Check new number of hits
@@ -429,14 +430,14 @@ def main():
     runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
 
     # calculate the stats for hits
-    average_response_time_hits = sum(hit_took_times) / (args.num_queries)
+    average_response_time_hits = sum(hit_took_times) / int(args.num_queries)
     median_hits = np.median(hit_took_times)
     p99_latency_hits = np.percentile(hit_took_times, 99)  # Calculate p99 latency
     p95_latency_hits = np.percentile(hit_took_times, 95)  # Calculate p95
     p90_latency_hits = np.percentile(hit_took_times, 90)  # Calculate p90
 
     # calculate the stats for misses
-    average_response_time_miss = sum(miss_took_times) / (args.num_queries)
+    average_response_time_miss = sum(miss_took_times) / int(args.num_queries)
     median_miss = np.median(miss_took_times)
     p99_latency_miss = np.percentile(miss_took_times, 99)  # Calculate p99 latency
     p95_latency_miss = np.percentile(miss_took_times, 95)  # Calculate p95
