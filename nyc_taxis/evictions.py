@@ -364,32 +364,20 @@ def clearcache(args):
         print("Failed to clear request cache." + str(response.status_code))
 
 
-def runQuery(args, query_name, query_func, query_args):
-    start_time = time.time()
-
+def runQuery(args, query_name, query):
     # Get baseline hit count
-    query = query_func(query_args)
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
-    numberOfQueries = int(args.num_queries)
 
-    for x in range(1, numberOfQueries + 1):
-        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, query)  # Get took time for query
-        print(f"running {query_name} {x}/{numberOfQueries} Response time: {response_time}")
-        new_hits = \
-        next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices'][
-            'request_cache']['hit_count']  # Check new number of hits
-        if new_hits > hit_count:  # If hit count increased
-            print(f"Hit. Took time: {response_time}")
-            hit_took_times.append((response_time))
-            hit_count = new_hits
-        else:
-            print(f"Miss. Took time: {response_time}")
-            miss_took_times.append(response_time)
-
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total time Taken for {query_name} : ", elapsed_time)
+    # for x in range(1, numberOfQueries + 1):
+    response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, query)  # Get took time for query
+    new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices']['request_cache']['hit_count']  # Check new number of hits
+    if new_hits > hit_count:  # If hit count increased
+        print(f"Hit. Took time: {response_time}")
+        hit_took_times.append((response_time))
+    else:
+        print(f"Miss. Took time: {response_time}")
+        miss_took_times.append(response_time)
 
 
 def main():
@@ -405,6 +393,7 @@ def main():
     parser.add_argument('--num_queries', help='Num of queries to run.', default=2)
     parser.add_argument('--note', help='Optional note to add to the test.', default="")
     args = parser.parse_args()
+    num_queries = int(args.num_queries)
 
     save_path = 'results/'  # Path to save results
 
@@ -420,23 +409,61 @@ def main():
     # Execute the query multiple times and measure the response time
     # clearcache(args)  # clear cache to start
     print("Starting date_histogram_calendar_interval")
-    runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval, args.cache)
-
+    start_time = time.time()
+    for x in range(1, num_queries + 1):
+        runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args.cache))
+        print(f"running date_histogram_calendar_interval {x}/{num_queries}")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total time Taken for date_histogram_calendar_interval : ", elapsed_time)
 
     print("Starting date_histogram_agg")
-    runQuery(args, 'date_histogram_agg', date_histogram_agg, args.cache, random.randint(1,12))
+    start_time = time.time()
+    for x in range(1, num_queries + 1):
+        runQuery(args, 'date_histogram_agg', date_histogram_agg(args.cache, random.randint(1,12)))
+        print(f"running date_histogram_agg {x}/{num_queries}")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total time Taken for date_histogram_agg : ", elapsed_time)
 
     print("Starting autohisto_agg")
-    runQuery(args, 'autohisto_agg', autohisto_agg, args.cache)
+    start_time = time.time()
+    for x in range(1, num_queries + 1):
+        runQuery(args, 'autohisto_agg', autohisto_agg(args.cache))
+        print(f"running autohisto_agg {x}/{num_queries}")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total time Taken for autohisto_agg : ", elapsed_time)
 
     print("Starting range")
-    runQuery(args, 'range', rangeQuery, args.cache)
+    start_time = time.time()
+    for x in range(1, num_queries + 1):
+        runQuery(args, 'range', rangeQuery(args.cache))
+        print(f"running range {x}/{num_queries}")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total time Taken for range : ", elapsed_time)
 
     print("Starting distance_amount_agg")
-    runQuery(args, 'distance_amount_agg', distance_amount_agg, args.cache)
+    start_time = time.time()
+    for x in range(1, num_queries + 1):
+        runQuery(args, 'distance_amount_agg', distance_amount_agg(args.cache))
+        print(f"running range {x}/{num_queries}")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total time Taken for distance_amount_agg : ", elapsed_time)
 
     print("Starting date_histogram_fixed_interval_with_metrics")
-    runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics, args.cache,random.randint(1,12))
+    start_time = time.time()
+    for x in range(1, num_queries + 1):
+        runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
+        print(f"running date_histogram_fixed_interval_with_metrics {x}/{num_queries}")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", elapsed_time)
+
+    print(f"All hits : {hit_took_times}")
+    print(f"All miss : {miss_took_times}")
 
     # calculate the stats for hits
     average_response_time_hits = sum(hit_took_times) / int(args.num_queries)
