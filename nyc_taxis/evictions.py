@@ -144,7 +144,7 @@ def distance_amount_agg(cache):  # 1
     }
 
 
-def range(cache):  # 2
+def rangeQuery(cache):  # 2
     max_distance = random.uniform(0, 100)  # Change the range as needed
     min_distance = random.uniform(0, max_distance)
 
@@ -313,7 +313,7 @@ def date_histogram_fixed_interval_with_metrics(cache, month):  # 6
 
 
 # Function to send the query and measure the response time
-def send_query_and_measure_time(day, hit_count, endpoint, username, password, cache, query):
+def send_query_and_measure_time(endpoint, username, password, cache, query):
     # query = expensive_1(day, cache)
     print(f"{query}")
     # Connect to the OpenSearch domain using the provided endpoint and credentials
@@ -396,43 +396,35 @@ def main():
 
     print("Starting distance_amount_agg")
     for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time(hit_count, args.endpoint, args.username, args.password,
-                                                    args.cache, distance_amount_agg(args.cache))  # Get took time for query
+        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, distance_amount_agg(args.cache))  # Get took time for query
         print(f"Response time: {response_time}")
         # Append a tuple with response time and hit/miss status
         # response_times.append(response_time)
 
     print("Starting range")
     for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time( hit_count, args.endpoint, args.username, args.password,
-                                                    args.cache, range(args.cache))  # Get took time for query
+        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password,args.cache, rangeQuery(args.cache))  # Get took time for query
         print(f"Response time: {response_time}")
 
 
     print("Starting autohisto_agg")
     for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time( hit_count, args.endpoint, args.username, args.password, args.cache,
-                                                autohisto_agg(args.cache))  # Get took time for query
+        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, autohisto_agg(args.cache))  # Get took time for query
         print(f"Response time: {response_time}")
 
     print("Starting date_histogram_agg")
     for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time( hit_count, args.endpoint, args.username, args.password, args.cache,
-                                                date_histogram_agg(args.cache,
-                                                                   random.randint(1, 12)))  # Get took time for query
+        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, date_histogram_agg(args.cache,random.randint(1, 12)))  # Get took time for query
         print(f"Response time: {response_time}")
 
     print("Starting date_histogram_calendar_interval")
     for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time( hit_count, args.endpoint, args.username, args.password, args.cache,
-                                                date_histogram_calendar_interval(args.cache))  # Get took time for query
+        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, date_histogram_calendar_interval(args.cache))  # Get took time for query
         print(f"Response time: {response_time}")
 
     print("Starting date_histogram_fixed_interval_with_metrics")
     for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time( hit_count, args.endpoint, args.username, args.password, args.cache,
-                                                date_histogram_fixed_interval_with_metrics(args.cache, random.randint(1,
-                                                                                                                 12)))  # Get took time for query
+        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, date_histogram_fixed_interval_with_metrics(args.cache, random.randint(1,12)))  # Get took time for query
     print(f"Response time: {response_time}")
 
 # for day in range(1, 2):
