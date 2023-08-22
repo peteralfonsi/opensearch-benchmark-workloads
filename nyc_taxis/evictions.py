@@ -392,7 +392,7 @@ def main():
     filename = f"results_{formatted_datetime}.csv"
 
     # Execute the query multiple times and measure the response time
-    clearcache(args)  # clear cache to start
+    # clearcache(args)  # clear cache to start
     print("Starting date_histogram_calendar_interval")
     for x in range(1, num_queries + 1):
         response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache,
