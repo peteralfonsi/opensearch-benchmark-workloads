@@ -211,7 +211,7 @@ def process_cache_type(args, cache_type):
             # Append a tuple with response time and hit/miss status
             response_times.append(response_time)
 
-            print(f"Response {x}/{num_queries} received.")
+            # print(f"Response {x}/{num_queries} received.")
             print(f"response_time : {response_times}")
             print(f"response_times size: {len(response_times)}")
 
