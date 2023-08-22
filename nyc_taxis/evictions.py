@@ -383,7 +383,7 @@ def main():
     daily_max = []
 
     # Get the current date and time
-    current_datetime = datetime.datetime.now()
+    current_datetime = datetime.now()
 
     # Format the datetime as a string for the filename
     formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
