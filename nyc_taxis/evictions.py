@@ -8,16 +8,27 @@ import csv
 import time
 import random
 
+miss_took_times = []
+hit_took_times = []
+daily_averages = []
+daily_p99_latencies = []
+daily_p95_latencies = []
+daily_p90_latencies = []
+daily_medians = []
+daily_mins = []
+daily_max = []
+
 
 # Notify Slack when script is done
-def send_slack_notification(webhook, type):
+def send_slack_notification(webhook, payload):
     slackurl = webhook
 
     data = {
-        "value1": type
+        "value1": payload
     }
 
     response = requests.post(slackurl, json=data)
+    print(f"slack response : {response}")
     if response.status_code == 200:
         print("Slack notification sent successfully.")
     else:
@@ -140,7 +151,7 @@ def distance_amount_agg(cache):  # 1
         },
         "index": 'nyc_taxis',
         "request-cache": cache,
-        "request-timeout": 60
+        "request-timeout": 120
     }
 
 
@@ -161,7 +172,7 @@ def rangeQuery(cache):  # 2
         },
         "index": 'nyc_taxis',
         "request-cache": cache,
-        "request-timeout": 60
+        "request-timeout": 120
     }
 
 
@@ -171,7 +182,6 @@ def autohisto_agg(cache):  # 3
     month_lte = random.randint(month_gte, 2)
     day_lte = random.randint(day_gte, 28)
     year = 2015
-    month = 1
     return {
         "body": {
             "size": 0,
@@ -195,7 +205,7 @@ def autohisto_agg(cache):  # 3
         },
         "index": 'nyc_taxis',
         "request-cache": cache,
-        "request-timeout": 60
+        "request-timeout": 120
     }
 
 
@@ -226,7 +236,7 @@ def date_histogram_agg(cache, month):  # 4
         },
         "index": 'nyc_taxis',
         "request-cache": cache,
-        "request-timeout": 60
+        "request-timeout": 120
     }
 
 
@@ -256,7 +266,7 @@ def date_histogram_calendar_interval(cache):  # 5
         },
         "index": 'nyc_taxis',
         "request-cache": cache,
-        "request-timeout": 60
+        "request-timeout": 120
     }
 
 
@@ -308,7 +318,7 @@ def date_histogram_fixed_interval_with_metrics(cache, month):  # 6
         },
         "index": 'nyc_taxis',
         "request-cache": cache,
-        "request-timeout": 60
+        "request-timeout": 120
     }
 
 
@@ -354,33 +364,40 @@ def clearcache(args):
         print("Failed to clear request cache." + str(response.status_code))
 
 
+def runQuery(args, query_name, query):
+    # Get baseline hit count
+    data = get_request_cache_stats(args.endpoint, args.username, args.password)
+    hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
+
+    for x in range(1, args.num_queries + 1):
+        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, query)  # Get took time for query
+        print(f"running {query_name} {x}/{args.num_queries} Response time: {response_time}")
+        new_hits = \
+        next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices'][
+            'request_cache']['hit_count']  # Check new number of hits
+        if new_hits > hit_count:  # If hit count increased
+            print(f"Hit. Took time: {response_time}")
+            hit_took_times.append((response_time))
+            hit_count = new_hits
+        else:
+            print(f"Miss. Took time: {response_time}")
+            miss_took_times.append(response_time)
+
+
 def main():
     parser = argparse.ArgumentParser(description='OpenSearch Query Response Time Plotter')
     parser.add_argument('--endpoint', help='OpenSearch domain endpoint (https://example.com)')
     parser.add_argument('--username', help='Username for authentication')
     parser.add_argument('--password', help='Password for authentication')
     parser.add_argument('--days', help='Number of days in the range to keep increasing to')
-    parser.add_argument('--cache', help='True for cache enabled and false otherwise, defaults to FALSE.',
-                        default='false')
+    parser.add_argument('--cache', help='True for cache enabled and false otherwise, defaults to FALSE.',default='true')
     parser.add_argument('--type', help='Type of cache we are using, for logging purposes')
     parser.add_argument('--webhook', help='Slack webhook for notifying when the script is finished.')
+    parser.add_argument('--num_queries', help='Num of queries to run.', default=2)
+    parser.add_argument('--note', help='Optional note to add to the test.', default="")
     args = parser.parse_args()
 
-    # Get baseline hit count
-    data = get_request_cache_stats(args.endpoint, args.username, args.password)
-    hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
-
-    num_queries = 1000  # Number of times to execute the query for each date range
     save_path = 'results/'  # Path to save results
-
-    miss_took_times = []
-    daily_averages = []
-    daily_p99_latencies = []
-    daily_p95_latencies = []
-    daily_p90_latencies = []
-    daily_medians = []
-    daily_mins = []
-    daily_max = []
 
     # Get the current date and time
     current_datetime = datetime.now()
@@ -389,102 +406,70 @@ def main():
     formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Create a filename using the formatted datetime
-    filename = f"results_{formatted_datetime}.csv"
+    filename = f"results_{formatted_datetime}_{args.type}_{args.note}.csv"
 
     # Execute the query multiple times and measure the response time
     # clearcache(args)  # clear cache to start
     print("Starting date_histogram_calendar_interval")
-    for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache,
-                                                    date_histogram_calendar_interval(
-                                                        args.cache))  # Get took time for query
-        print(f"Response time: {response_time}")
+    runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args.cache))
 
     print("Starting date_histogram_agg")
-    for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache,
-                                                    date_histogram_agg(args.cache, random.randint(1,
-                                                                                                  12)))  # Get took time for query
-        print(f"Response time: {response_time}")
+    # runQuery(args, 'date_histogram_agg', date_histogram_agg(args.cache, random.randint(1,12)))
 
     print("Starting autohisto_agg")
-    for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache,
-                                                    autohisto_agg(args.cache))  # Get took time for query
-        print(f"Response time: {response_time}")
+    # runQuery(args, 'autohisto_agg', autohisto_agg(args.cache))
 
     print("Starting range")
-    for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache,
-                                                    rangeQuery(args.cache))  # Get took time for query
-        print(f"Response time: {response_time}")
+    # runQuery(args, 'range', rangeQuery(args.cache))
 
     print("Starting distance_amount_agg")
-    for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, distance_amount_agg(args.cache))  # Get took time for query
-        print(f"Response time: {response_time}")
-        # Append a tuple with response time and hit/miss status
-        # response_times.append(response_time)
+    # runQuery(args, 'distance_amount_agg', distance_amount_agg(args.cache))
 
     print("Starting date_histogram_fixed_interval_with_metrics")
-    for x in range(1, num_queries + 1):
-        response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache,
-                                                    date_histogram_fixed_interval_with_metrics(args.cache,
-                                                                                               random.randint(1,
-                                                                                                              12)))  # Get took time for query
-    print(f"Response time: {response_time}")
+    # runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
 
+    hit_took_times=[1, 2, 3]
+    miss_took_times = [1, 2, 3]
+    # calculate the stats for hits
+    average_response_time_hits = sum(hit_took_times) / (args.num_queries - 1)
+    median_hits = np.median(hit_took_times)
+    p99_latency_hits = np.percentile(hit_took_times, 99)  # Calculate p99 latency
+    p95_latency_hits = np.percentile(hit_took_times, 95)  # Calculate p95
+    p90_latency_hits = np.percentile(hit_took_times, 90)  # Calculate p90
 
-# for day in range(1, 2):
-#     print(f"Starting iterations for range: Jan 1 00:00:00 to Jan {day} 11:59:59")
-#     response_times = []
-#     for x in range(1, num_queries + 1):
-#         response_time = send_query_and_measure_time(day, hit_count, args.endpoint, args.username, args.password, args.cache) # Get took time for query
-#         #new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices']['request_cache']['hit_count'] # Check new number of hits
+    # calculate the stats for misses
+    average_response_time_miss = sum(miss_took_times) / (args.num_queries - 1)
+    median_miss = np.median(miss_took_times)
+    p99_latency_miss = np.percentile(miss_took_times, 99)  # Calculate p99 latency
+    p95_latency_miss = np.percentile(miss_took_times, 95)  # Calculate p95
+    p90_latency_miss = np.percentile(miss_took_times, 90)  # Calculate p90
 
-#         if new_hits > hit_count: # If hit count increased
-#             print(f"Hit. Took time: {response_time}")
-#             hit_count = new_hits
-#             isHit = True
-#         else:
-#             miss_took_times.append(response_time)
-#             print(f"Miss. Took time: {response_time}")
-#             isHit = False
+    with open(save_path + filename, 'a') as csv_file:
+        csv_file.write(f'All Hit took times\n')
+        # for value in hit_took_times:
+        #     csv_file.write(str(value) + '\n')
+        csv_file.write(f"Average hits response time: {average_response_time_hits} \n")
+        csv_file.write(f"Median hits response time: {median_hits} \n")
+        csv_file.write(f"p99 hits latency: {round(p99_latency_hits, 3)} \n")
+        csv_file.write(f"p95 hits latency: {round(p95_latency_hits, 3)} \n")
+        csv_file.write(f"p90 hits latency: {round(p90_latency_hits, 3)} \n ")
+        csv_file.write(f"Minimum hits : {min(hit_took_times)} \n ")
+        csv_file.write(f"Maximum hits : {max(hit_took_times)} \n ")
+        csv_file.write("\n")
 
-#         # Append a tuple with response time and hit/miss status
-#         response_times.append(response_time)
-#         print(f"Response {x}/{num_queries} received.")
+        csv_file.write(f'All Miss took times\n')
+        # for value in miss_took_times:
+        #     csv_file.write(str(value) + '\n')
+        csv_file.write(f"Average Miss response time: {average_response_time_miss} \n")
+        csv_file.write(f"Median Miss response time: {median_miss} \n")
+        csv_file.write(f"p99 Miss latency: {round(p99_latency_miss, 3)} \n")
+        csv_file.write(f"p95 Miss latency: {round(p95_latency_miss, 3)} \n")
+        csv_file.write(f"p90 Miss latency: {round(p90_latency_miss, 3)} \n ")
+        csv_file.write(f"Minimum Miss : {min(miss_took_times)} \n ")
+        csv_file.write(f"Maximum Miss : {max(miss_took_times)} \n ")
+        csv_file.write("\n")
 
-#     median = np.median(response_times[1:])
-#     average_response_time = sum(response_times[1:]) / (num_queries - 1) # Average response time for num_queries - 1 hits (first was a miss before it got written to the cache)
-#     p99_latency = np.percentile(response_times[1:], 99) # Calculate p99 latency
-#     p95_latency = np.percentile(response_times[1:], 95) # Calculate p95
-#     p90_latency = np.percentile(response_times[1:], 90) # Calculate p90
-
-
-#     # Collect the data
-#     daily_averages.append(average_response_time)
-#     daily_p99_latencies.append(p99_latency)
-#     daily_p95_latencies.append(p95_latency)
-#     daily_p90_latencies.append(p90_latency)
-#     daily_medians.append(median)
-#     daily_mins.append(min(response_times[1:]))
-#     daily_max.append(max(response_times[1:]))
-
-#     with open(save_path + filename, 'a') as csv_file:
-#         csv_file.write(f'Jan 1 to Jan {str(day)} using cache of type: {args.type} \n')
-#         for value in response_times:
-#             csv_file.write(str(value) + '\n')
-#         csv_file.write(f"Average response time: {average_response_time} \n")
-#         csv_file.write(f"Median response time: {median} \n")
-#         csv_file.write(f"p99 latency: {round(p99_latency, 3)} \n")
-#         csv_file.write(f"p95 latency: {round(p95_latency, 3)} \n")
-#         csv_file.write(f"p90 latency: {round(p90_latency, 3)} \n ")
-#         csv_file.write(f"Minimum: {min(response_times[1:])} \n ")
-#         csv_file.write(f"Maximum: {max(response_times[1:])} \n ")
-#         csv_file.write("\n")
-
-#     print(f"Results for Jan 1 to Jan {str(day)} appended to {filename}.")
+    send_slack_notification(args.webhook, args.type)
 
 # # print items in tabular
 # print(f"Results for cache of type {args.type}")
@@ -499,8 +484,6 @@ def main():
 # print("All p90 response times:")
 # for daily_p90_latency in enumerate(daily_p90_latencies, start=1):
 #     print(f"{daily_p90_latency}")
-
-# send_slack_notification(args.webhook, args.type)
 
 if __name__ == '__main__':
     main()
