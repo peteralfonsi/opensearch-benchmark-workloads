@@ -429,14 +429,14 @@ def main():
     runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
 
     # calculate the stats for hits
-    average_response_time_hits = sum(hit_took_times) / (args.num_queries - 1)
+    average_response_time_hits = sum(hit_took_times) / (args.num_queries)
     median_hits = np.median(hit_took_times)
     p99_latency_hits = np.percentile(hit_took_times, 99)  # Calculate p99 latency
     p95_latency_hits = np.percentile(hit_took_times, 95)  # Calculate p95
     p90_latency_hits = np.percentile(hit_took_times, 90)  # Calculate p90
 
     # calculate the stats for misses
-    average_response_time_miss = sum(miss_took_times) / (args.num_queries - 1)
+    average_response_time_miss = sum(miss_took_times) / (args.num_queries)
     median_miss = np.median(miss_took_times)
     p99_latency_miss = np.percentile(miss_took_times, 99)  # Calculate p99 latency
     p95_latency_miss = np.percentile(miss_took_times, 95)  # Calculate p95
