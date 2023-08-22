@@ -299,7 +299,7 @@ def main():
     parser.add_argument('--cache',    help='True for cache enabled and false otherwise, defaults to FALSE.', default='true')
     parser.add_argument('--type',     help='Type of cache we are using, for logging purposes', default='all')
     parser.add_argument('--webhook',  help='Slack webhook for notifying when the script is finished.', default=None)
-    parser.add_argument('--numOfQueries',  help='Number of queries you want to make in each load.', default=5)
+    parser.add_argument('--numOfQueries',  help='Number of queries you want to make in each load.', default=2)
     parser.add_argument('--note',  help='Optional note to add to the test.', default="")
     args = parser.parse_args()
 
