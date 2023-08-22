@@ -365,6 +365,8 @@ def clearcache(args):
 
 
 def runQuery(args, query_name, query):
+    start_time = time.time()
+
     # Get baseline hit count
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
     hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
@@ -384,8 +386,13 @@ def runQuery(args, query_name, query):
             print(f"Miss. Took time: {response_time}")
             miss_took_times.append(response_time)
 
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total time Taken for {query_name} : ", elapsed_time)
+
 
 def main():
+    start_time = time.time()
     parser = argparse.ArgumentParser(description='OpenSearch Query Response Time Plotter')
     parser.add_argument('--endpoint', help='OpenSearch domain endpoint (https://example.com)')
     parser.add_argument('--username', help='Username for authentication')
@@ -413,6 +420,7 @@ def main():
     # clearcache(args)  # clear cache to start
     print("Starting date_histogram_calendar_interval")
     runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args.cache))
+
 
     print("Starting date_histogram_agg")
     runQuery(args, 'date_histogram_agg', date_histogram_agg(args.cache, random.randint(1,12)))
@@ -469,6 +477,9 @@ def main():
         csv_file.write("\n")
 
     send_slack_notification(args.webhook, args.type)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print("Elapsed time for the entire code: ", elapsed_time)
 
 # # print items in tabular
 # print(f"Results for cache of type {args.type}")
