@@ -45,7 +45,7 @@ def expensive_1(month, day, cache):
                         "range": {
                             "pickup_datetime": {
                                 "gte": '2015-01-01 00:00:00',
-                                "lte": f"2015-{month:02d}-{day:02d} 11:59:59"
+                                "lte": f"2015-01-{day:02d} 11:59:59"
                             }
                         }
                     },
@@ -53,7 +53,7 @@ def expensive_1(month, day, cache):
                         "range": {
                             "dropoff_datetime": {
                                 "gte": '2015-01-01 00:00:00',
-                                "lte": f"2015-{month:02d}-{day:02d} 11:59:59"
+                                "lte": f"2015-01-{day:02d} 11:59:59"
                             }
                         }
                     }
@@ -186,7 +186,7 @@ def process_cache_type(args, cache_type):
     daily_mins = []
     daily_max = []
 
-    for month in range(1, 6):
+    for month in range(1, 1):
         for day in range(1, int(args.days) + 1):
             clearcache(args)  # clear cache to start
             print(f"Starting iterations for range: Jan 1 00:00:00 to Jan {day} 11:59:59")
