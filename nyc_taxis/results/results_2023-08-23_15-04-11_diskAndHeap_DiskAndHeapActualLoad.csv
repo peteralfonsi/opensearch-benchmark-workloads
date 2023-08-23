@@ -1,0 +1,18 @@
+All Hit took times
+Average hits response time: 30.012 
+Median hits response time: 2.0 
+p99 hits latency: 199.65 
+p95 hits latency: 18.0 
+p90 hits latency: 7.0 
+ Minimum hits : 1 
+ Maximum hits : 3882 
+ 
+All Miss took times
+Average Miss response time: 10030.955 
+Median Miss response time: 701.0 
+p99 Miss latency: 25717.26 
+p95 Miss latency: 15516.8 
+p90 Miss latency: 8588.9 
+ Minimum Miss : 2 
+ Maximum Miss : 32714 
+ 
