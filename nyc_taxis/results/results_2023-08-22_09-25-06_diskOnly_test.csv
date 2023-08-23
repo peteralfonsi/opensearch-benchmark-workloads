@@ -1,0 +1,616 @@
+Jan 1 to Jan 1 using cache of type: diskOnly 
+4220
+98
+Average response time: 98.0 
+Median response time: 98.0 
+p99 latency: 98.0 
+p95 latency: 98.0 
+p90 latency: 98.0 
+ Minimum: 98 
+ Maximum: 98 
+ 
+Jan 1 to Jan 2 using cache of type: diskOnly 
+5023
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 3 using cache of type: diskOnly 
+5055
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 4 using cache of type: diskOnly 
+5441
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 5 using cache of type: diskOnly 
+5309
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 6 using cache of type: diskOnly 
+5293
+10
+Average response time: 10.0 
+Median response time: 10.0 
+p99 latency: 10.0 
+p95 latency: 10.0 
+p90 latency: 10.0 
+ Minimum: 10 
+ Maximum: 10 
+ 
+Jan 1 to Jan 7 using cache of type: diskOnly 
+5098
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 8 using cache of type: diskOnly 
+5157
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 9 using cache of type: diskOnly 
+5326
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 10 using cache of type: diskOnly 
+5448
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 11 using cache of type: diskOnly 
+5967
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 12 using cache of type: diskOnly 
+5560
+10
+Average response time: 10.0 
+Median response time: 10.0 
+p99 latency: 10.0 
+p95 latency: 10.0 
+p90 latency: 10.0 
+ Minimum: 10 
+ Maximum: 10 
+ 
+Jan 1 to Jan 13 using cache of type: diskOnly 
+5661
+6
+Average response time: 6.0 
+Median response time: 6.0 
+p99 latency: 6.0 
+p95 latency: 6.0 
+p90 latency: 6.0 
+ Minimum: 6 
+ Maximum: 6 
+ 
+Jan 1 to Jan 14 using cache of type: diskOnly 
+6230
+11
+Average response time: 11.0 
+Median response time: 11.0 
+p99 latency: 11.0 
+p95 latency: 11.0 
+p90 latency: 11.0 
+ Minimum: 11 
+ Maximum: 11 
+ 
+Jan 1 to Jan 15 using cache of type: diskOnly 
+6361
+10
+Average response time: 10.0 
+Median response time: 10.0 
+p99 latency: 10.0 
+p95 latency: 10.0 
+p90 latency: 10.0 
+ Minimum: 10 
+ Maximum: 10 
+ 
+Jan 1 to Jan 16 using cache of type: diskOnly 
+6397
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 17 using cache of type: diskOnly 
+6153
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 18 using cache of type: diskOnly 
+6287
+18
+Average response time: 18.0 
+Median response time: 18.0 
+p99 latency: 18.0 
+p95 latency: 18.0 
+p90 latency: 18.0 
+ Minimum: 18 
+ Maximum: 18 
+ 
+Jan 1 to Jan 19 using cache of type: diskOnly 
+6309
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 20 using cache of type: diskOnly 
+7321
+11
+Average response time: 11.0 
+Median response time: 11.0 
+p99 latency: 11.0 
+p95 latency: 11.0 
+p90 latency: 11.0 
+ Minimum: 11 
+ Maximum: 11 
+ 
+Jan 1 to Jan 21 using cache of type: diskOnly 
+6845
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 22 using cache of type: diskOnly 
+6715
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 23 using cache of type: diskOnly 
+7179
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 24 using cache of type: diskOnly 
+7507
+12
+Average response time: 12.0 
+Median response time: 12.0 
+p99 latency: 12.0 
+p95 latency: 12.0 
+p90 latency: 12.0 
+ Minimum: 12 
+ Maximum: 12 
+ 
+Jan 1 to Jan 25 using cache of type: diskOnly 
+7190
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 26 using cache of type: diskOnly 
+6986
+10
+Average response time: 10.0 
+Median response time: 10.0 
+p99 latency: 10.0 
+p95 latency: 10.0 
+p90 latency: 10.0 
+ Minimum: 10 
+ Maximum: 10 
+ 
+Jan 1 to Jan 27 using cache of type: diskOnly 
+7419
+5
+Average response time: 5.0 
+Median response time: 5.0 
+p99 latency: 5.0 
+p95 latency: 5.0 
+p90 latency: 5.0 
+ Minimum: 5 
+ Maximum: 5 
+ 
+Jan 1 to Jan 28 using cache of type: diskOnly 
+7867
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 1 using cache of type: diskOnly 
+10992
+11
+Average response time: 11.0 
+Median response time: 11.0 
+p99 latency: 11.0 
+p95 latency: 11.0 
+p90 latency: 11.0 
+ Minimum: 11 
+ Maximum: 11 
+ 
+Jan 1 to Jan 2 using cache of type: diskOnly 
+10949
+12
+Average response time: 12.0 
+Median response time: 12.0 
+p99 latency: 12.0 
+p95 latency: 12.0 
+p90 latency: 12.0 
+ Minimum: 12 
+ Maximum: 12 
+ 
+Jan 1 to Jan 3 using cache of type: diskOnly 
+10825
+5
+Average response time: 5.0 
+Median response time: 5.0 
+p99 latency: 5.0 
+p95 latency: 5.0 
+p90 latency: 5.0 
+ Minimum: 5 
+ Maximum: 5 
+ 
+Jan 1 to Jan 4 using cache of type: diskOnly 
+10609
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 5 using cache of type: diskOnly 
+10686
+13
+Average response time: 13.0 
+Median response time: 13.0 
+p99 latency: 13.0 
+p95 latency: 13.0 
+p90 latency: 13.0 
+ Minimum: 13 
+ Maximum: 13 
+ 
+Jan 1 to Jan 6 using cache of type: diskOnly 
+12131
+4
+Average response time: 4.0 
+Median response time: 4.0 
+p99 latency: 4.0 
+p95 latency: 4.0 
+p90 latency: 4.0 
+ Minimum: 4 
+ Maximum: 4 
+ 
+Jan 1 to Jan 7 using cache of type: diskOnly 
+11086
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 8 using cache of type: diskOnly 
+11558
+11
+Average response time: 11.0 
+Median response time: 11.0 
+p99 latency: 11.0 
+p95 latency: 11.0 
+p90 latency: 11.0 
+ Minimum: 11 
+ Maximum: 11 
+ 
+Jan 1 to Jan 9 using cache of type: diskOnly 
+10909
+6
+Average response time: 6.0 
+Median response time: 6.0 
+p99 latency: 6.0 
+p95 latency: 6.0 
+p90 latency: 6.0 
+ Minimum: 6 
+ Maximum: 6 
+ 
+Jan 1 to Jan 10 using cache of type: diskOnly 
+11171
+6
+Average response time: 6.0 
+Median response time: 6.0 
+p99 latency: 6.0 
+p95 latency: 6.0 
+p90 latency: 6.0 
+ Minimum: 6 
+ Maximum: 6 
+ 
+Jan 1 to Jan 11 using cache of type: diskOnly 
+13650
+32
+Average response time: 32.0 
+Median response time: 32.0 
+p99 latency: 32.0 
+p95 latency: 32.0 
+p90 latency: 32.0 
+ Minimum: 32 
+ Maximum: 32 
+ 
+Jan 1 to Jan 12 using cache of type: diskOnly 
+12047
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 13 using cache of type: diskOnly 
+13115
+10
+Average response time: 10.0 
+Median response time: 10.0 
+p99 latency: 10.0 
+p95 latency: 10.0 
+p90 latency: 10.0 
+ Minimum: 10 
+ Maximum: 10 
+ 
+Jan 1 to Jan 14 using cache of type: diskOnly 
+13371
+19
+Average response time: 19.0 
+Median response time: 19.0 
+p99 latency: 19.0 
+p95 latency: 19.0 
+p90 latency: 19.0 
+ Minimum: 19 
+ Maximum: 19 
+ 
+Jan 1 to Jan 15 using cache of type: diskOnly 
+13841
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 16 using cache of type: diskOnly 
+12040
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 17 using cache of type: diskOnly 
+12723
+6
+Average response time: 6.0 
+Median response time: 6.0 
+p99 latency: 6.0 
+p95 latency: 6.0 
+p90 latency: 6.0 
+ Minimum: 6 
+ Maximum: 6 
+ 
+Jan 1 to Jan 18 using cache of type: diskOnly 
+12348
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 19 using cache of type: diskOnly 
+11908
+6
+Average response time: 6.0 
+Median response time: 6.0 
+p99 latency: 6.0 
+p95 latency: 6.0 
+p90 latency: 6.0 
+ Minimum: 6 
+ Maximum: 6 
+ 
+Jan 1 to Jan 20 using cache of type: diskOnly 
+12806
+5
+Average response time: 5.0 
+Median response time: 5.0 
+p99 latency: 5.0 
+p95 latency: 5.0 
+p90 latency: 5.0 
+ Minimum: 5 
+ Maximum: 5 
+ 
+Jan 1 to Jan 21 using cache of type: diskOnly 
+12385
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 22 using cache of type: diskOnly 
+12947
+6
+Average response time: 6.0 
+Median response time: 6.0 
+p99 latency: 6.0 
+p95 latency: 6.0 
+p90 latency: 6.0 
+ Minimum: 6 
+ Maximum: 6 
+ 
+Jan 1 to Jan 23 using cache of type: diskOnly 
+12967
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 24 using cache of type: diskOnly 
+13265
+11
+Average response time: 11.0 
+Median response time: 11.0 
+p99 latency: 11.0 
+p95 latency: 11.0 
+p90 latency: 11.0 
+ Minimum: 11 
+ Maximum: 11 
+ 
+Jan 1 to Jan 25 using cache of type: diskOnly 
+13333
+8
+Average response time: 8.0 
+Median response time: 8.0 
+p99 latency: 8.0 
+p95 latency: 8.0 
+p90 latency: 8.0 
+ Minimum: 8 
+ Maximum: 8 
+ 
+Jan 1 to Jan 26 using cache of type: diskOnly 
+13599
+7
+Average response time: 7.0 
+Median response time: 7.0 
+p99 latency: 7.0 
+p95 latency: 7.0 
+p90 latency: 7.0 
+ Minimum: 7 
+ Maximum: 7 
+ 
+Jan 1 to Jan 27 using cache of type: diskOnly 
+13427
+9
+Average response time: 9.0 
+Median response time: 9.0 
+p99 latency: 9.0 
+p95 latency: 9.0 
+p90 latency: 9.0 
+ Minimum: 9 
+ Maximum: 9 
+ 
+Jan 1 to Jan 28 using cache of type: diskOnly 
+13291
+6
+Average response time: 6.0 
+Median response time: 6.0 
+p99 latency: 6.0 
+p95 latency: 6.0 
+p90 latency: 6.0 
+ Minimum: 6 
+ Maximum: 6 
+ 
