@@ -448,7 +448,7 @@ def main():
     start_time = time.time()
     for x in range(1, num_queries + 1):
         runQuery(args, 'distance_amount_agg', distance_amount_agg(args.cache))
-        print(f"running range {x}/{num_queries}")
+        print(f"running distance_amount_agg {x}/{num_queries}")
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Total time Taken for distance_amount_agg : ", elapsed_time)
