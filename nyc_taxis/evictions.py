@@ -108,7 +108,7 @@ def expensive_1(day, cache, **kwargs):
                 }
             }
         },
-        "index": 'nyc_taxis',
+        "index": 'nyc_taxis_1',
         "request-cache": cache,
         "request-timeout": 60
     }
@@ -149,7 +149,7 @@ def distance_amount_agg(cache):  # 1
                 }
             }
         },
-        "index": 'nyc_taxis',
+        "index": 'nyc_taxis_1',
         "request-cache": cache,
         "request-timeout": 120
     }
@@ -170,7 +170,7 @@ def rangeQuery(cache):  # 2
                 }
             }
         },
-        "index": 'nyc_taxis',
+        "index": 'nyc_taxis_1',
         "request-cache": cache,
         "request-timeout": 120
     }
@@ -203,7 +203,7 @@ def autohisto_agg(cache):  # 3
                 }
             }
         },
-        "index": 'nyc_taxis',
+        "index": 'nyc_taxis_1',
         "request-cache": cache,
         "request-timeout": 120
     }
@@ -234,7 +234,7 @@ def date_histogram_agg(cache, month):  # 4
                 }
             }
         },
-        "index": 'nyc_taxis',
+        "index": 'nyc_taxis_1',
         "request-cache": cache,
         "request-timeout": 120
     }
@@ -264,7 +264,7 @@ def date_histogram_calendar_interval(cache):  # 5
                 }
             }
         },
-        "index": 'nyc_taxis',
+        "index": 'nyc_taxis_1',
         "request-cache": cache,
         "request-timeout": 120
     }
@@ -316,7 +316,7 @@ def date_histogram_fixed_interval_with_metrics(cache, month):  # 6
                 }
             }
         },
-        "index": 'nyc_taxis',
+        "index": 'nyc_taxis_1',
         "request-cache": cache,
         "request-timeout": 120
     }
@@ -355,7 +355,7 @@ def get_request_cache_stats(endpoint, username, password):
 
 def clearcache(args):
     # Clear cache and verify response
-    url = f"{args.endpoint}/nyc_taxis/_cache/clear"
+    url = f"{args.endpoint}/nyc_taxis_1/_cache/clear"
     response = requests.post(url, auth=(args.username, args.password))
 
     if response.status_code == 200:
