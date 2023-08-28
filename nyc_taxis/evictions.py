@@ -36,7 +36,7 @@ def send_slack_notification(webhook, payload):
 
 
 # Expensive query to be used
-def expensive_1(day, cache, **kwargs):
+def expensive_1(day, args, **kwargs):
     return {
         "body": {
             "size": 0,
@@ -108,13 +108,13 @@ def expensive_1(day, cache, **kwargs):
                 }
             }
         },
-        "index": 'nyc_taxis_1',
-        "request-cache": cache,
+        "index": args.index,
+        "request-cache": args.cache,
         "request-timeout": 60
     }
 
 
-def distance_amount_agg(cache):  # 1
+def distance_amount_agg(args):  # 1
     max_distance = random.uniform(0, 100)  # Change the range as needed
     min_distance = random.uniform(0, max_distance)
     interval = random.uniform(0, 20)
@@ -149,13 +149,13 @@ def distance_amount_agg(cache):  # 1
                 }
             }
         },
-        "index": 'nyc_taxis_1',
-        "request-cache": cache,
+        "index": args.index,
+        "request-cache": args.cache,
         "request-timeout": 120
     }
 
 
-def rangeQuery(cache):  # 2
+def rangeQuery(args):  # 2
     max_distance = random.uniform(0, 100)  # Change the range as needed
     min_distance = random.uniform(0, max_distance)
 
@@ -170,13 +170,13 @@ def rangeQuery(cache):  # 2
                 }
             }
         },
-        "index": 'nyc_taxis_1',
-        "request-cache": cache,
+        "index": args.index,
+        "request-cache": args.cache,
         "request-timeout": 120
     }
 
 
-def autohisto_agg(cache):  # 3
+def autohisto_agg(args):  # 3
     month_gte = random.randint(1, 2)
     day_gte = random.randint(1, 28)
     month_lte = random.randint(month_gte, 2)
@@ -203,13 +203,13 @@ def autohisto_agg(cache):  # 3
                 }
             }
         },
-        "index": 'nyc_taxis_1',
-        "request-cache": cache,
+        "index": args.index,
+        "request-cache": args.cache,
         "request-timeout": 120
     }
 
 
-def date_histogram_agg(cache, month):  # 4
+def date_histogram_agg(args, month):  # 4
     year = 2015
     day_gte = random.randint(1, 28)
     day_lte = random.randint(day_gte, 28)
@@ -234,13 +234,13 @@ def date_histogram_agg(cache, month):  # 4
                 }
             }
         },
-        "index": 'nyc_taxis_1',
-        "request-cache": cache,
+        "index": args.index,
+        "request-cache": args.cache,
         "request-timeout": 120
     }
 
 
-def date_histogram_calendar_interval(cache):  # 5
+def date_histogram_calendar_interval(args):  # 5
     month_gte = random.randint(1, 12)
     month_lte = random.randint(month_gte, 12)
     year = 2015
@@ -264,8 +264,8 @@ def date_histogram_calendar_interval(cache):  # 5
                 }
             }
         },
-        "index": 'nyc_taxis_1',
-        "request-cache": cache,
+        "index": args.index,
+        "request-cache": args.cache,
         "request-timeout": 120
     }
 
@@ -392,6 +392,7 @@ def main():
     parser.add_argument('--webhook', help='Slack webhook for notifying when the script is finished.')
     parser.add_argument('--num_queries', help='Num of queries to run.', default=2)
     parser.add_argument('--note', help='Optional note to add to the test.', default="")
+    parser.add_argument('--index', help='Optional note to add to the test.', default="nyc_taxis")
     args = parser.parse_args()
     num_queries = int(args.num_queries)
 
@@ -411,7 +412,7 @@ def main():
     print("Starting date_histogram_calendar_interval")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args.cache))
+        runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args))
         print(f"running date_histogram_calendar_interval {x}/{num_queries}")
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -420,7 +421,7 @@ def main():
     print("Starting date_histogram_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_agg', date_histogram_agg(args.cache, random.randint(1,12)))
+        runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1,12)))
         print(f"running date_histogram_agg {x}/{num_queries}")
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -429,7 +430,7 @@ def main():
     print("Starting autohisto_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'autohisto_agg', autohisto_agg(args.cache))
+        runQuery(args, 'autohisto_agg', autohisto_agg(args))
         print(f"running autohisto_agg {x}/{num_queries}")
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -438,7 +439,7 @@ def main():
     print("Starting range")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'range', rangeQuery(args.cache))
+        runQuery(args, 'range', rangeQuery(args))
         print(f"running range {x}/{num_queries}")
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -447,7 +448,7 @@ def main():
     print("Starting distance_amount_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'distance_amount_agg', distance_amount_agg(args.cache))
+        runQuery(args, 'distance_amount_agg', distance_amount_agg(args))
         print(f"running distance_amount_agg {x}/{num_queries}")
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -456,14 +457,14 @@ def main():
     print("Starting date_histogram_fixed_interval_with_metrics")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args.cache,random.randint(1,12)))
+        runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args, random.randint(1,12)))
         print(f"running date_histogram_fixed_interval_with_metrics {x}/{num_queries}")
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", elapsed_time)
 
-    print(f"All hits : {hit_took_times}")
-    print(f"All miss : {miss_took_times}")
+    print(f"All hits : { hit_took_times }")
+    print(f"All miss : { miss_took_times }")
 
     # calculate the stats for hits
     average_response_time_hits = sum(hit_took_times) / int(args.num_queries)
