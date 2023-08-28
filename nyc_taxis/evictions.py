@@ -270,7 +270,7 @@ def date_histogram_calendar_interval(args):  # 5
     }
 
 
-def date_histogram_fixed_interval_with_metrics(cache, month):  # 6
+def date_histogram_fixed_interval_with_metrics(args, month):  # 6
     # Generate random start and end dates
     start_date = datetime(2015, 1, 1)
     end_date = datetime(2016, 1, 1)
@@ -316,8 +316,8 @@ def date_histogram_fixed_interval_with_metrics(cache, month):  # 6
                 }
             }
         },
-        "index": 'nyc_taxis_1',
-        "request-cache": cache,
+        "index": args.index,
+        "request-cache": args.cache,
         "request-timeout": 120
     }
 
@@ -355,7 +355,7 @@ def get_request_cache_stats(endpoint, username, password):
 
 def clearcache(args):
     # Clear cache and verify response
-    url = f"{args.endpoint}/nyc_taxis_1/_cache/clear"
+    url = f"{args.endpoint}/{args.index}/_cache/clear"
     response = requests.post(url, auth=(args.username, args.password))
 
     if response.status_code == 200:
