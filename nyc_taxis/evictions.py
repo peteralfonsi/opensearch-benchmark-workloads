@@ -1,7 +1,6 @@
 import argparse
 import requests
 from opensearchpy import OpenSearch
-import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime, timedelta
 import csv
