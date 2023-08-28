@@ -323,6 +323,10 @@ def date_histogram_fixed_interval_with_metrics(args, month):  # 6
 
 # Function to send the query and measure the response time
 def send_query_and_measure_time(endpoint, username, password, cache, query):
+    # Maximum number of retries
+    MAX_RETRIES = 5
+    # Delay between retries in seconds
+    RETRY_DELAY = 5
     # query = expensive_1(day, cache)
     print(f"{query}")
     # Connect to the OpenSearch domain using the provided endpoint and credentials
@@ -333,11 +337,17 @@ def send_query_and_measure_time(endpoint, username, password, cache, query):
         use_ssl=True,
     )
 
-    # Send the query to the OpenSearch domain
-    response = os.search(index=query['index'], body=query['body'], request_timeout=120, request_cache=cache)
-    took_time = response['took']
-
-    return took_time
+    for attempt in range(MAX_RETRIES):
+        try:
+            # Send the query to the OpenSearch domain
+            response = os.search(index=query['index'], body=query['body'], request_timeout=120, request_cache=cache)
+            took_time = response['took']
+            return took_time
+        except Exception as e:  # Catch any exception
+            print(f"Attempt {attempt + 1} failed: {e}")
+            if attempt + 1 == MAX_RETRIES:
+                raise
+            time.sleep(RETRY_DELAY)
 
 
 # Function to retrieve the cache stats to check hit counts
