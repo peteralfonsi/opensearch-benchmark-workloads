@@ -334,7 +334,7 @@ def send_query_and_measure_time(endpoint, username, password, cache, query):
     )
 
     # Send the query to the OpenSearch domain
-    response = os.search(index=query['index'], body=query['body'], request_timeout=60, request_cache=cache)
+    response = os.search(index=query['index'], body=query['body'], request_timeout=120, request_cache=cache)
     took_time = response['took']
 
     return took_time
