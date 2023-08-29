@@ -21,11 +21,12 @@ daily_max = []
 
 
 # Notify Slack when script is done
-def send_slack_notification(webhook, payload):
-    slackurl = webhook
+def send_slack_notification(cache_type, note):
+    slackurl = 'https://hooks.slack.com/workflows/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'
 
     data = {
-        "value1": payload
+        "cache_type": cache_type,
+        "note": note
     }
 
     response = requests.post(slackurl, json=data)
@@ -490,7 +491,7 @@ def main():
 
     end_time_in_pst = get_current_time_in_pst()
     total_time_taken = time.time() - start_time_main
-    print("Elapsed time for the entire cycle: ", total_time_taken)
+    print("Elapsed time for the entire cycle in minutes : ", total_time_taken / 60)
 
     with open(save_path + filename, 'a') as csv_file:
         csv_file.write(f'Important Times\n')
@@ -549,7 +550,7 @@ def main():
         else:
             csv_file.write(f'Node stats did not return response\n')
 
-    send_slack_notification(args.webhook, args.type)
+    send_slack_notification(args.type, args.note)
 
 # # print items in tabular
 # print(f"Results for cache of type {args.type}")
