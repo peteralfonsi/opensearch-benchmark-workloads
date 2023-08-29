@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 import csv
 import time
 import random
+import pytz
+import json
 
 miss_took_times = []
 hit_took_times = []
@@ -31,7 +33,7 @@ def send_slack_notification(webhook, payload):
     if response.status_code == 200:
         print("Slack notification sent successfully.")
     else:
-        print("Failed to send Slack notification.")
+        print("Failed to send Slack notifications.")
 
 
 # Expensive query to be used
@@ -373,6 +375,21 @@ def clearcache(args):
         print("Failed to clear request cache." + str(response.status_code))
 
 
+def nodestats(args):
+    # Call node stats
+    url = f"{args.endpoint}/{args.index}/_stats?pretty"
+    response = requests.get(url, auth=(args.username, args.password))
+
+    if response.status_code == 200:
+        print("Fetched node stats")
+        data = response.json()
+        pretty_json = json.dumps(data, indent=4)
+        return pretty_json
+    else:
+        print("Failed to fetch node stats")
+        return None
+
+
 def runQuery(args, query_name, query):
     # Get baseline hit count
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
@@ -389,8 +406,16 @@ def runQuery(args, query_name, query):
         miss_took_times.append(response_time)
 
 
+def get_current_time_in_pst():
+    utc_time = datetime.now(pytz.utc)  # Get current UTC time
+    pst_time = utc_time.astimezone(pytz.timezone('US/Pacific'))  # Convert to PST
+    return pst_time
+
+
 def main():
-    start_time = time.time()
+    start_time_main = time.time()
+    start_time_in_pst = get_current_time_in_pst()
+
     parser = argparse.ArgumentParser(description='OpenSearch Query Response Time Plotter')
     parser.add_argument('--endpoint', help='OpenSearch domain endpoint (https://example.com)')
     parser.add_argument('--username', help='Username for authentication')
@@ -423,101 +448,108 @@ def main():
     for x in range(1, num_queries + 1):
         runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args))
         print(f"running date_histogram_calendar_interval {x}/{num_queries}")
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total time Taken for date_histogram_calendar_interval : ", elapsed_time)
+    print(f"Total time Taken for date_histogram_calendar_interval : ", time.time() - start_time)
 
     print("Starting date_histogram_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
         runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1,12)))
         print(f"running date_histogram_agg {x}/{num_queries}")
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total time Taken for date_histogram_agg : ", elapsed_time)
+    print(f"Total time Taken for date_histogram_agg : ", time.time() - start_time)
 
     print("Starting autohisto_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
         runQuery(args, 'autohisto_agg', autohisto_agg(args))
         print(f"running autohisto_agg {x}/{num_queries}")
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total time Taken for autohisto_agg : ", elapsed_time)
+    print(f"Total time Taken for autohisto_agg : ", time.time() - start_time)
 
     print("Starting range")
     start_time = time.time()
     for x in range(1, num_queries + 1):
         runQuery(args, 'range', rangeQuery(args))
         print(f"running range {x}/{num_queries}")
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total time Taken for range : ", elapsed_time)
+    print(f"Total time Taken for range : ", time.time() - start_time)
 
     print("Starting distance_amount_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
         runQuery(args, 'distance_amount_agg', distance_amount_agg(args))
         print(f"running distance_amount_agg {x}/{num_queries}")
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total time Taken for distance_amount_agg : ", elapsed_time)
+    print(f"Total time Taken for distance_amount_agg : ", time.time() - start_time)
 
     print("Starting date_histogram_fixed_interval_with_metrics")
     start_time = time.time()
     for x in range(1, num_queries + 1):
         runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args, random.randint(1,12)))
         print(f"running date_histogram_fixed_interval_with_metrics {x}/{num_queries}")
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", elapsed_time)
+    print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", time.time() - start_time)
 
     print(f"All hits : { hit_took_times }")
     print(f"All miss : { miss_took_times }")
 
-    # calculate the stats for hits
-    average_response_time_hits = sum(hit_took_times) / int(args.num_queries)
-    median_hits = np.median(hit_took_times)
-    p99_latency_hits = np.percentile(hit_took_times, 99)  # Calculate p99 latency
-    p95_latency_hits = np.percentile(hit_took_times, 95)  # Calculate p95
-    p90_latency_hits = np.percentile(hit_took_times, 90)  # Calculate p90
-
-    # calculate the stats for misses
-    average_response_time_miss = sum(miss_took_times) / int(args.num_queries)
-    median_miss = np.median(miss_took_times)
-    p99_latency_miss = np.percentile(miss_took_times, 99)  # Calculate p99 latency
-    p95_latency_miss = np.percentile(miss_took_times, 95)  # Calculate p95
-    p90_latency_miss = np.percentile(miss_took_times, 90)  # Calculate p90
+    end_time_in_pst = get_current_time_in_pst()
+    total_time_taken = time.time() - start_time_main
+    print("Elapsed time for the entire cycle: ", total_time_taken)
 
     with open(save_path + filename, 'a') as csv_file:
-        csv_file.write(f'All Hit took times\n')
-        # for value in hit_took_times:
-        #     csv_file.write(str(value) + '\n')
-        csv_file.write(f"Average hits response time: {average_response_time_hits} \n")
-        csv_file.write(f"Median hits response time: {median_hits} \n")
-        csv_file.write(f"p99 hits latency: {round(p99_latency_hits, 3)} \n")
-        csv_file.write(f"p95 hits latency: {round(p95_latency_hits, 3)} \n")
-        csv_file.write(f"p90 hits latency: {round(p90_latency_hits, 3)} \n ")
-        csv_file.write(f"Minimum hits : {min(hit_took_times)} \n ")
-        csv_file.write(f"Maximum hits : {max(hit_took_times)} \n ")
+        csv_file.write(f'Important Times\n')
+        csv_file.write(f"Start time in PST: {start_time_in_pst} \n")
+        csv_file.write(f"End time in PST: {end_time_in_pst} \n")
+        csv_file.write(f'-------------------------------------------------------\n')
         csv_file.write("\n")
 
-        csv_file.write(f'All Miss took times\n')
-        # for value in miss_took_times:
-        #     csv_file.write(str(value) + '\n')
-        csv_file.write(f"Average Miss response time: {average_response_time_miss} \n")
-        csv_file.write(f"Median Miss response time: {median_miss} \n")
-        csv_file.write(f"p99 Miss latency: {round(p99_latency_miss, 3)} \n")
-        csv_file.write(f"p95 Miss latency: {round(p95_latency_miss, 3)} \n")
-        csv_file.write(f"p90 Miss latency: {round(p90_latency_miss, 3)} \n ")
-        csv_file.write(f"Minimum Miss : {min(miss_took_times)} \n ")
-        csv_file.write(f"Maximum Miss : {max(miss_took_times)} \n ")
+        # Add hits
+        csv_file.write(f'HITS\n')
+        if len(hit_took_times) > 0:
+            csv_file.write(f'All Hit took times\n')
+            csv_file.write(f"Average hits response time: { sum(hit_took_times) / len(hit_took_times) } \n")
+            csv_file.write(f"Median hits response time: {np.median(hit_took_times)} \n")
+            csv_file.write(f"p99 hits latency: {round(np.percentile(hit_took_times, 99), 3)} \n")
+            csv_file.write(f"p95 hits latency: {round(np.percentile(hit_took_times, 95), 3)} \n")
+            csv_file.write(f"p90 hits latency: {round(np.percentile(hit_took_times, 90), 3)} \n ")
+            csv_file.write(f"Minimum hits : {min(hit_took_times)} \n ")
+            csv_file.write(f"Maximum hits : {max(hit_took_times)} \n ")
+            csv_file.write("\n")
+        else:
+            csv_file.write(f'No hits seen\n')
+        csv_file.write(f'-------------------------------------------------------\n')
         csv_file.write("\n")
+
+        # Add misses
+        csv_file.write(f'MISSES\n')
+        if len(miss_took_times) > 0:
+            csv_file.write(f'All Miss took times\n')
+            csv_file.write(f"Average Miss response time: {sum(miss_took_times) / len(miss_took_times)} \n")
+            csv_file.write(f"Median Miss response time: {np.median(miss_took_times)} \n")
+            csv_file.write(f"p99 Miss latency: {round(np.percentile(miss_took_times, 99), 3)} \n")
+            csv_file.write(f"p95 Miss latency: {round(np.percentile(miss_took_times, 95), 3)} \n")
+            csv_file.write(f"p90 Miss latency: {round(np.percentile(miss_took_times, 90), 3)} \n")
+            csv_file.write(f"Minimum Miss : {min(miss_took_times)} \n")
+            csv_file.write(f"Maximum Miss : {max(miss_took_times)} \n")
+        else:
+            csv_file.write(f'No misses seen\n')
+        csv_file.write(f'-------------------------------------------------------\n')
+        csv_file.write("\n")
+
+        csv_file.write(f'Aggregated Data of both Hits & Miss\n')
+        csv_file.write(f"Average response time: {np.sum(np.concatenate((miss_took_times, hit_took_times))) / int(args.num_queries)} \n")
+        csv_file.write(f"Median response time: {np.median(np.concatenate((miss_took_times, hit_took_times)))} \n")
+        csv_file.write(f"p99 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 99), 3)} \n")
+        csv_file.write(f"p95 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 95), 3)} \n")
+        csv_file.write(f"p90 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 90), 3)} \n")
+        csv_file.write(f"Average THROUGHPUT in rps : {np.sum(np.concatenate((miss_took_times, hit_took_times))) / total_time_taken } \n")
+        csv_file.write(f'-------------------------------------------------------\n')
+
+        # add node stats
+        stats = nodestats(args)
+        if stats is not None:
+            csv_file.write(f'Node stats response below\n')
+            csv_file.write(f"{ nodestats(args) } \n")
+        else:
+            csv_file.write(f'Node stats did not return response\n')
 
     send_slack_notification(args.webhook, args.type)
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print("Elapsed time for the entire code: ", elapsed_time)
 
 # # print items in tabular
 # print(f"Results for cache of type {args.type}")
