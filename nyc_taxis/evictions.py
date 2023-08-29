@@ -30,7 +30,6 @@ def send_slack_notification(cache_type, note):
     }
 
     response = requests.post(slackurl, json=data)
-    print(f"slack response : {response}")
     if response.status_code == 200:
         print("Slack notification sent successfully.")
     else:
