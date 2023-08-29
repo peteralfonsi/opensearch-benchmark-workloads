@@ -1,0 +1,14 @@
+Start time in PST: 2023-08-29 14:56:08.618525-07:00 
+End time in PST: 2023-08-29 14:56:29.702260-07:00 
+No hits seen
+All Miss took times
+Average Miss response time: 14335.0 
+Median Miss response time: 372.0 
+p99 Miss latency: 7114.1 
+p95 Miss latency: 6926.5 
+p90 Miss latency: 6692.0 
+ Minimum Miss : 2 
+ Maximum Miss : 7161 
+ 
+Node stats response below
+<Response [200]> 
