@@ -393,15 +393,16 @@ def nodestats(args):
 def runQuery(args, query_name, query):
     # Get baseline hit count
     data = get_request_cache_stats(args.endpoint, args.username, args.password)
-    hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['hit_count']
+    hit_count = data['_all']['total']['request_cache']['hit_count']
     print(f"********************** hit_count : {hit_count}")
 
     # for x in range(1, numberOfQueries + 1):
     response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, query)  # Get took time for query
-    new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices']['request_cache']['hit_count']  # Check new number of hits
-    print(f"********************** hit_count : {hit_count} & new_hits : {new_hits}")
-    print(f"********************** new_hits > hit_count : {new_hits > hit_count}")
-    if new_hits > hit_count:  # If hit count increased
+    new_data = get_request_cache_stats(args.endpoint, args.username, args.password)
+    new_hit_count = new_data['_all']['total']['request_cache']['hit_count']
+    print(f"********************** hit_count : {hit_count} & new_hits : {new_hit_count}")
+    print(f"********************** new_hits > hit_count : {new_hit_count > hit_count}")
+    if new_hit_count > hit_count:  # If hit count increased
         print(f"Hit. Took time: {response_time}")
         hit_took_times.append((response_time))
     else:
