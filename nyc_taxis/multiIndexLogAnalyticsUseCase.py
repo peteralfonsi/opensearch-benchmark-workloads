@@ -354,7 +354,7 @@ def send_query_and_measure_time(endpoint, username, password, cache, query):
 
 # Function to retrieve the cache stats to check hit counts
 def get_request_cache_stats(endpoint, username, password):
-    url = f"{endpoint}/_nodes/stats/indices/request_cache"
+    url = f"{endpoint}/single_client/_stats/request_cache"
     response = requests.get(url, auth=(username, password))
 
     if response.status_code == 200:
