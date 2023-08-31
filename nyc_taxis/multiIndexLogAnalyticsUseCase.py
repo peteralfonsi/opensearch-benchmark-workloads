@@ -178,9 +178,9 @@ def rangeQuery(args):  # 2
 
 
 def autohisto_agg(args):  # 3
-    month_gte = random.randint(1, 1)
+    month_gte = random.randint(9, 10)
     day_gte = random.randint(1, 15)
-    month_lte = random.randint(month_gte, 2)
+    month_lte = random.randint(month_gte, 10)
     day_lte = random.randint(day_gte, 28)
     year = 2015
     return {
@@ -242,8 +242,8 @@ def date_histogram_agg(args, month):  # 4
 
 
 def date_histogram_calendar_interval(args):  # 5
-    month_gte = random.randint(1, 1)
-    month_lte = random.randint(month_gte, 2)
+    month_gte = random.randint(9, 10)
+    month_lte = random.randint(month_gte, 10)
     year = 2015
     return {
         "body": {
@@ -456,7 +456,7 @@ def main():
     print("Starting date_histogram_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1,1)))
+        runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(9,10)))
         print(f"running date_histogram_agg {x}/{num_queries}")
     print(f"Total time Taken for date_histogram_agg : ", time.time() - start_time)
 
