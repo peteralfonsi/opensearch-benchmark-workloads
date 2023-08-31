@@ -22,6 +22,7 @@ daily_max = []
 threads = []
 took_times = []
 
+
 # Notify Slack when script is done
 def send_slack_notification(webhook, payload):
     slackurl = webhook
@@ -118,9 +119,9 @@ def expensive_1(day, args, **kwargs):
 
 
 def distance_amount_agg(args):  # 1
-    max_distance = random.uniform(0, 100)  # Change the range as needed
-    min_distance = random.uniform(0, max_distance)
-    interval = random.uniform(0, 20)
+    max_distance = random.randint(1, 100)  # Change the range as needed
+    min_distance = random.randint(1, max_distance)
+    interval = random.randint(1, 20)
     return {
         "body": {
             "size": 0,
@@ -159,8 +160,8 @@ def distance_amount_agg(args):  # 1
 
 
 def rangeQuery(args):  # 2
-    max_distance = random.uniform(0, 100)  # Change the range as needed
-    min_distance = random.uniform(0, max_distance)
+    max_distance = random.randint(0, 100)  # Change the range as needed
+    min_distance = random.randint(0, max_distance)
 
     return {
         "body": {
@@ -244,8 +245,8 @@ def date_histogram_agg(args, month):  # 4
 
 
 def date_histogram_calendar_interval(args):  # 5
-    month_gte = random.randint(1, 12)
-    month_lte = random.randint(month_gte, 12)
+    month_gte = random.randint(1, 6)
+    month_lte = random.randint(month_gte, 6)
     year = 2015
     return {
         "body": {
@@ -276,7 +277,7 @@ def date_histogram_calendar_interval(args):  # 5
 def date_histogram_fixed_interval_with_metrics(args, month):  # 6
     # Generate random start and end dates
     start_date = datetime(2015, 1, 1)
-    end_date = datetime(2016, 1, 1)
+    end_date = datetime(2015, 6, 1)
 
     # Generate random number of days to add to the start date
     random_days = random.randint(30, (end_date - start_date).days)  # Randomize within a reasonable range
@@ -399,9 +400,14 @@ def runQuery(args, query_name, query, thread_num):
     disk_hit_count = next(iter(data['nodes'].values()))['indices']['request_cache']['disk_hit_count']
 
     # for x in range(1, numberOfQueries + 1):
-    response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache, query)  # Get took time for query
-    os_new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices']['request_cache']['os_hit_count']  # Check new number of hits
-    disk_new_hits = next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices']['request_cache']['disk_hit_count']  # Check new number of hits
+    response_time = send_query_and_measure_time(args.endpoint, args.username, args.password, args.cache,
+                                                query)  # Get took time for query
+    os_new_hits = \
+    next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices'][
+        'request_cache']['os_hit_count']  # Check new number of hits
+    disk_new_hits = \
+    next(iter(get_request_cache_stats(args.endpoint, args.username, args.password)['nodes'].values()))['indices'][
+        'request_cache']['disk_hit_count']  # Check new number of hits
     if os_new_hits > os_hit_count or disk_new_hits > disk_hit_count:  # If hit count increased
         print(f"Hit. Took time: {response_time}")
         hit_took_times.append((response_time))
@@ -409,6 +415,7 @@ def runQuery(args, query_name, query, thread_num):
         print(f"Miss. Took time: {response_time}")
         miss_took_times.append(response_time)
     took_times.append(response_time)
+
 
 def worker_thread(thread_num, args, num_queries, hit_took_times, miss_took_times):
     # Execute the query multiple times and measure the response time
@@ -423,7 +430,7 @@ def worker_thread(thread_num, args, num_queries, hit_took_times, miss_took_times
     print(f"Starting date_histogram_agg for thread {thread_num}")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1,12)), thread_num)
+        runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1, 6)), thread_num)
         print(f"running date_histogram_agg {x}/{num_queries}")
     print(f"Total time Taken for date_histogram_agg for thread {thread_num}: ", time.time() - start_time)
 
@@ -451,9 +458,12 @@ def worker_thread(thread_num, args, num_queries, hit_took_times, miss_took_times
     print(f"Starting date_histogram_fixed_interval_with_metrics for thread: {thread_num}")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args, random.randint(1,12)), thread_num)
+        runQuery(args, 'date_histogram_fixed_interval_with_metrics',
+                 date_histogram_fixed_interval_with_metrics(args, random.randint(1, 6)), thread_num)
         print(f"running date_histogram_fixed_interval_with_metrics {x}/{num_queries} for thread: {thread_num}")
-    print(f"Total time Taken for date_histogram_fixed_interval_with_metrics for thread {thread_num} : ", time.time() - start_time)
+    print(f"Total time Taken for date_histogram_fixed_interval_with_metrics for thread {thread_num} : ",
+          time.time() - start_time)
+
 
 def get_current_time_in_pst():
     utc_time = datetime.now(pytz.utc)  # Get current UTC time
@@ -470,7 +480,8 @@ def main():
     parser.add_argument('--username', help='Username for authentication')
     parser.add_argument('--password', help='Password for authentication')
     parser.add_argument('--days', help='Number of days in the range to keep increasing to')
-    parser.add_argument('--cache', help='True for cache enabled and false otherwise, defaults to FALSE.',default='true')
+    parser.add_argument('--cache', help='True for cache enabled and false otherwise, defaults to FALSE.',
+                        default='true')
     parser.add_argument('--type', help='Type of cache we are using, for logging purposes')
     parser.add_argument('--webhook', help='Slack webhook for notifying when the script is finished.')
     parser.add_argument('--num_queries', help='Num of queries to run.', default=2)
@@ -480,8 +491,8 @@ def main():
     parser.add_argument('--warmup_iterations_queries', help="number of warm up iterations", default=1)
     args = parser.parse_args()
     num_queries = int(args.num_queries)
-    client=int(args.client)
-    warmup_iterations_queries=int(args.warmup_iterations_queries)
+    client = int(args.client)
+    warmup_iterations_queries = int(args.warmup_iterations_queries)
 
     save_path = 'results/'  # Path to save results
 
@@ -493,63 +504,62 @@ def main():
 
     # Create a filename using the formatted datetime
     filename = f"results_{formatted_datetime}_{args.type}_{args.note}.csv"
-    
 
     # Create and start the threads. Run multiple queries with each thread
     for i in range(client):
         thread = threading.Thread(target=worker_thread, args=(i, args, num_queries, hit_took_times, miss_took_times))
         threads.append(thread)
         thread.start()
-    
+
     # Wait for all threads to finish
     for thread in threads:
         thread.join()
     # Execute the query multiple times and measure the response time
     # clearcache(args)  # clear cache to start
-    #print("Starting date_histogram_calendar_interval")
-    #start_time = time.time()
-    #for x in range(1, num_queries + 1):
+    # print("Starting date_histogram_calendar_interval")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
     #   runQuery(args, 'date_histogram_calendar_interval', date_histogram_calendar_interval(args))
     #    print(f"running date_histogram_calendar_interval {x}/{num_queries}")
-    #print(f"Total time Taken for date_histogram_calendar_interval : ", time.time() - start_time)
+    # print(f"Total time Taken for date_histogram_calendar_interval : ", time.time() - start_time)
 
-    #print("Starting date_histogram_agg")
-    #start_time = time.time()
-    #for x in range(1, num_queries + 1):
+    # print("Starting date_histogram_agg")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
     #    runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1,12)))
     #    print(f"running date_histogram_agg {x}/{num_queries}")
-    #print(f"Total time Taken for date_histogram_agg : ", time.time() - start_time)
+    # print(f"Total time Taken for date_histogram_agg : ", time.time() - start_time)
 
-    #print("Starting autohisto_agg")
-    #start_time = time.time()
-    #for x in range(1, num_queries + 1):
+    # print("Starting autohisto_agg")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
     #    runQuery(args, 'autohisto_agg', autohisto_agg(args))
     #    print(f"running autohisto_agg {x}/{num_queries}")
-    #print(f"Total time Taken for autohisto_agg : ", time.time() - start_time)
+    # print(f"Total time Taken for autohisto_agg : ", time.time() - start_time)
 
-    #print("Starting range")
-    #start_time = time.time()
-    #for x in range(1, num_queries + 1):
+    # print("Starting range")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
     #    runQuery(args, 'range', rangeQuery(args))
     #    print(f"running range {x}/{num_queries}")
-    #print(f"Total time Taken for range : ", time.time() - start_time)
+    # print(f"Total time Taken for range : ", time.time() - start_time)
 
-    #print("Starting distance_amount_agg")
-    #start_time = time.time()
-    #for x in range(1, num_queries + 1):
+    # print("Starting distance_amount_agg")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
     #    runQuery(args, 'distance_amount_agg', distance_amount_agg(args))
     #    print(f"running distance_amount_agg {x}/{num_queries}")
-    #print(f"Total time Taken for distance_amount_agg : ", time.time() - start_time)
+    # print(f"Total time Taken for distance_amount_agg : ", time.time() - start_time)
 
-    #print("Starting date_histogram_fixed_interval_with_metrics")
-    #start_time = time.time()
-    #for x in range(1, num_queries + 1):
+    # print("Starting date_histogram_fixed_interval_with_metrics")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
     #    runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args, random.randint(1,12)))
     #    print(f"running date_histogram_fixed_interval_with_metrics {x}/{num_queries}")
-    #print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", time.time() - start_time)
+    # print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", time.time() - start_time)
 
-    print(f"All hits : { hit_took_times }")
-    print(f"All miss : { miss_took_times }")
+    print(f"All hits : {hit_took_times}")
+    print(f"All miss : {miss_took_times}")
 
     end_time_in_pst = get_current_time_in_pst()
     total_time_taken = time.time() - start_time_main
@@ -566,13 +576,15 @@ def main():
         csv_file.write(f'HITS\n')
         if len(hit_took_times) > 0:
             csv_file.write(f'All Hit took times\n')
-            csv_file.write(f"Average hits response time: { sum(hit_took_times) / len(hit_took_times) } \n")
+            csv_file.write(f"Average hits response time: {sum(hit_took_times) / len(hit_took_times)} \n")
             csv_file.write(f"Median hits response time: {np.median(hit_took_times)} \n")
             csv_file.write(f"p99 hits latency: {round(np.percentile(hit_took_times, 99), 3)} \n")
             csv_file.write(f"p95 hits latency: {round(np.percentile(hit_took_times, 95), 3)} \n")
             csv_file.write(f"p90 hits latency: {round(np.percentile(hit_took_times, 90), 3)} \n ")
-            csv_file.write(f"Minimum hits : {min(hit_took_times)} \n ")
-            csv_file.write(f"Maximum hits : {max(hit_took_times)} \n ")
+            csv_file.write(f"p50 hits latency: {round(np.percentile(hit_took_times, 50), 3)} \n ")
+            csv_file.write(f"p75 hits latency: {round(np.percentile(hit_took_times, 75), 3)} \n ")
+            csv_file.write(f"Minimum hits latency: {min(hit_took_times)} \n ")
+            csv_file.write(f"Maximum hits latency: {max(hit_took_times)} \n ")
             csv_file.write("\n")
         else:
             csv_file.write(f'No hits seen\n')
@@ -588,22 +600,33 @@ def main():
             csv_file.write(f"p99 Miss latency: {round(np.percentile(miss_took_times, 99), 3)} \n")
             csv_file.write(f"p95 Miss latency: {round(np.percentile(miss_took_times, 95), 3)} \n")
             csv_file.write(f"p90 Miss latency: {round(np.percentile(miss_took_times, 90), 3)} \n")
-            csv_file.write(f"Minimum Miss : {min(miss_took_times)} \n")
-            csv_file.write(f"Maximum Miss : {max(miss_took_times)} \n")
+            csv_file.write(f"p50 Miss latency: {round(np.percentile(miss_took_times, 50), 3)} \n")
+            csv_file.write(f"p75 Miss latency: {round(np.percentile(miss_took_times, 75), 3)} \n")
+            csv_file.write(f"Minimum Miss latency: {min(miss_took_times)} \n")
+            csv_file.write(f"Maximum Miss latency: {max(miss_took_times)} \n")
         else:
             csv_file.write(f'No misses seen\n')
         csv_file.write(f'-------------------------------------------------------\n')
         csv_file.write("\n")
-        
-        average_response_time = (np.sum(np.concatenate((miss_took_times, hit_took_times))) / (int(args.num_queries) * client))
+
+        average_response = np.concatenate((miss_took_times, hit_took_times))
+        csv_file.write(f"Total responses {len(average_response)}\n")
+        average_response_time = (np.sum(np.concatenate((miss_took_times, hit_took_times))) / len(average_response))
         total_queries = 6 * (int(args.num_queries) * client)
         csv_file.write(f'Aggregated Data of both Hits & Miss\n')
         csv_file.write(f"Total response time: {np.sum(np.concatenate((miss_took_times, hit_took_times)))} \n")
         csv_file.write(f"Average response time: {average_response_time} \n")
         csv_file.write(f"Median response time: {np.median(np.concatenate((miss_took_times, hit_took_times)))} \n")
-        csv_file.write(f"p99 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 99), 3)} \n")
-        csv_file.write(f"p95 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 95), 3)} \n")
-        csv_file.write(f"p90 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 90), 3)} \n")
+        csv_file.write(
+            f"p99 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 99), 3)} \n")
+        csv_file.write(
+            f"p95 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 95), 3)} \n")
+        csv_file.write(
+            f"p90 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 90), 3)} \n")
+        csv_file.write(
+            f"p50 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 50), 3)} \n")
+        csv_file.write(
+            f"p75 latency: {round(np.percentile(np.concatenate((miss_took_times, hit_took_times)), 75), 3)} \n")
         csv_file.write(f"Total time taken : {total_time_taken} \n")
         csv_file.write(f" Total queries : {total_queries} \n")
         csv_file.write(f"Average THROUGHPUT in rps : {(total_queries) / total_time_taken} \n")
@@ -613,11 +636,12 @@ def main():
         stats = nodestats(args)
         if stats is not None:
             csv_file.write(f'Node stats response below\n')
-            csv_file.write(f"{ nodestats(args) } \n")
+            csv_file.write(f"{nodestats(args)} \n")
         else:
             csv_file.write(f'Node stats did not return response\n')
 
     send_slack_notification(args.webhook, args.type)
+
 
 # # print items in tabular
 # print(f"Results for cache of type {args.type}")
