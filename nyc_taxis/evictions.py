@@ -242,8 +242,8 @@ def date_histogram_agg(args, month):  # 4
 
 
 def date_histogram_calendar_interval(args):  # 5
-    month_gte = random.randint(1, 12)
-    month_lte = random.randint(month_gte, 12)
+    month_gte = random.randint(1, 2)
+    month_lte = random.randint(month_gte, 3)
     year = 2015
     return {
         "body": {
@@ -453,7 +453,7 @@ def main():
     print("Starting date_histogram_agg")
     start_time = time.time()
     for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1,12)))
+        runQuery(args, 'date_histogram_agg', date_histogram_agg(args, random.randint(1,3)))
         print(f"running date_histogram_agg {x}/{num_queries}")
     print(f"Total time Taken for date_histogram_agg : ", time.time() - start_time)
 
@@ -464,26 +464,26 @@ def main():
         print(f"running autohisto_agg {x}/{num_queries}")
     print(f"Total time Taken for autohisto_agg : ", time.time() - start_time)
 
-    print("Starting range")
-    start_time = time.time()
-    for x in range(1, num_queries + 1):
-        runQuery(args, 'range', rangeQuery(args))
-        print(f"running range {x}/{num_queries}")
-    print(f"Total time Taken for range : ", time.time() - start_time)
+    # print("Starting range")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
+    #     runQuery(args, 'range', rangeQuery(args))
+    #     print(f"running range {x}/{num_queries}")
+    # print(f"Total time Taken for range : ", time.time() - start_time)
 
-    print("Starting distance_amount_agg")
-    start_time = time.time()
-    for x in range(1, num_queries + 1):
-        runQuery(args, 'distance_amount_agg', distance_amount_agg(args))
-        print(f"running distance_amount_agg {x}/{num_queries}")
-    print(f"Total time Taken for distance_amount_agg : ", time.time() - start_time)
+    # print("Starting distance_amount_agg")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
+    #     runQuery(args, 'distance_amount_agg', distance_amount_agg(args))
+    #     print(f"running distance_amount_agg {x}/{num_queries}")
+    # print(f"Total time Taken for distance_amount_agg : ", time.time() - start_time)
 
-    print("Starting date_histogram_fixed_interval_with_metrics")
-    start_time = time.time()
-    for x in range(1, num_queries + 1):
-        runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args, random.randint(1,12)))
-        print(f"running date_histogram_fixed_interval_with_metrics {x}/{num_queries}")
-    print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", time.time() - start_time)
+    # print("Starting date_histogram_fixed_interval_with_metrics")
+    # start_time = time.time()
+    # for x in range(1, num_queries + 1):
+    #     runQuery(args, 'date_histogram_fixed_interval_with_metrics', date_histogram_fixed_interval_with_metrics(args, random.randint(1,12)))
+    #     print(f"running date_histogram_fixed_interval_with_metrics {x}/{num_queries}")
+    # print(f"Total time Taken for date_histogram_fixed_interval_with_metrics : ", time.time() - start_time)
 
     print(f"All hits : { hit_took_times }")
     print(f"All miss : { miss_took_times }")
