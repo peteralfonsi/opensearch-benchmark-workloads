@@ -1,0 +1,557 @@
+Important Times
+Start time in PST: 2023-08-31 16:55:32.192660-07:00 
+End time in PST: 2023-08-31 17:20:47.149676-07:00 
+-------------------------------------------------------
+
+HITS
+All Hit took times
+Average hits response time: 178.0271435121504 
+Median hits response time: 1.0 
+p99 hits latency: 1555.92 
+p95 hits latency: 1020.6 
+p90 hits latency: 613.0 
+ p50 hits latency: 1.0 
+ p75 hits latency: 202.0 
+ Minimum hits latency: 0 
+ Maximum hits latency: 14780 
+ 
+-------------------------------------------------------
+
+MISSES
+All Miss took times
+Average Miss response time: 420.7993754879001 
+Median Miss response time: 150.0 
+p99 Miss latency: 8680.4 
+p95 Miss latency: 1124.0 
+p90 Miss latency: 654.0 
+p50 Miss latency: 150.0 
+p75 Miss latency: 353.0 
+Minimum Miss latency: 1 
+Maximum Miss latency: 12925 
+-------------------------------------------------------
+
+Total responses 12186
+Aggregated Data of both Hits & Miss
+Total response time: 2480430 
+Average response time: 203.54751354012802 
+Median response time: 1.0 
+p99 latency: 1604.65 
+p95 latency: 1033.0 
+p90 latency: 619.5 
+p50 latency: 1.0 
+p75 latency: 230.75 
+Total time taken : 1514.9570887088776 
+ Total queries : 18000 
+Average THROUGHPUT in rps : 11.881524654497312 
+-------------------------------------------------------
+Node stats response below
+{
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0
+    },
+    "_all": {
+        "primaries": {
+            "docs": {
+                "count": 165346692,
+                "deleted": 0
+            },
+            "store": {
+                "size_in_bytes": 25962273435,
+                "reserved_in_bytes": 0
+            },
+            "indexing": {
+                "index_total": 0,
+                "index_time_in_millis": 0,
+                "index_current": 0,
+                "index_failed": 0,
+                "delete_total": 0,
+                "delete_time_in_millis": 0,
+                "delete_current": 0,
+                "noop_update_total": 0,
+                "is_throttled": false,
+                "throttle_time_in_millis": 0
+            },
+            "get": {
+                "total": 0,
+                "time_in_millis": 0,
+                "exists_total": 0,
+                "exists_time_in_millis": 0,
+                "missing_total": 0,
+                "missing_time_in_millis": 0,
+                "current": 0
+            },
+            "search": {
+                "open_contexts": 0,
+                "query_total": 12611,
+                "query_time_in_millis": 2621384,
+                "query_current": 0,
+                "fetch_total": 12611,
+                "fetch_time_in_millis": 4525,
+                "fetch_current": 0,
+                "scroll_total": 0,
+                "scroll_time_in_millis": 0,
+                "scroll_current": 0,
+                "suggest_total": 0,
+                "suggest_time_in_millis": 0,
+                "suggest_current": 0
+            },
+            "merges": {
+                "current": 0,
+                "current_docs": 0,
+                "current_size_in_bytes": 0,
+                "total": 0,
+                "total_time_in_millis": 0,
+                "total_docs": 0,
+                "total_size_in_bytes": 0,
+                "total_stopped_time_in_millis": 0,
+                "total_throttled_time_in_millis": 0,
+                "total_auto_throttle_in_bytes": 20971520
+            },
+            "refresh": {
+                "total": 2,
+                "total_time_in_millis": 0,
+                "external_total": 2,
+                "external_total_time_in_millis": 0,
+                "listeners": 0
+            },
+            "flush": {
+                "total": 1,
+                "periodic": 0,
+                "total_time_in_millis": 0
+            },
+            "warmer": {
+                "current": 0,
+                "total": 1,
+                "total_time_in_millis": 0
+            },
+            "query_cache": {
+                "memory_size_in_bytes": 0,
+                "total_count": 0,
+                "hit_count": 0,
+                "miss_count": 0,
+                "cache_size": 0,
+                "cache_count": 0,
+                "evictions": 0
+            },
+            "fielddata": {
+                "memory_size_in_bytes": 0,
+                "evictions": 0
+            },
+            "completion": {
+                "size_in_bytes": 0
+            },
+            "segments": {
+                "count": 29,
+                "memory_in_bytes": 109740,
+                "terms_memory_in_bytes": 38816,
+                "stored_fields_memory_in_bytes": 27784,
+                "term_vectors_memory_in_bytes": 0,
+                "norms_memory_in_bytes": 0,
+                "points_memory_in_bytes": 0,
+                "doc_values_memory_in_bytes": 43140,
+                "index_writer_memory_in_bytes": 0,
+                "version_map_memory_in_bytes": 0,
+                "fixed_bit_set_memory_in_bytes": 0,
+                "max_unsafe_auto_id_timestamp": -1,
+                "file_sizes": {}
+            },
+            "translog": {
+                "operations": 0,
+                "size_in_bytes": 55,
+                "uncommitted_operations": 0,
+                "uncommitted_size_in_bytes": 55,
+                "earliest_last_modified_age": 2495870
+            },
+            "request_cache": {
+                "memory_size_in_bytes": 1048510,
+                "evictions": 4071,
+                "hit_count": 7140,
+                "miss_count": 5471
+            },
+            "recovery": {
+                "current_as_source": 0,
+                "current_as_target": 0,
+                "throttle_time_in_millis": 0
+            }
+        },
+        "total": {
+            "docs": {
+                "count": 165346692,
+                "deleted": 0
+            },
+            "store": {
+                "size_in_bytes": 25962273435,
+                "reserved_in_bytes": 0
+            },
+            "indexing": {
+                "index_total": 0,
+                "index_time_in_millis": 0,
+                "index_current": 0,
+                "index_failed": 0,
+                "delete_total": 0,
+                "delete_time_in_millis": 0,
+                "delete_current": 0,
+                "noop_update_total": 0,
+                "is_throttled": false,
+                "throttle_time_in_millis": 0
+            },
+            "get": {
+                "total": 0,
+                "time_in_millis": 0,
+                "exists_total": 0,
+                "exists_time_in_millis": 0,
+                "missing_total": 0,
+                "missing_time_in_millis": 0,
+                "current": 0
+            },
+            "search": {
+                "open_contexts": 0,
+                "query_total": 12611,
+                "query_time_in_millis": 2621384,
+                "query_current": 0,
+                "fetch_total": 12611,
+                "fetch_time_in_millis": 4525,
+                "fetch_current": 0,
+                "scroll_total": 0,
+                "scroll_time_in_millis": 0,
+                "scroll_current": 0,
+                "suggest_total": 0,
+                "suggest_time_in_millis": 0,
+                "suggest_current": 0
+            },
+            "merges": {
+                "current": 0,
+                "current_docs": 0,
+                "current_size_in_bytes": 0,
+                "total": 0,
+                "total_time_in_millis": 0,
+                "total_docs": 0,
+                "total_size_in_bytes": 0,
+                "total_stopped_time_in_millis": 0,
+                "total_throttled_time_in_millis": 0,
+                "total_auto_throttle_in_bytes": 20971520
+            },
+            "refresh": {
+                "total": 2,
+                "total_time_in_millis": 0,
+                "external_total": 2,
+                "external_total_time_in_millis": 0,
+                "listeners": 0
+            },
+            "flush": {
+                "total": 1,
+                "periodic": 0,
+                "total_time_in_millis": 0
+            },
+            "warmer": {
+                "current": 0,
+                "total": 1,
+                "total_time_in_millis": 0
+            },
+            "query_cache": {
+                "memory_size_in_bytes": 0,
+                "total_count": 0,
+                "hit_count": 0,
+                "miss_count": 0,
+                "cache_size": 0,
+                "cache_count": 0,
+                "evictions": 0
+            },
+            "fielddata": {
+                "memory_size_in_bytes": 0,
+                "evictions": 0
+            },
+            "completion": {
+                "size_in_bytes": 0
+            },
+            "segments": {
+                "count": 29,
+                "memory_in_bytes": 109740,
+                "terms_memory_in_bytes": 38816,
+                "stored_fields_memory_in_bytes": 27784,
+                "term_vectors_memory_in_bytes": 0,
+                "norms_memory_in_bytes": 0,
+                "points_memory_in_bytes": 0,
+                "doc_values_memory_in_bytes": 43140,
+                "index_writer_memory_in_bytes": 0,
+                "version_map_memory_in_bytes": 0,
+                "fixed_bit_set_memory_in_bytes": 0,
+                "max_unsafe_auto_id_timestamp": -1,
+                "file_sizes": {}
+            },
+            "translog": {
+                "operations": 0,
+                "size_in_bytes": 55,
+                "uncommitted_operations": 0,
+                "uncommitted_size_in_bytes": 55,
+                "earliest_last_modified_age": 2495870
+            },
+            "request_cache": {
+                "memory_size_in_bytes": 1048510,
+                "evictions": 4071,
+                "hit_count": 7140,
+                "miss_count": 5471
+            },
+            "recovery": {
+                "current_as_source": 0,
+                "current_as_target": 0,
+                "throttle_time_in_millis": 0
+            }
+        }
+    },
+    "indices": {
+        "nyc_taxis": {
+            "uuid": "XpSKDKUXSEqOMh1Dgv8vhw",
+            "primaries": {
+                "docs": {
+                    "count": 165346692,
+                    "deleted": 0
+                },
+                "store": {
+                    "size_in_bytes": 25962273435,
+                    "reserved_in_bytes": 0
+                },
+                "indexing": {
+                    "index_total": 0,
+                    "index_time_in_millis": 0,
+                    "index_current": 0,
+                    "index_failed": 0,
+                    "delete_total": 0,
+                    "delete_time_in_millis": 0,
+                    "delete_current": 0,
+                    "noop_update_total": 0,
+                    "is_throttled": false,
+                    "throttle_time_in_millis": 0
+                },
+                "get": {
+                    "total": 0,
+                    "time_in_millis": 0,
+                    "exists_total": 0,
+                    "exists_time_in_millis": 0,
+                    "missing_total": 0,
+                    "missing_time_in_millis": 0,
+                    "current": 0
+                },
+                "search": {
+                    "open_contexts": 0,
+                    "query_total": 12611,
+                    "query_time_in_millis": 2621384,
+                    "query_current": 0,
+                    "fetch_total": 12611,
+                    "fetch_time_in_millis": 4525,
+                    "fetch_current": 0,
+                    "scroll_total": 0,
+                    "scroll_time_in_millis": 0,
+                    "scroll_current": 0,
+                    "suggest_total": 0,
+                    "suggest_time_in_millis": 0,
+                    "suggest_current": 0
+                },
+                "merges": {
+                    "current": 0,
+                    "current_docs": 0,
+                    "current_size_in_bytes": 0,
+                    "total": 0,
+                    "total_time_in_millis": 0,
+                    "total_docs": 0,
+                    "total_size_in_bytes": 0,
+                    "total_stopped_time_in_millis": 0,
+                    "total_throttled_time_in_millis": 0,
+                    "total_auto_throttle_in_bytes": 20971520
+                },
+                "refresh": {
+                    "total": 2,
+                    "total_time_in_millis": 0,
+                    "external_total": 2,
+                    "external_total_time_in_millis": 0,
+                    "listeners": 0
+                },
+                "flush": {
+                    "total": 1,
+                    "periodic": 0,
+                    "total_time_in_millis": 0
+                },
+                "warmer": {
+                    "current": 0,
+                    "total": 1,
+                    "total_time_in_millis": 0
+                },
+                "query_cache": {
+                    "memory_size_in_bytes": 0,
+                    "total_count": 0,
+                    "hit_count": 0,
+                    "miss_count": 0,
+                    "cache_size": 0,
+                    "cache_count": 0,
+                    "evictions": 0
+                },
+                "fielddata": {
+                    "memory_size_in_bytes": 0,
+                    "evictions": 0
+                },
+                "completion": {
+                    "size_in_bytes": 0
+                },
+                "segments": {
+                    "count": 29,
+                    "memory_in_bytes": 109740,
+                    "terms_memory_in_bytes": 38816,
+                    "stored_fields_memory_in_bytes": 27784,
+                    "term_vectors_memory_in_bytes": 0,
+                    "norms_memory_in_bytes": 0,
+                    "points_memory_in_bytes": 0,
+                    "doc_values_memory_in_bytes": 43140,
+                    "index_writer_memory_in_bytes": 0,
+                    "version_map_memory_in_bytes": 0,
+                    "fixed_bit_set_memory_in_bytes": 0,
+                    "max_unsafe_auto_id_timestamp": -1,
+                    "file_sizes": {}
+                },
+                "translog": {
+                    "operations": 0,
+                    "size_in_bytes": 55,
+                    "uncommitted_operations": 0,
+                    "uncommitted_size_in_bytes": 55,
+                    "earliest_last_modified_age": 2495870
+                },
+                "request_cache": {
+                    "memory_size_in_bytes": 1048510,
+                    "evictions": 4071,
+                    "hit_count": 7140,
+                    "miss_count": 5471
+                },
+                "recovery": {
+                    "current_as_source": 0,
+                    "current_as_target": 0,
+                    "throttle_time_in_millis": 0
+                }
+            },
+            "total": {
+                "docs": {
+                    "count": 165346692,
+                    "deleted": 0
+                },
+                "store": {
+                    "size_in_bytes": 25962273435,
+                    "reserved_in_bytes": 0
+                },
+                "indexing": {
+                    "index_total": 0,
+                    "index_time_in_millis": 0,
+                    "index_current": 0,
+                    "index_failed": 0,
+                    "delete_total": 0,
+                    "delete_time_in_millis": 0,
+                    "delete_current": 0,
+                    "noop_update_total": 0,
+                    "is_throttled": false,
+                    "throttle_time_in_millis": 0
+                },
+                "get": {
+                    "total": 0,
+                    "time_in_millis": 0,
+                    "exists_total": 0,
+                    "exists_time_in_millis": 0,
+                    "missing_total": 0,
+                    "missing_time_in_millis": 0,
+                    "current": 0
+                },
+                "search": {
+                    "open_contexts": 0,
+                    "query_total": 12611,
+                    "query_time_in_millis": 2621384,
+                    "query_current": 0,
+                    "fetch_total": 12611,
+                    "fetch_time_in_millis": 4525,
+                    "fetch_current": 0,
+                    "scroll_total": 0,
+                    "scroll_time_in_millis": 0,
+                    "scroll_current": 0,
+                    "suggest_total": 0,
+                    "suggest_time_in_millis": 0,
+                    "suggest_current": 0
+                },
+                "merges": {
+                    "current": 0,
+                    "current_docs": 0,
+                    "current_size_in_bytes": 0,
+                    "total": 0,
+                    "total_time_in_millis": 0,
+                    "total_docs": 0,
+                    "total_size_in_bytes": 0,
+                    "total_stopped_time_in_millis": 0,
+                    "total_throttled_time_in_millis": 0,
+                    "total_auto_throttle_in_bytes": 20971520
+                },
+                "refresh": {
+                    "total": 2,
+                    "total_time_in_millis": 0,
+                    "external_total": 2,
+                    "external_total_time_in_millis": 0,
+                    "listeners": 0
+                },
+                "flush": {
+                    "total": 1,
+                    "periodic": 0,
+                    "total_time_in_millis": 0
+                },
+                "warmer": {
+                    "current": 0,
+                    "total": 1,
+                    "total_time_in_millis": 0
+                },
+                "query_cache": {
+                    "memory_size_in_bytes": 0,
+                    "total_count": 0,
+                    "hit_count": 0,
+                    "miss_count": 0,
+                    "cache_size": 0,
+                    "cache_count": 0,
+                    "evictions": 0
+                },
+                "fielddata": {
+                    "memory_size_in_bytes": 0,
+                    "evictions": 0
+                },
+                "completion": {
+                    "size_in_bytes": 0
+                },
+                "segments": {
+                    "count": 29,
+                    "memory_in_bytes": 109740,
+                    "terms_memory_in_bytes": 38816,
+                    "stored_fields_memory_in_bytes": 27784,
+                    "term_vectors_memory_in_bytes": 0,
+                    "norms_memory_in_bytes": 0,
+                    "points_memory_in_bytes": 0,
+                    "doc_values_memory_in_bytes": 43140,
+                    "index_writer_memory_in_bytes": 0,
+                    "version_map_memory_in_bytes": 0,
+                    "fixed_bit_set_memory_in_bytes": 0,
+                    "max_unsafe_auto_id_timestamp": -1,
+                    "file_sizes": {}
+                },
+                "translog": {
+                    "operations": 0,
+                    "size_in_bytes": 55,
+                    "uncommitted_operations": 0,
+                    "uncommitted_size_in_bytes": 55,
+                    "earliest_last_modified_age": 2495870
+                },
+                "request_cache": {
+                    "memory_size_in_bytes": 1048510,
+                    "evictions": 4071,
+                    "hit_count": 7140,
+                    "miss_count": 5471
+                },
+                "recovery": {
+                    "current_as_source": 0,
+                    "current_as_target": 0,
+                    "throttle_time_in_millis": 0
+                }
+            }
+        }
+    }
+} 
