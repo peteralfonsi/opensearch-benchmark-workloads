@@ -55,8 +55,8 @@
         },
         {
           "operation": "default",
-          "warmup-iterations": 50,
-          "iterations": 100
+          "warmup-iterations": 0,
+          "iterations": 1
           {%- if not target_throughput %}
           ,"target-throughput": 3
           {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
@@ -69,8 +69,8 @@
         },
         {
           "operation": "range",
-          "warmup-iterations": 50,
-          "iterations": 100
+          "warmup-iterations": 0,
+          "iterations": 1
           {%- if not target_throughput %}
           ,"target-throughput": 0.7
           {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
@@ -83,8 +83,8 @@
         },
         {
           "operation": "distance_amount_agg",
-          "warmup-iterations": 50,
-          "iterations": 50
+          "warmup-iterations": 0,
+          "iterations": 1
           {%- if not target_throughput %}
           ,"target-throughput": 2
           {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
@@ -97,8 +97,8 @@
         },
         {
           "operation": "autohisto_agg",
-          "warmup-iterations": 50,
-          "iterations": 100
+          "warmup-iterations": 0,
+          "iterations": 1
           {%- if not target_throughput %}
           ,"target-throughput": 1.5
           {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
@@ -111,8 +111,8 @@
         },
         {
           "operation": "date_histogram_agg",
-          "warmup-iterations": 50,
-          "iterations": 100
+          "warmup-iterations": 0,
+          "iterations": 1
           {%- if not target_throughput %}
           ,"target-throughput": 1.5
           {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
@@ -156,7 +156,7 @@
         },
         {
           "operation": "index",
-          "warmup-time-period": 240,
+          "warmup-time-period": 40,
           "clients": {{bulk_indexing_clients | default(8)}},
           "ignore-response-error-level": "{{error_level | default('non-fatal')}}"
         },
@@ -214,7 +214,7 @@
         },
         {
           "operation": "index",
-          "warmup-time-period": 240,
+          "warmup-time-period": 40,
           "clients": {{bulk_indexing_clients | default(8)}},
           "ignore-response-error-level": "{{error_level | default('non-fatal')}}"
         },
@@ -269,7 +269,7 @@
         },
         {
           "operation": "update",
-          "warmup-time-period": 1200,
+          "warmup-time-period": 10,
           "clients": {{bulk_indexing_clients | default(8)}},
           "ignore-response-error-level": "{{error_level | default('non-fatal')}}"
         },
