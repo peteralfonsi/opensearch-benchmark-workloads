@@ -1,6 +1,6 @@
 from .query_value_providers import fn_value_generators
 import json
-import path
+from os import path
 
 NUM_VALUES = 10000 # number of standard queries to generate
 for fn_name in fn_value_generators: 
