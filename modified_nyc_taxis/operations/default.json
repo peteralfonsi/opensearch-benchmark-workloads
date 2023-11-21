@@ -336,6 +336,6 @@
     {
       "name": "cheap_passenger_count_no_cache",
       "operation-type": "search", 
-      "param-source": "cheap-passenger-count-param-source-no-cache",
+      "param-source": "cheap-passenger-count-no-cache-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     }
