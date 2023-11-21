@@ -1,6 +1,6 @@
 import random
 import json
-from query_value_providers import fn_names, fn_value_generators
+from .query_value_providers import fn_names, fn_value_generators
 
 async def delete_snapshot(opensearch, params):
     await opensearch.snapshot.delete(repository=params["repository"], snapshot=params["snapshot"])

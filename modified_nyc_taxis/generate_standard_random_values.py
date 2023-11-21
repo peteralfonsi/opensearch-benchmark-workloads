@@ -1,4 +1,4 @@
-from query_value_providers import fn_value_generators
+from .query_value_providers import fn_value_generators
 import json
 
 NUM_VALUES = 10000 # number of standard queries to generate
