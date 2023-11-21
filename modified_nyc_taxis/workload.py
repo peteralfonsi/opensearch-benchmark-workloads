@@ -33,10 +33,7 @@ def get_values(repeat_freq, fn_name):
 # This fn is also used to generate standard random values in the first place. 
 
 def cheap_passenger_count(workload, params, **kwargs): 
-    print("PARAMS: " + str(params))
-    print("WORKLOAD:" + str(workload))
-    print("KWARGS: " + str(kwargs))
-    repeat_freq = params["repeat_freq"] # does something like this work? 
+    repeat_freq = params["repeat_freq"]
     val_dict = get_values(repeat_freq, "cheap_passenger_count")
     # based on random_passenger_count from https://github.com/kiranprakash154/opensearch-benchmark-workloads/blob/kp/custom-workload/nyc_taxis/workload.py
     return {
