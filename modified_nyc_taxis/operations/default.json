@@ -330,10 +330,12 @@
     {
       "name": "cheap_passenger_count",
       "operation-type": "search", 
-      "param-source": "cheap-passenger-count-param-source"
+      "param-source": "cheap-passenger-count-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
       "name": "cheap_passenger_count_no_cache",
       "operation-type": "search", 
-      "param-source": "cheap-passenger-count-param-source-no-cache"
+      "param-source": "cheap-passenger-count-param-source-no-cache",
+      "repeat_freq": {{repeat_freq | default(30)}}
     }
