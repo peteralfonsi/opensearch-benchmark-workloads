@@ -1,7 +1,7 @@
 import random
 import json
 from .query_value_providers import fn_names, fn_value_generators
-from os import path
+import os
 
 async def delete_snapshot(opensearch, params):
     await opensearch.snapshot.delete(repository=params["repository"], snapshot=params["snapshot"])
@@ -14,7 +14,7 @@ fn_name_counters = {} # keeps track of how many times we have pulled from the st
 for fn_name in fn_names: 
     fn_name_counters[fn_name] = 0
     try:
-        fp = path.relpath("standard_values/{}_values.json".format(fn_name))
+        fp = os.path.abspath(os.getcwd()) + "/" + "standard_values/{}_values.json".format(fn_name)
         with open(fp, "r") as f: 
             standard_fn_values[fn_name] = json.load(f)
     except FileNotFoundError: 
