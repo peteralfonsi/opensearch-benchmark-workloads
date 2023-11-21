@@ -6,7 +6,8 @@
         {
           "operation":"cheap_passenger_count", 
           "warmup-iterations": 0, 
-          "iterations": 1
+          "iterations": 1,
+          "repeat_freq": {{repeat_freq | default(30)}}
           {%- if not target_throughput %}
           ,"target-throughput": 1.5
             {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
