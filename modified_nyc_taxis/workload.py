@@ -14,7 +14,7 @@ fn_name_counters = {} # keeps track of how many times we have pulled from the st
 for fn_name in fn_names: 
     fn_name_counters[fn_name] = 0
     try:
-        fp = os.path.abspath(os.getcwd()) + "/" + "standard_values/{}_values.json".format(fn_name)
+        fp = os.path.dirname(os.path.realpath(__file__)) + "/" + "standard_values/{}_values.json".format(fn_name)
         with open(fp, "r") as f: 
             standard_fn_values[fn_name] = json.load(f)
     except FileNotFoundError: 
