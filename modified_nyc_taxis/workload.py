@@ -23,7 +23,8 @@ for fn_name in fn_names:
 # A helper function used by all param sources to decide whether to create new values or pull from standard values
 def get_values(repeat_freq, fn_name): 
     if random.random() < repeat_freq: 
-        index = random.randrange(0, fn_name_counters[fn_name])
+        upper_bound = min(max(1, fn_name_counters[fn_name]), len(standard_fn_values[fn_name]))
+        index = random.randrange(0, upper_bound)
         fn_name_counters[fn_name] += 1
         return standard_fn_values[fn_name][index]
     return fn_value_generators[fn_name]()
