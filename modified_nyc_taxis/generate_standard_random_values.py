@@ -7,7 +7,7 @@ NUM_VALUES = 10000 # number of standard queries to generate by default
 
 # if a standard query is in here, generate this many instead (for example if there are few possible values)
 num_values_exceptions = {
-    "cheap_passenger_count":50
+    "cheap_passenger_count":50,
 }
 for fn_name in fn_value_generators: 
     print("Generating values for {}".format(fn_name))
