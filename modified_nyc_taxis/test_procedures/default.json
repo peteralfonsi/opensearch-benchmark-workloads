@@ -84,6 +84,26 @@
           "operation":"cheap-fare-amount-no-cache", 
           "warmup-iterations": 0, 
           "iterations": 10
+        },
+        {
+          "operation":"cheap-total-amount", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"cheap-total-amount-no-cache", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"cheap-pickup", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"cheap-pickup-no-cache", 
+          "warmup-iterations": 0, 
+          "iterations": 10
         }
       ]
     }

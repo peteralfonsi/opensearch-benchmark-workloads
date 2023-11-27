@@ -1,6 +1,7 @@
 # Value providers for queries live in this file
 
 import random
+import datetime
 
 # common helper functions 
 
@@ -10,6 +11,24 @@ def random_money_values(max_value):
     return {
         "gte":gte_cents/100,
         "lte":lte_cents/100
+    }
+
+def format_date(datetime_obj): 
+    return datetime_obj.strftime("%Y-%m-%d %H:%M:%S") # check this
+
+def random_dates(min_value, max_value): 
+    # arguments are datetime objects
+    min_timestamp = datetime.timestamp(min_value) 
+    max_timestamp = datetime.timestamp(max_value) 
+    diff = max_timestamp - min_timestamp
+    gte_fraction = random.random() # uniformly from 0 to 1
+    lte_fraction = random.random(gte_fraction, 1.0)
+
+    gte_date = datetime.fromtimestamp(min_timestamp + int(gte_fraction * diff))
+    lte_date = datetime.fromtimestamp(min_timestamp + int(lte_fraction * diff))
+    return {
+        "gte":format_date(gte_date), 
+        "lte":format_date(lte_date)
     }
 
 
@@ -30,6 +49,13 @@ def cheap_tip_amount_provider():
 def cheap_fare_amount_provider(): 
     # random dollar + cents values between 0.00 and 100.99
     return random_money_values(100.99)
+
+def cheap_total_amount_provider(): 
+    return random_money_values(111.98)
+
+def cheap_pickup_provider(): 
+    # random days between 1/1/2015 and 12/31/2015
+    return random_dates(datetime.date(2015, 1, 1), datetime.date(2015, 12, 31))
     
 
 
@@ -37,13 +63,17 @@ def cheap_fare_amount_provider():
 fn_names = [
     "cheap_passenger_count",
     "cheap_tip_amount",
-    "cheap_fare_amount"
+    "cheap_fare_amount",
+    "cheap_total_amount", 
+    "cheap_pickup"
 ]
 
 # the value generator for each specific query
 fn_value_generators = {
     "cheap_passenger_count":cheap_passenger_count_provider,
     "cheap_tip_amount":cheap_tip_amount_provider,
-    "cheap_fare_amount":cheap_fare_amount_provider
+    "cheap_fare_amount":cheap_fare_amount_provider,
+    "cheap_total_amount":cheap_total_amount_provider, 
+    "cheap_pickup":cheap_pickup_provider
 } 
 

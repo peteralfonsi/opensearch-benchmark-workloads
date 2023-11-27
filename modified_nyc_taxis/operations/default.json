@@ -362,4 +362,28 @@
       "operation-type": "search", 
       "param-source": "cheap-fare-amount-no-cache-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "cheap-total-amount",
+      "operation-type": "search", 
+      "param-source": "cheap-total-amount-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "cheap-total-amount-no-cache",
+      "operation-type": "search", 
+      "param-source": "cheap-total-amount-no-cache-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "cheap-pickup",
+      "operation-type": "search", 
+      "param-source": "cheap-pickup-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "cheap-pickup-no-cache",
+      "operation-type": "search", 
+      "param-source": "cheap-pickup-no-cache-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
     }

@@ -81,6 +81,24 @@ def cheap_fare_amount_no_cache(workload, params, **kwargs):
     query["request-cache"] = False
     return query
 
+def cheap_total_amount(workload, params, **kwargs): 
+    val_dict = get_values(params["repeat_freq"], "cheap_total_amount")
+    return get_basic_range_query("total_amount", val_dict["gte"], val_dict["lte"])
+
+def cheap_total_amount_no_cache(workload, params, **kwargs): 
+    query = cheap_total_amount(workload, params, **kwargs) 
+    query["request-cache"] = False
+    return query
+
+def cheap_pickup(workload, params, **kwargs): 
+    val_dict = get_values(params["repeat_freq"], "cheap_pickup")
+    return get_basic_range_query("pickup_datetime", val_dict["gte"], val_dict["lte"])
+
+def cheap_pickup_no_cache(workload, params, **kwargs): 
+    query = cheap_pickup(workload, params, **kwargs) 
+    query["request-cache"] = False
+    return query
+
 
 
 def register(registry):
@@ -90,4 +108,8 @@ def register(registry):
     registry.register_param_source("cheap-tip-amount-no-cache-param-source", cheap_tip_amount_no_cache)
     registry.register_param_source("cheap-fare-amount-param-source", cheap_fare_amount)
     registry.register_param_source("cheap-fare-amount-no-cache-param-source", cheap_fare_amount_no_cache)
+    registry.register_param_source("cheap-total-amount-param-source", cheap_total_amount)
+    registry.register_param_source("cheap-total-amount-no-cache-param-source", cheap_total_amount_no_cache)
+    registry.register_param_source("cheap-pickup-param-source", cheap_pickup)
+    registry.register_param_source("cheap-pickup-no-cache-param-source", cheap_pickup_no_cache)
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)
