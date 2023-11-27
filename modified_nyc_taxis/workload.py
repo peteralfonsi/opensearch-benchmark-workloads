@@ -36,7 +36,7 @@ def get_basic_range_query(field, gte, lte):
             "size": 0,
             "query": {
                 "range": {
-                    "passenger_count": {
+                    field: {
                         "gte": gte,
                         "lte": lte
                     }
