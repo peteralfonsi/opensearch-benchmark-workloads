@@ -18,14 +18,14 @@ def format_date(datetime_obj):
 
 def random_dates(min_value, max_value): 
     # arguments are datetime objects
-    min_timestamp = datetime.timestamp(min_value) 
-    max_timestamp = datetime.timestamp(max_value) 
+    min_timestamp = datetime.datetime.timestamp(min_value) 
+    max_timestamp = datetime.datetime.timestamp(max_value) 
     diff = max_timestamp - min_timestamp
     gte_fraction = random.random() # uniformly from 0 to 1
     lte_fraction = random.random(gte_fraction, 1.0)
 
-    gte_date = datetime.fromtimestamp(min_timestamp + int(gte_fraction * diff))
-    lte_date = datetime.fromtimestamp(min_timestamp + int(lte_fraction * diff))
+    gte_date = datetime.datetime.fromtimestamp(min_timestamp + int(gte_fraction * diff))
+    lte_date = datetime.datetime.fromtimestamp(min_timestamp + int(lte_fraction * diff))
     return {
         "gte":format_date(gte_date), 
         "lte":format_date(lte_date)
