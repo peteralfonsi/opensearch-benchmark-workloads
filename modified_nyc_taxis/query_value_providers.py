@@ -21,8 +21,8 @@ def random_dates(min_value, max_value):
     min_timestamp = datetime.datetime.timestamp(min_value) 
     max_timestamp = datetime.datetime.timestamp(max_value) 
     diff = max_timestamp - min_timestamp
-    gte_fraction = random.random() # uniformly from 0 to 1
-    lte_fraction = random.random(gte_fraction, 1.0)
+    gte_fraction = random.uniform(0, 1)
+    lte_fraction = random.uniform(gte_fraction, 1.0)
 
     gte_date = datetime.datetime.fromtimestamp(min_timestamp + int(gte_fraction * diff))
     lte_date = datetime.datetime.fromtimestamp(min_timestamp + int(lte_fraction * diff))
