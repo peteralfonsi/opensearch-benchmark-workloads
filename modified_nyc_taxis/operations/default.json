@@ -386,4 +386,28 @@
       "operation-type": "search", 
       "param-source": "cheap-pickup-no-cache-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "cheap-dropoff",
+      "operation-type": "search", 
+      "param-source": "cheap-dropoff-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "cheap-dropoff-no-cache",
+      "operation-type": "search", 
+      "param-source": "cheap-dropoff-no-cache-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-1",
+      "operation-type": "search", 
+      "param-source": "expensive-1-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-1-no-cache",
+      "operation-type": "search", 
+      "param-source": "expensive-1-no-cache-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
     }

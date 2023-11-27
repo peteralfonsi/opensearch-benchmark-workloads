@@ -102,6 +102,26 @@
           "operation":"cheap-pickup-no-cache", 
           "warmup-iterations": 0, 
           "iterations": 10
+        },
+        {
+          "operation":"cheap-dropoff", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"cheap-dropoff-no-cache", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"expensive-1", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"expensive-1-no-cache", 
+          "warmup-iterations": 0, 
+          "iterations": 10
         }
       ]
     }

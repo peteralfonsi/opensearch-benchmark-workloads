@@ -22,13 +22,26 @@ for fn_name in fn_names:
         raise Exception("Must generate standard values for {} using generate_standard_random_values.py!".format(fn_name))
 
 # A helper function used by all param sources to decide whether to create new values or pull from standard values
-def get_values(repeat_freq, fn_name): 
-    if random.random() < repeat_freq: 
-        upper_bound = min(max(1, fn_name_counters[fn_name]), len(standard_fn_values[fn_name]))
+# fn_name_list should contain all the fn_names you want values for. 
+# For all values, the decision whether to use existing value is the same, and 
+# the same counter value is used for all of them. (Otherwise, queries with multiple sources would almost never be cached)
+def get_values(params, fn_name_list): 
+    if random.random() < params["repeat_freq"]: 
+        # return standard (repeatable) values 
+        # pick an upper bound that works for all functions used
+        lowest_counter_value = None
+        fn_to_increment = None
+        for fn_name in fn_name_list: 
+            if fn_name_counters[fn_name] < lowest_counter_value or lowest_counter_value is None: 
+                lowest_counter_value = fn_name_counters[fn_name]
+                fn_to_increment = fn_name 
+        
+        upper_bound = min(max(1, lowest_counter_value), len(standard_fn_values[fn_to_increment]))
+        fn_name_counters[fn_to_increment] += 1
         index = random.randrange(0, upper_bound)
-        fn_name_counters[fn_name] += 1
-        return standard_fn_values[fn_name][index]
-    return fn_value_generators[fn_name]()
+
+        return [standard_fn_values[fn_name][index] for fn_name in fn_name_list]
+    return [fn_value_generators[fn_name]() for fn_name in fn_name_list]
 
 def get_basic_range_query(field, gte, lte): 
     return {
@@ -52,8 +65,7 @@ def get_basic_range_query(field, gte, lte):
 # This provider fn is also used to generate standard random values in the first place. 
 
 def cheap_passenger_count(workload, params, **kwargs): 
-    repeat_freq = params["repeat_freq"]
-    val_dict = get_values(repeat_freq, "cheap_passenger_count")
+    val_dict = get_values(params, ["cheap_passenger_count"])[0]
     # based on random_passenger_count from https://github.com/kiranprakash154/opensearch-benchmark-workloads/blob/kp/custom-workload/nyc_taxis/workload.py
     return get_basic_range_query("passenger_count", val_dict["gte"], val_dict["lte"])
 
@@ -64,7 +76,7 @@ def cheap_passenger_count_no_cache(workload, params, **kwargs):
 
 def cheap_tip_amount(workload, params, **kwargs): 
     # based on Kiran's random_tip_amount
-    val_dict = get_values(params["repeat_freq"], "cheap_tip_amount")
+    val_dict = get_values(params, ["cheap_tip_amount"])[0]
     return get_basic_range_query("tip_amount", val_dict["gte"], val_dict["lte"])
 
 def cheap_tip_amount_no_cache(workload, params, **kwargs): 
@@ -73,7 +85,7 @@ def cheap_tip_amount_no_cache(workload, params, **kwargs):
     return query
 
 def cheap_fare_amount(workload, params, **kwargs): 
-    val_dict = get_values(params["repeat_freq"], "cheap_fare_amount")
+    val_dict = get_values(params, ["cheap_fare_amount"])[0]
     return get_basic_range_query("fare_amount", val_dict["gte"], val_dict["lte"])
 
 def cheap_fare_amount_no_cache(workload, params, **kwargs):
@@ -82,7 +94,7 @@ def cheap_fare_amount_no_cache(workload, params, **kwargs):
     return query
 
 def cheap_total_amount(workload, params, **kwargs): 
-    val_dict = get_values(params["repeat_freq"], "cheap_total_amount")
+    val_dict = get_values(params, ["cheap_total_amount"])[0]
     return get_basic_range_query("total_amount", val_dict["gte"], val_dict["lte"])
 
 def cheap_total_amount_no_cache(workload, params, **kwargs): 
@@ -91,7 +103,7 @@ def cheap_total_amount_no_cache(workload, params, **kwargs):
     return query
 
 def cheap_pickup(workload, params, **kwargs): 
-    val_dict = get_values(params["repeat_freq"], "cheap_pickup")
+    val_dict = get_values(params, ["cheap_pickup"])[0]
     return get_basic_range_query("pickup_datetime", val_dict["gte"], val_dict["lte"])
 
 def cheap_pickup_no_cache(workload, params, **kwargs): 
@@ -99,6 +111,105 @@ def cheap_pickup_no_cache(workload, params, **kwargs):
     query["request-cache"] = False
     return query
 
+def cheap_dropoff(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"])[0]
+    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+
+def cheap_dropoff_no_cache(workload, params, **kwargs): 
+    query = cheap_dropoff(workload, params, **kwargs) 
+    query["request-cache"] = False
+    return query
+
+
+# modified from Kiran's expensive_1 
+# (see https://github.com/kiranprakash154/opensearch-benchmark-workloads/blob/kp/custom-workload/nyc_taxis/workload.py)
+def expensive_1(workload, params, **kwargs):
+    fn_names_list = [
+        "cheap_pickup",
+        "cheap_dropoff"
+    ]
+    vals = get_values(params, fn_names_list)
+    return {
+        "body": {
+            "size": 0,
+            "query": {
+                "bool": {
+                    "filter": [
+                        {
+                            "range": {
+                                "pickup_datetime": {
+                                    "gte": vals[0]["gte"],
+                                    "lte": vals[0]["lte"]
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "dropoff_datetime": {
+                                    "gte": vals[1]["gte"],
+                                    "lte": vals[1]["lte"]
+                                }
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "vendor_id": "Vendor XYZ"
+                            }
+                        }
+                    ]
+                }
+            },
+            "aggs": {
+                "avg_surcharge": {
+                    "avg": {
+                        "field": "surcharge"
+                    }
+                },
+                "sum_total_amount": {
+                    "sum": {
+                        "field": "total_amount"
+                    }
+                },
+                "vendor_id_terms": {
+                    "terms": {
+                        "field": "vendor_id",
+                        "size": 100
+                    },
+                    "aggs": {
+                        "avg_tip_per_vendor": {
+                            "avg": {
+                                "field": "tip_amount"
+                            }
+                        }
+                    }
+                },
+                "pickup_location_grid": {
+                    "geohash_grid": {
+                        "field": "pickup_location",
+                        "precision": 5
+                    },
+                    "aggs": {
+                        "avg_tip_per_location": {
+                            "avg": {
+                                "field": "tip_amount"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "index": 'nyc_taxis',
+        "request-cache": True,
+        "request-timeout": 60
+    }
+
+
+def expensive_1_no_cache(workload, params, **kwargs):
+    query = expensive_1(workload, params, **kwargs) 
+    query["request-cache"] = False
+    return query
 
 
 def register(registry):
@@ -112,4 +223,8 @@ def register(registry):
     registry.register_param_source("cheap-total-amount-no-cache-param-source", cheap_total_amount_no_cache)
     registry.register_param_source("cheap-pickup-param-source", cheap_pickup)
     registry.register_param_source("cheap-pickup-no-cache-param-source", cheap_pickup_no_cache)
+    registry.register_param_source("cheap-dropoff-param-source", cheap_dropoff)
+    registry.register_param_source("cheap-dropoff-no-cache-param-source", cheap_dropoff_no_cache)
+    registry.register_param_source("expensive-1-param-source", expensive_1)
+    registry.register_param_source("expensive-1-no-cache-param-source", expensive_1_no_cache)
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)

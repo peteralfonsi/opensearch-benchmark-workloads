@@ -56,6 +56,13 @@ def cheap_total_amount_provider():
 def cheap_pickup_provider(): 
     # random days between 1/1/2015 and 12/31/2015
     return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 12, 31))
+
+def cheap_dropoff_provider(): 
+    # random days between 1/1/2015 and 12/31/2015
+    # Should be different from pickup, otherwise we will use the same values 
+    # for cached queries which have both a pickup and dropoff field, which would give a range of 0 -> 
+    # non-representative results 
+    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 12, 31))
     
 
 
@@ -65,7 +72,8 @@ fn_names = [
     "cheap_tip_amount",
     "cheap_fare_amount",
     "cheap_total_amount", 
-    "cheap_pickup"
+    "cheap_pickup",
+    "cheap_dropoff", 
 ]
 
 # the value generator for each specific query
