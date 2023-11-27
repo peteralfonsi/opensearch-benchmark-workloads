@@ -3,6 +3,7 @@
       "description": "Indexes the whole document corpus using a setup that will lead to a larger indexing throughput than the default settings and produce a smaller index (higher compression rate). Document ids are unique so all index operations are append only. After that a couple of queries are run.",
       "default": true,
       "schedule": [
+        {%- if regenerate_index %}
         {
           "operation": "delete-index"
         },
@@ -53,33 +54,36 @@
         {
           "operation": "wait-until-merges-finish"
         },
+        {%- endif %}
         {
-          "operation":"cheap_passenger_count", 
+          "operation":"cheap-passenger-count", 
           "warmup-iterations": 0, 
           "iterations": 10
-          {%- if not target_throughput %}
-          ,"target-throughput": 1.5
-            {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
-            {%- else %}
-          ,"target-throughput": {{ target_throughput | tojson }}
-            {%- endif %}
-            {%-if search_clients is defined and search_clients %}
-          ,"clients": {{ search_clients | tojson}}
-            {%- endif %}
         },
         {
-          "operation":"cheap_passenger_count_no_cache", 
+          "operation":"cheap-passenger-count-no-cache", 
           "warmup-iterations": 0, 
           "iterations": 10
-          {%- if not target_throughput %}
-          ,"target-throughput": 1.5
-            {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
-            {%- else %}
-          ,"target-throughput": {{ target_throughput | tojson }}
-            {%- endif %}
-            {%-if search_clients is defined and search_clients %}
-          ,"clients": {{ search_clients | tojson}}
-            {%- endif %}
+        },
+        {
+          "operation":"cheap-tip-amount", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"cheap-tip-amount-no-cache", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"cheap-fare-amount", 
+          "warmup-iterations": 0, 
+          "iterations": 10
+        },
+        {
+          "operation":"cheap-fare-amount-no-cache", 
+          "warmup-iterations": 0, 
+          "iterations": 10
         }
       ]
     }

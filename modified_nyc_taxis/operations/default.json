@@ -351,3 +351,15 @@
       "param-source": "cheap-tip-amount-no-cache-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
+    {
+      "name": "cheap-fare-amount",
+      "operation-type": "search", 
+      "param-source": "cheap-fare-amount-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "cheap-fare-amount-no-cache",
+      "operation-type": "search", 
+      "param-source": "cheap-fare-amount-no-cache-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    }

@@ -72,6 +72,15 @@ def cheap_tip_amount_no_cache(workload, params, **kwargs):
     query["request-cache"] = False
     return query
 
+def cheap_fare_amount(workload, params, **kwargs): 
+    val_dict = get_values(params["repeat_freq"], "cheap_fare_amount")
+    return get_basic_range_query("fare_amount", val_dict["gte"], val_dict["lte"])
+
+def cheap_fare_amount_no_cache(workload, params, **kwargs):
+    query = cheap_fare_amount(workload, params, **kwargs) 
+    query["request-cache"] = False
+    return query
+
 
 
 def register(registry):
@@ -79,4 +88,6 @@ def register(registry):
     registry.register_param_source("cheap-passenger-count-no-cache-param-source", cheap_passenger_count_no_cache)
     registry.register_param_source("cheap-tip-amount-param-source", cheap_tip_amount)
     registry.register_param_source("cheap-tip-amount-no-cache-param-source", cheap_tip_amount_no_cache)
+    registry.register_param_source("cheap-fare-amount-param-source", cheap_fare_amount)
+    registry.register_param_source("cheap-fare-amount-no-cache-param-source", cheap_fare_amount_no_cache)
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)
