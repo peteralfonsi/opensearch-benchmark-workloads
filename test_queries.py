@@ -64,10 +64,7 @@ def send_test_query(query_source):
             }
             }
         }
-        },
-        "index": "nyc_taxis",
-        "request-cache": True,
-        "request-timeout": 60
+        }
         }
 
 
