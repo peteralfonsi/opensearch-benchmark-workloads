@@ -132,7 +132,7 @@ def expensive_1(workload, params, **kwargs):
     # as a test only, write these vals to file so we can check the logic allows caching 
     with open("expensive_1_values.txt", "a+") as f: 
         for val_dict in vals: 
-            f.write(json.dumps(val_dict))
+            f.write(json.dumps(val_dict) + "\n")
     return {
         "body": {
             "size": 0,
