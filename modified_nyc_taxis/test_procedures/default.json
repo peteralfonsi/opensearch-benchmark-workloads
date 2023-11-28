@@ -144,12 +144,12 @@
           "iterations": 10
         },
         {
-          "operation":"expensive-4", 
+          "operation":"expensive-4-no-cache", 
           "warmup-iterations": 0, 
           "iterations": 10
         },
         {
-          "operation":"expensive-4-no-cache", 
+          "operation":"expensive-4", 
           "warmup-iterations": 0, 
           "iterations": 10
         }

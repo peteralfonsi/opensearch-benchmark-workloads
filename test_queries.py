@@ -31,7 +31,7 @@ def send_test_query(query_source):
         "range": {
             "pickup_datetime": {
             "gte": "2015-01-01 12:45:45",
-            "lte": "2015-07-07 12:01:01"
+            "lte": "2015-07-07 12:01:11"
             }
         }
         },
