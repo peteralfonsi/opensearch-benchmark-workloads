@@ -26,7 +26,7 @@ def send_test_query(query_source):
     '''
 
     query = {
-        "size": 0,
+        "size": 100,
         "query": {
         "range": {
             "pickup_datetime": {

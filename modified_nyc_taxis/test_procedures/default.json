@@ -122,19 +122,19 @@
           "iterations": 10
         },
         {
-          "name":"expensive-1",
+          "name":"expensive-1-no-cache",
           "operation":"expensive-1", 
           "settings":{
-            "index.requests.cache.enable":true
+            "index.requests.cache.enable":false
           },
           "warmup-iterations": 0, 
           "iterations": 10
         },
         {
-          "name":"expensive-1-no-cache",
+          "name":"expensive-1",
           "operation":"expensive-1", 
           "settings":{
-            "index.requests.cache.enable":false
+            "index.requests.cache.enable":true
           },
           "warmup-iterations": 0, 
           "iterations": 10
