@@ -128,7 +128,7 @@
             "index.requests.cache.enable":false
           },
           "warmup-iterations": 0, 
-          "iterations": 10
+          "iterations": 1000
         },
         {
           "name":"expensive-1",
