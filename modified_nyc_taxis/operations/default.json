@@ -400,12 +400,6 @@
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-1-no-cache",
-      "operation-type": "search", 
-      "param-source": "expensive-1-no-cache-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
       "name": "expensive-2",
       "operation-type": "search", 
       "param-source": "expensive-2-param-source",
