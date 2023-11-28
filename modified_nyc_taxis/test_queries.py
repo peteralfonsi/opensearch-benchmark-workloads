@@ -24,8 +24,8 @@ def send_test_query(query_source):
     query = query_source(None, dummy_params)
     response = client.search(
         body = query,
-        index = "nyc_taxis", 
-        timeout=120
+        index = "nyc_taxis"
+        #timeout=120
     )
     with open(out_fp, "a+") as f: 
         f.write("****Test query for {}****".format(query_source))
