@@ -25,52 +25,51 @@ def send_test_query(query_source):
     '''
 
     query = {
-        "body": {
-                "size": 0,
-                "query": {
-                    "range": {
-                        "pickup_datetime": {
-                            "gte": "2015-01-01 12:45:45",
-                            "lte": "2015-07-07 12:01:01"
-                        }
-                    }
+        "size": 0,
+        "query": {
+        "range": {
+            "pickup_datetime": {
+            "gte": "2015-01-01 12:45:45",
+            "lte": "2015-07-07 12:01:01"
+            }
+        }
+        },
+        "aggs": {
+        "vendor_id_terms": {
+            "terms": {
+            "field": "vendor_id",
+            "size": 100
+            },
+            "aggs": {
+            "trip_type_terms": {
+                "terms": {
+                "field": "trip_type",
+                "size": 100
                 },
                 "aggs": {
-                    "vendor_id_terms": {
-                        "terms": {
-                            "field": "vendor_id",
-                            "size": 100
-                        },
-                        "aggs": {
-                            "trip_type_terms": {
-                                "terms": {
-                                    "field": "trip_type",
-                                    "size": 100
-                                },
-                                "aggs": {
-                                    "payment_type_terms": {
-                                        "terms": {
-                                            "field": "payment_type",
-                                            "size": 100
-                                        },
-                                        "aggs": {
-                                            "avg_fare_amount": {
-                                                "avg": {
-                                                    "field": "fare_amount"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                "payment_type_terms": {
+                    "terms": {
+                    "field": "payment_type",
+                    "size": 100
+                    },
+                    "aggs": {
+                    "avg_fare_amount": {
+                        "avg": {
+                        "field": "fare_amount"
                         }
                     }
+                    }
                 }
-            },
-        "index": 'nyc_taxis',
+                }
+            }
+            }
+        }
+        },
+        "index": "nyc_taxis",
         "request-cache": True,
         "request-timeout": 60
-    }
+        }
+
 
     response = client.search(
         body = query,
