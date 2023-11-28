@@ -82,10 +82,10 @@ def send_test_query(query_source):
         f.write(response)
         f.write("\n\n")
 
-sources = [
+'''sources = [
     workload.expensive_4, 
     workload.expensive_4_no_cache
-]
+]'''
 
 for query_source in sources: 
     send_test_query(query_source)
