@@ -30,14 +30,13 @@ def get_values(params, fn_name_list):
         # return standard (repeatable) values 
         # pick an upper bound that works for all functions used
         lowest_counter_value = None
-        fn_to_increment = None
+        selected_fn = None
         for fn_name in fn_name_list: 
             if lowest_counter_value is None or fn_name_counters[fn_name] < lowest_counter_value: 
                 lowest_counter_value = fn_name_counters[fn_name]
-                fn_to_increment = fn_name 
+                selected_fn = fn_name 
         
-        upper_bound = min(max(1, lowest_counter_value), len(standard_fn_values[fn_to_increment]))
-        fn_name_counters[fn_to_increment] += 1
+        upper_bound = min(max(1, lowest_counter_value), len(standard_fn_values[selected_fn]))
         index = random.randrange(0, upper_bound)
 
         return [standard_fn_values[fn_name][index] for fn_name in fn_name_list]
@@ -129,10 +128,6 @@ def expensive_1(workload, params, **kwargs):
         "cheap_dropoff"
     ]
     vals = get_values(params, fn_names_list)
-    # as a test only, write these vals to file so we can check the logic allows caching 
-    with open("expensive_1_values.txt", "a+") as f: 
-        for val_dict in vals: 
-            f.write(json.dumps(val_dict) + "\n")
     return {
         "body": {
             "size": 0,
@@ -215,6 +210,148 @@ def expensive_1_no_cache(workload, params, **kwargs):
     query["request-cache"] = False
     return query
 
+def expensive_2(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_pickup"])[0]
+    return {
+        "body": {
+                "size": 0,
+                "query": {
+                    "range": {
+                        "pickup_datetime": {
+                            "gte": val_dict["gte"],
+                            "lte": val_dict["lte"]
+                        }
+                    }
+                },
+                "aggs": {
+                    "vendor_id_terms": {
+                        "terms": {
+                            "field": "vendor_id",
+                            "size": 100
+                        },
+                        "aggs": {
+                            "avg_total_amount": {
+                                "avg": {
+                                    "field": "total_amount"
+                                }
+                            },
+                            "vendor_name_terms": {
+                                "terms": {
+                                    "field": "vendor_name.keyword",
+                                    "size": 100
+                                },
+                                "aggs": {
+                                    "avg_tip_per_vendor_name": {
+                                        "avg": {
+                                            "field": "tip_amount"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        },
+        "index": 'nyc_taxis',
+        "request-cache": True,
+        "request-timeout": 60
+    }
+def expensive_2_no_cache(workload, params, **kwargs): 
+    query = expensive_2(workload, params, **kwargs) 
+    query["request-cache"] = False 
+    return query
+
+def expensive_3(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_pickup"])[0]
+    return {
+        "body": {
+                "size": 0,
+                "query": {
+                    "range": {
+                        "pickup_datetime": {
+                            "gte": val_dict["gte"],
+                            "lte": val_dict["lte"]
+                        }
+                    }
+                },
+                "aggs": {
+                    "sum_total_amount": {
+                        "sum": {
+                            "field": "total_amount"
+                        }
+                    },
+                    "sum_tip_amount": {
+                        "sum": {
+                            "field": "tip_amount"
+                        }
+                    }
+                }
+        },
+        "index": 'nyc_taxis',
+        "request-cache": True,
+        "request-timeout": 60
+    }
+
+def expensive_3_no_cache(workload, params, **kwargs): 
+    query = expensive_3(workload, params, **kwargs) 
+    query["request-cache"] = False 
+    return query
+
+def expensive_4(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_pickup"])[0]
+    return {
+        "body": {
+                "size": 0,
+                "query": {
+                    "range": {
+                        "pickup_datetime": {
+                            "gte": val_dict["gte"],
+                            "lte": val_dict["lte"]
+                        }
+                    }
+                },
+                "aggs": {
+                    "vendor_id_terms": {
+                        "terms": {
+                            "field": "vendor_id",
+                            "size": 100
+                        },
+                        "aggs": {
+                            "trip_type_terms": {
+                                "terms": {
+                                    "field": "trip_type",
+                                    "size": 100
+                                },
+                                "aggs": {
+                                    "payment_type_terms": {
+                                        "terms": {
+                                            "field": "payment_type",
+                                            "size": 100
+                                        },
+                                        "aggs": {
+                                            "avg_fare_amount": {
+                                                "avg": {
+                                                    "field": "fare_amount"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        "index": 'nyc_taxis',
+        "request-timeout": 60
+    }
+
+def expensive_4_no_cache(workload, params, **kwargs): 
+    query = expensive_4(workload, params, **kwargs) 
+    query["request-cache"] = False 
+    return query
+
+
 
 def register(registry):
     registry.register_param_source("cheap-passenger-count-param-source", cheap_passenger_count)
@@ -231,4 +368,10 @@ def register(registry):
     registry.register_param_source("cheap-dropoff-no-cache-param-source", cheap_dropoff_no_cache)
     registry.register_param_source("expensive-1-param-source", expensive_1)
     registry.register_param_source("expensive-1-no-cache-param-source", expensive_1_no_cache)
+    registry.register_param_source("expensive-2-param-source", expensive_2)
+    registry.register_param_source("expensive-2-no-cache-param-source", expensive_2_no_cache)
+    registry.register_param_source("expensive-3-param-source", expensive_3)
+    registry.register_param_source("expensive-3-no-cache-param-source", expensive_3_no_cache)
+    registry.register_param_source("expensive-4-param-source", expensive_4)
+    registry.register_param_source("expensive-4-no-cache-param-source", expensive_4_no_cache)
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)
