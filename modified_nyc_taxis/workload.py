@@ -32,7 +32,7 @@ def get_values(params, fn_name_list):
         lowest_counter_value = None
         fn_to_increment = None
         for fn_name in fn_name_list: 
-            if fn_name_counters[fn_name] < lowest_counter_value or lowest_counter_value is None: 
+            if lowest_counter_value is None or fn_name_counters[fn_name] < lowest_counter_value: 
                 lowest_counter_value = fn_name_counters[fn_name]
                 fn_to_increment = fn_name 
         
