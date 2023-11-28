@@ -1,7 +1,7 @@
 from opensearchpy import OpenSearch
 import opensearchpy
 import requests 
-import time
+import datetime
 import json
 
 client = OpenSearch(
@@ -68,12 +68,14 @@ def send_test_query(query_source):
         }
         }
 
-
+    now = datetime.datetime.now().timestamp()
     response = client.search(
         body = query,
         index = "nyc_taxis"
         #timeout=120
     )
+    elapsed = datetime.datetime.now().timestamp() - now 
+    print("Time took: {}".format(elapsed))
     
     with open(out_fp, "a+") as f: 
         f.write("****Test query for {}****".format(query_source))
