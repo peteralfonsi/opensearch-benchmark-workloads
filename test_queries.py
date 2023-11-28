@@ -92,3 +92,5 @@ def send_test_query(query_source):
 
 for query_source in sources: 
     send_test_query(query_source)'''
+
+send_test_query(None)
