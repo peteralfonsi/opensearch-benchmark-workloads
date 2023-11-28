@@ -2,6 +2,7 @@ from opensearchpy import OpenSearch
 import opensearchpy
 import requests 
 import time
+import json
 
 client = OpenSearch(
     hosts = [{'host': "localhost", 'port': 9200}],
@@ -73,12 +74,10 @@ def send_test_query(query_source):
         index = "nyc_taxis"
         #timeout=120
     )
-
-    time.sleep(10)
     
     with open(out_fp, "a+") as f: 
         f.write("****Test query for {}****".format(query_source))
-        f.write(response)
+        f.write(json.dumps(response))
         f.write("\n\n")
 
 '''sources = [
