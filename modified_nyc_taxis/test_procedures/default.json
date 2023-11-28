@@ -54,12 +54,20 @@
           "operation": "wait-until-merges-finish"
         },
         {
+          "name":"cheap-passenger-count",
           "operation":"cheap-passenger-count", 
+          "settings": {
+            "index.requests.cache.enable":true
+          },
           "warmup-iterations": 0, 
           "iterations": 10
         },
         {
-          "operation":"cheap-passenger-count-no-cache", 
+          "name":"cheap-passenger-count-no-cache",
+          "operation":"cheap-passenger-count", 
+          "settings": {
+            "index.requests.cache.enable":false
+          },
           "warmup-iterations": 0, 
           "iterations": 10
         },

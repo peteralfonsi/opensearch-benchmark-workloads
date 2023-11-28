@@ -55,8 +55,8 @@ def get_basic_range_query(field, gte, lte):
                 }
             }
         },
-        "index": 'nyc_taxis',
-        "request-cache": True
+        "index": 'nyc_taxis'
+        #"request-cache": True
     }
 
 # Each specific query has a wrapper, which is actually used a param source, and a function that provides values, 
@@ -68,10 +68,10 @@ def cheap_passenger_count(workload, params, **kwargs):
     # based on random_passenger_count from https://github.com/kiranprakash154/opensearch-benchmark-workloads/blob/kp/custom-workload/nyc_taxis/workload.py
     return get_basic_range_query("passenger_count", val_dict["gte"], val_dict["lte"])
 
-def cheap_passenger_count_no_cache(workload, params, **kwargs): 
+'''def cheap_passenger_count_no_cache(workload, params, **kwargs): 
     query = cheap_passenger_count(workload, params, **kwargs)
     query["request-cache"] = False
-    return query
+    return query'''
 
 def cheap_tip_amount(workload, params, **kwargs): 
     # based on Kiran's random_tip_amount
@@ -356,7 +356,7 @@ def expensive_4_no_cache(workload, params, **kwargs):
 
 def register(registry):
     registry.register_param_source("cheap-passenger-count-param-source", cheap_passenger_count)
-    registry.register_param_source("cheap-passenger-count-no-cache-param-source", cheap_passenger_count_no_cache)
+    #registry.register_param_source("cheap-passenger-count-no-cache-param-source", cheap_passenger_count_no_cache)
     registry.register_param_source("cheap-tip-amount-param-source", cheap_tip_amount)
     registry.register_param_source("cheap-tip-amount-no-cache-param-source", cheap_tip_amount_no_cache)
     registry.register_param_source("cheap-fare-amount-param-source", cheap_fare_amount)

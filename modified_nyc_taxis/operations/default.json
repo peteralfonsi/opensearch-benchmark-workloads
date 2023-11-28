@@ -382,12 +382,6 @@
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-pickup-no-cache",
-      "operation-type": "search", 
-      "param-source": "cheap-pickup-no-cache-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
       "name": "cheap-dropoff",
       "operation-type": "search", 
       "param-source": "cheap-dropoff-param-source",
