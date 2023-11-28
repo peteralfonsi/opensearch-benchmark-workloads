@@ -1,8 +1,7 @@
 from opensearchpy import OpenSearch
 import opensearchpy
 import requests 
-from .workload import *
-from .query_value_providers import fn_names, fn_value_generators
+import workload
 
 client = OpenSearch(
     hosts = [{'host': "localhost", 'port': 9200}],
@@ -33,8 +32,8 @@ def send_test_query(query_source):
         f.write("\n\n")
 
 sources = [
-    expensive_4, 
-    expensive_4_no_cache
+    workload.expensive_4, 
+    workload.expensive_4_no_cache
 ]
 
 for query_source in sources: 
