@@ -1,6 +1,7 @@
 import random
 import json
-from .query_value_providers import fn_names, fn_value_generators
+#from .query_value_providers import fn_names, fn_value_generators
+import query_value_providers
 import os
 
 
@@ -12,7 +13,7 @@ async def delete_snapshot(opensearch, params):
 standard_fn_values = {} # keeps a list of the standard values for each fn, for use in repeated queries
 fn_name_counters = {} # keeps track of how many times we have pulled from the standard values, for each fn
 
-for fn_name in fn_names: 
+for fn_name in query_value_providers.fn_names: 
     fn_name_counters[fn_name] = 0
     try:
         fp = os.path.dirname(os.path.realpath(__file__)) + "/" + "standard_values/{}_values.json".format(fn_name)
@@ -40,7 +41,7 @@ def get_values(params, fn_name_list):
         index = random.randrange(0, upper_bound)
 
         return [standard_fn_values[fn_name][index] for fn_name in fn_name_list]
-    return [fn_value_generators[fn_name]() for fn_name in fn_name_list]
+    return [query_value_providers.fn_value_generators[fn_name]() for fn_name in fn_name_list]
 
 def get_basic_range_query(field, gte, lte): 
     return {
