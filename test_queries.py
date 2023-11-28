@@ -1,7 +1,6 @@
 from opensearchpy import OpenSearch
 import opensearchpy
 import requests 
-import workload
 
 client = OpenSearch(
     hosts = [{'host': "localhost", 'port': 9200}],
