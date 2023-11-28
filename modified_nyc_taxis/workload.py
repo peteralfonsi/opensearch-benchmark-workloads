@@ -200,15 +200,14 @@ def expensive_1(workload, params, **kwargs):
             }
         },
         "index": 'nyc_taxis',
-        "request-cache": True,
         "request-timeout": 60
     }
 
 
-def expensive_1_no_cache(workload, params, **kwargs):
+'''def expensive_1_no_cache(workload, params, **kwargs):
     query = expensive_1(workload, params, **kwargs) 
     query["request-cache"] = False
-    return query
+    return query'''
 
 def expensive_2(workload, params, **kwargs): 
     val_dict = get_values(params, ["cheap_pickup"])[0]
@@ -368,7 +367,7 @@ def register(registry):
     registry.register_param_source("cheap-dropoff-param-source", cheap_dropoff)
     registry.register_param_source("cheap-dropoff-no-cache-param-source", cheap_dropoff_no_cache)
     registry.register_param_source("expensive-1-param-source", expensive_1)
-    registry.register_param_source("expensive-1-no-cache-param-source", expensive_1_no_cache)
+    #registry.register_param_source("expensive-1-no-cache-param-source", expensive_1_no_cache)
     registry.register_param_source("expensive-2-param-source", expensive_2)
     registry.register_param_source("expensive-2-no-cache-param-source", expensive_2_no_cache)
     registry.register_param_source("expensive-3-param-source", expensive_3)
