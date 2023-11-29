@@ -124,8 +124,9 @@ complex_no_aggs_query = {
 
 def send_test_query(): 
     for query, str_name in zip(
-        [expensive_4_query, medium_query, small_query, no_aggs_query, complex_no_aggs_query],
-        ["expensive_4_query", "medium_query", "small_query", "no_aggs_query", "complex_no_aggs_query"]):
+        #[expensive_4_query, medium_query, small_query, no_aggs_query, complex_no_aggs_query],
+        #["expensive_4_query", "medium_query", "small_query", "no_aggs_query", "complex_no_aggs_query"]):
+        [small_query], ["small_query"]):
         now = datetime.datetime.now().timestamp()
         response = client.search(
             body = no_aggs_query,
