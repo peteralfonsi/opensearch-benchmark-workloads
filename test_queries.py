@@ -106,9 +106,8 @@ medium_query = query = {
         }
         }
 
-def send_test_query(query_source): 
+def send_test_query(): 
     
-
     now = datetime.datetime.now().timestamp()
     response = client.search(
         body = medium_query,
