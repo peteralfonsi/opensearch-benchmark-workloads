@@ -14,12 +14,6 @@ client = OpenSearch(
     ssl_show_warn = False
 )
 
-saved_queries = "modified_nyc_taxis/saved_queries.txt"
-out_fp = "modified_nyc_taxis/test_query_responses.txt"
-
-with open(out_fp, "w") as f: 
-    f.write("")
-
 expensive_4_query = query = {
         "size": 100,
         "query": {
@@ -63,8 +57,28 @@ expensive_4_query = query = {
         }
         }
 
-medium_query = query = {
+medium_query = {
         "size": 100,
+        "query": {
+        "range": {
+            "pickup_datetime": {
+            "gte": "2015-01-01 12:45:45",
+            "lte": "2015-07-07 12:01:11"
+            }
+        }
+        },
+        "aggs": {
+        "vendor_id_terms": {
+            "terms": {
+            "field": "vendor_id",
+            "size": 10
+            },
+        }
+        }
+        }
+
+small_query = {
+        "size": 0,
         "query": {
         "range": {
             "pickup_datetime": {
@@ -87,7 +101,7 @@ def send_test_query():
     
     now = datetime.datetime.now().timestamp()
     response = client.search(
-        body = medium_query,
+        body = small_query,
         index = "nyc_taxis",
         request_timeout=120
     )
