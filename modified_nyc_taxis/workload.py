@@ -35,7 +35,7 @@ def get_values(params, fn_name_list, query_type):
     if random.random() < params["repeat_freq"]: 
         # We should return standard (repeatable) values 
         # First, pick a value in [0, current counter value]
-        i = random.randrange(0, query_type_counters[query_type])
+        i = random.randrange(0, query_type_counters[query_type] + 1)
         # Make sure this value doesn't exceed the length of the shortest list of standard function values which we are using
         shortest_standard_list = min([len(standard_fn_values[fn_name]) for fn_name in fn_name_list]) 
         i = min(i, shortest_standard_list-1)
