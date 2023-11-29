@@ -97,11 +97,23 @@ small_query = {
         }
         }
 
+no_aggs_query = { 
+    "size": 0,
+        "query": {
+        "range": {
+            "pickup_datetime": {
+            "gte": "2015-01-01 12:45:45",
+            "lte": "2015-07-07 12:01:11"
+            }
+        }
+        },
+}
+
 def send_test_query(): 
     
     now = datetime.datetime.now().timestamp()
     response = client.search(
-        body = small_query,
+        body = no_aggs_query,
         index = "nyc_taxis",
         request_timeout=120
     )
