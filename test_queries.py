@@ -20,12 +20,7 @@ out_fp = "modified_nyc_taxis/test_query_responses.txt"
 with open(out_fp, "w") as f: 
     f.write("")
 
-def send_test_query(query_source): 
-    '''dummy_params = {"repeat_freq":1.0}
-    query = query_source(None, dummy_params)
-    '''
-
-    query = {
+expensive_4_query = query = {
         "size": 100,
         "query": {
         "range": {
@@ -68,9 +63,55 @@ def send_test_query(query_source):
         }
         }
 
+medium_query = query = {
+        "size": 100,
+        "query": {
+        "range": {
+            "pickup_datetime": {
+            "gte": "2015-01-01 12:45:45",
+            "lte": "2015-07-07 12:01:11"
+            }
+        }
+        },
+        "aggs": {
+        "vendor_id_terms": {
+            "terms": {
+            "field": "vendor_id",
+            "size": 10
+            },
+            "aggs": {
+            "trip_type_terms": {
+                "terms": {
+                "field": "trip_type",
+                "size": 10
+                },
+                "aggs": {
+                "payment_type_terms": {
+                    "terms": {
+                    "field": "payment_type",
+                    "size": 10
+                    },
+                    "aggs": {
+                    "avg_fare_amount": {
+                        "avg": {
+                        "field": "fare_amount"
+                        }
+                    }
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+        }
+
+def send_test_query(query_source): 
+    
+
     now = datetime.datetime.now().timestamp()
     response = client.search(
-        body = query,
+        body = medium_query,
         index = "nyc_taxis",
         request_timeout=120
     )
@@ -82,12 +123,4 @@ def send_test_query(query_source):
         f.write(json.dumps(response))
         f.write("\n\n")
 
-'''sources = [
-    workload.expensive_4, 
-    workload.expensive_4_no_cache
-]
-
-for query_source in sources: 
-    send_test_query(query_source)'''
-
-send_test_query(None)
+send_test_query()
