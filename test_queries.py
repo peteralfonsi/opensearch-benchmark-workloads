@@ -119,6 +119,7 @@ def send_test_query():
     )
     elapsed = datetime.datetime.now().timestamp() - now 
     print("Time took: {}".format(elapsed))
+    print("Response size: {}".format(response))
 
 
 send_test_query()
