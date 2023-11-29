@@ -340,21 +340,9 @@
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-tip-amount-no-cache",
-      "operation-type": "search", 
-      "param-source": "cheap-tip-amount-no-cache-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
       "name": "cheap-fare-amount",
       "operation-type": "search", 
       "param-source": "cheap-fare-amount-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "cheap-fare-amount-no-cache",
-      "operation-type": "search", 
-      "param-source": "cheap-fare-amount-no-cache-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
@@ -364,33 +352,15 @@
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-total-amount-no-cache",
-      "operation-type": "search", 
-      "param-source": "cheap-total-amount-no-cache-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
       "name": "cheap-pickup",
       "operation-type": "search", 
       "param-source": "cheap-pickup-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-pickup-no-cache",
-      "operation-type": "search", 
-      "param-source": "cheap-pickup-no-cache-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
       "name": "cheap-dropoff",
       "operation-type": "search", 
       "param-source": "cheap-dropoff-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "cheap-dropoff-no-cache",
-      "operation-type": "search", 
-      "param-source": "cheap-dropoff-no-cache-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
@@ -406,32 +376,14 @@
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-2-no-cache",
-      "operation-type": "search", 
-      "param-source": "expensive-2-no-cache-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
       "name": "expensive-3",
       "operation-type": "search", 
       "param-source": "expensive-3-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-3-no-cache",
-      "operation-type": "search", 
-      "param-source": "expensive-3-no-cache-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
       "name": "expensive-4",
       "operation-type": "search", 
       "param-source": "expensive-4-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-4-no-cache",
-      "operation-type": "search", 
-      "param-source": "expensive-4-no-cache-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     }
