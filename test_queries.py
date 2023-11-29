@@ -72,7 +72,7 @@ def send_test_query(query_source):
     response = client.search(
         body = query,
         index = "nyc_taxis"
-        #timeout=120
+        request_timeout=120
     )
     elapsed = datetime.datetime.now().timestamp() - now 
     print("Time took: {}".format(elapsed))
