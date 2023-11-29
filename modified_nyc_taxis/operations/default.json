@@ -364,26 +364,80 @@
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-1",
+      "name": "expensive-distance-amount-agg",
       "operation-type": "search", 
-      "param-source": "expensive-1-param-source",
+      "param-source": "expensive-distance-amount-agg-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-2",
+      "name": "expensive-autohisto-agg",
       "operation-type": "search", 
-      "param-source": "expensive-2-param-source",
+      "param-source": "expensive-autohisto-agg-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-3",
+      "name": "expensive-date-histogram-agg",
       "operation-type": "search", 
-      "param-source": "expensive-3-param-source",
+      "param-source": "expensive-date-histogram-agg-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-4",
+      "name": "expensive-date-histogram-calendar-interval",
       "operation-type": "search", 
-      "param-source": "expensive-4-param-source",
+      "param-source": "expensive-date-histogram-calendar-interval-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
-    }
+    },
+    {
+      "name": "expensive-date-histogram-calendar-interval-with-tz",
+      "operation-type": "search", 
+      "param-source": "expensive-date-histogram-calendar-interval-with-tz-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-date-histogram-fixed-interval",
+      "operation-type": "search", 
+      "param-source": "expensive-date-histogram-fixed-interval-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-date-histogram-fixed-interval-with-tz",
+      "operation-type": "search", 
+      "param-source": "expensive-date-histogram-fixed-interval-with-tz-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-date-histogram-fixed-interval-with-metrics",
+      "operation-type": "search", 
+      "param-source": "expensive-date-histogram-fixed-interval-with-metrics-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-auto-date-histogram",
+      "operation-type": "search", 
+      "param-source": "expensive-auto-date-histogram-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-auto-date-histogram-with-tz",
+      "operation-type": "search", 
+      "param-source": "expensive-auto-date-histogram-with-tz-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "expensive-auto-date-histogram-with-metrics",
+      "operation-type": "search", 
+      "param-source": "expensive-auto-date-histogram-with-metrics-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+
+    registry.register_param_source("expensive-distance-amount-agg-param-source", expensive_distance_amount_agg)
+    registry.register_param_source("expensive-autohisto-agg-param-source", expensive_autohisto_agg)
+    registry.register_param_source("expensive-date-histogram-agg-param-source", expensive_date_histogram_agg)
+    registry.register_param_source("expensive-date-histogram-calendar-interval-param-source", expensive_date_histogram_calendar_interval)
+    registry.register_param_source("expensive-date-histogram-calendar-interval-with-tz-param-source", expensive_date_histogram_calendar_interval_with_tz)
+    registry.register_param_source("expensive-date-histogram-fixed-interval-param-source", expensive_date_histogram_fixed_interval)
+    registry.register_param_source("expensive-date-histogram-fixed-interval-with-tz-param-source", expensive_date_histogram_fixed_interval_with_tz)
+    registry.register_param_source("expensive-date-histogram-fixed-interval-with-metrics-param-source", expensive_date_histogram_fixed_interval_with_metrics)
+    registry.register_param_source("expensive-auto-date-histogram-param-source", expensive_auto_date_histogram)
+    registry.register_param_source("expensive-auto-date-histogram-with-tz-param-source", expensive_auto_date_histogram_with_tz)
+    registry.register_param_source("expensive-auto-date-histogram-with-metrics-param-source", expensive_auto_date_histogram_with_metrics)

@@ -21,7 +21,19 @@ for fn_name in fn_names:
         raise Exception("Must generate standard values for {} using generate_standard_random_values.py!".format(fn_name))
 
 # Make the list of all query types so we can keep track of counters for each
-query_types = fn_names + ["expensive_1", "expensive_2", "expensive_3", "expensive_4"]
+query_types = fn_names + [
+    "expensive_distance_amount_agg",
+    "expensive_autohisto_agg",
+    "expensive_date_histogram_agg",
+    "expensive_date_histogram_calendar_interval",
+    "expensive_date_histogram_calendar_interval_with_tz",
+    "expensive_date_histogram_fixed_interval",
+    "expensive_date_histogram_fixed_interval_with_tz",
+    "expensive_date_histogram_fixed_interval_with_metrics",
+    "expensive_auto_date_histogram",
+    "expensive_auto_date_histogram_with_tz",
+    "expensive_auto_date_histogram_with_metrics"
+]
 query_type_counters = {} # keeps track of how many times we have pulled from the standard values, for each query type
 
 for query_type in query_types: 
@@ -94,218 +106,305 @@ def cheap_dropoff(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "cheap_dropoff")[0]
     return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
 
-# modified from Kiran's expensive_1 
-# (see https://github.com/kiranprakash154/opensearch-benchmark-workloads/blob/kp/custom-workload/nyc_taxis/workload.py)
-def expensive_1(workload, params, **kwargs):
-    fn_names_list = [
-        "cheap_pickup",
-        "cheap_dropoff"
-    ]
-    vals = get_values(params, fn_names_list, "expensive_1")
+
+# The following are randomized versions of the existing agg operations in nyc_taxis/operations/default.json
+def expensive_distance_amount_agg(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_trip_distance"], "expensive_distance_amount_agg")[0]
     return {
-        "body": {
-            "size": 0,
-            "query": {
-                "bool": {
-                    "filter": [
-                        {
-                            "range": {
-                                "pickup_datetime": {
-                                    "gte": vals[0]["gte"],
-                                    "lte": vals[0]["lte"]
-                                }
-                            }
-                        },
-                        {
-                            "range": {
-                                "dropoff_datetime": {
-                                    "gte": vals[1]["gte"],
-                                    "lte": vals[1]["lte"]
-                                }
-                            }
-                        }
-                    ],
-                    "must_not": [
-                        {
-                            "term": {
-                                "vendor_id": "Vendor XYZ"
-                            }
-                        }
-                    ]
+      "body": {
+        "size": 0,
+        "query": {
+          "bool": {
+            "filter": {
+              "range": {
+                "trip_distance": {
+                  "lt": val_dict["lte"],
+                  "gte": val_dict["gte"]
                 }
+              }
+            }
+          }
+        },
+        "aggs": {
+          "distance_histo": {
+            "histogram": {
+              "field": "trip_distance",
+              "interval": 1
             },
             "aggs": {
-                "avg_surcharge": {
-                    "avg": {
-                        "field": "surcharge"
-                    }
-                },
-                "sum_total_amount": {
-                    "sum": {
-                        "field": "total_amount"
-                    }
-                },
-                "vendor_id_terms": {
-                    "terms": {
-                        "field": "vendor_id",
-                        "size": 100
-                    },
-                    "aggs": {
-                        "avg_tip_per_vendor": {
-                            "avg": {
-                                "field": "tip_amount"
-                            }
-                        }
-                    }
-                },
-                "pickup_location_grid": {
-                    "geohash_grid": {
-                        "field": "pickup_location",
-                        "precision": 5
-                    },
-                    "aggs": {
-                        "avg_tip_per_location": {
-                            "avg": {
-                                "field": "tip_amount"
-                            }
-                        }
-                    }
+              "total_amount_stats": {
+                "stats": {
+                  "field": "total_amount"
                 }
+              }
             }
-        },
-        "index": 'nyc_taxis',
-        "request-timeout": 60
+          }
+        }
+      },
+      "index":"nyc_taxis"
     }
 
-def expensive_2(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_pickup"], "expensive_2")[0]
+def expensive_autohisto_agg(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_autohisto_agg")[0]
     return {
-        "body": {
-                "size": 0,
-                "query": {
-                    "range": {
-                        "pickup_datetime": {
-                            "gte": val_dict["gte"],
-                            "lte": val_dict["lte"]
-                        }
-                    }
-                },
-                "aggs": {
-                    "vendor_id_terms": {
-                        "terms": {
-                            "field": "vendor_id",
-                            "size": 100
-                        },
-                        "aggs": {
-                            "avg_total_amount": {
-                                "avg": {
-                                    "field": "total_amount"
-                                }
-                            },
-                            "vendor_name_terms": {
-                                "terms": {
-                                    "field": "vendor_name.keyword",
-                                    "size": 100
-                                },
-                                "aggs": {
-                                    "avg_tip_per_vendor_name": {
-                                        "avg": {
-                                            "field": "tip_amount"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lte": val_dict["lte"]
+            }
+          }
         },
-        "index": 'nyc_taxis',
-        "request-cache": True,
-        "request-timeout": 60
+        "aggs": {
+          "dropoffs_over_time": {
+            "auto_date_histogram": {
+              "field": "dropoff_datetime",
+              "buckets": 20
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
     }
 
-def expensive_3(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_pickup"], "expensive_3")[0]
+def expensive_date_histogram_agg(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_agg")[0]
     return {
-        "body": {
-                "size": 0,
-                "query": {
-                    "range": {
-                        "pickup_datetime": {
-                            "gte": val_dict["gte"],
-                            "lte": val_dict["lte"]
-                        }
-                    }
-                },
-                "aggs": {
-                    "sum_total_amount": {
-                        "sum": {
-                            "field": "total_amount"
-                        }
-                    },
-                    "sum_tip_amount": {
-                        "sum": {
-                            "field": "tip_amount"
-                        }
-                    }
-                }
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+              "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lte": val_dict["lte"]
+            }
+          }
         },
-        "index": 'nyc_taxis',
-        "request-cache": True,
-        "request-timeout": 60
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "calendar_interval": "day"
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
     }
 
-def expensive_4(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_pickup"], "expensive_4")[0]
+def expensive_date_histogram_calendar_interval(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_calendar_interval")[0]
     return {
         "body": {
-                "size": 0,
-                "query": {
-                    "range": {
-                        "pickup_datetime": {
-                            "gte": val_dict["gte"],
-                            "lte": val_dict["lte"]
-                        }
-                    }
-                },
-                "aggs": {
-                    "vendor_id_terms": {
-                        "terms": {
-                            "field": "vendor_id",
-                            "size": 100
-                        },
-                        "aggs": {
-                            "trip_type_terms": {
-                                "terms": {
-                                    "field": "trip_type",
-                                    "size": 100
-                                },
-                                "aggs": {
-                                    "payment_type_terms": {
-                                        "terms": {
-                                            "field": "payment_type",
-                                            "size": 100
-                                        },
-                                        "aggs": {
-                                            "avg_fare_amount": {
-                                                "avg": {
-                                                    "field": "fare_amount"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "calendar_interval": "month"
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
+    }
+
+def expensive_date_histogram_calendar_interval_with_tz(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_calendar_interval_with_tz")[0]
+    return {
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "calendar_interval": "month",
+              "time_zone": "America/New_York"
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
+    }
+
+def expensive_date_histogram_fixed_interval(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval")[0]
+    return {
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "fixed_interval": "60d"
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
+    }
+
+def expensive_date_histogram_fixed_interval_with_tz(workload, params, **kwargs):
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval_with_tz")[0] 
+    return {
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "fixed_interval": "60d",
+              "time_zone": "America/New_York"
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
+    }
+def expensive_date_histogram_fixed_interval_with_metrics(workload, params, **kwargs):
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval_with_metrics")[0] 
+    return {
+      "name": "date_histogram_fixed_interval_with_metrics",
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "fixed_interval": "60d"
             },
-        "index": 'nyc_taxis',
-        "request-cache": True,
-        "request-timeout": 60
+            "aggs": {
+              "total_amount": { "stats": { "field": "total_amount" } },
+              "tip_amount": { "stats": { "field": "tip_amount" } },
+              "trip_distance": { "stats": { "field": "trip_distance" } }
+            }
+          }
+        }
+      }
     }
 
+def expensive_auto_date_histogram(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram")[0] 
+    return {
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": "2015-01-01 00:00:00",
+              "lt": "2016-01-01 00:00:00"
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "auto_date_histogram": {
+              "field": "dropoff_datetime",
+              "buckets": "12"
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
+    }
 
+def expensive_auto_date_histogram_with_tz(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram_with_tz")[0] 
+    return {
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "auto_date_histogram": {
+              "field": "dropoff_datetime",
+              "buckets": "13",
+              "time_zone": "America/New_York"
+            }
+          }
+        }
+      }
+    }
+
+def expensive_auto_date_histogram_with_metrics(workload, params, **kwargs): 
+    val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram_with_metrics")[0] 
+    return {
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "auto_date_histogram": {
+              "field": "dropoff_datetime",
+              "buckets": "12"
+            },
+            "aggs": {
+              "total_amount": { "stats": { "field": "total_amount" } },
+              "tip_amount": { "stats": { "field": "tip_amount" } },
+              "trip_distance": { "stats": { "field": "trip_distance" } }
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
+    }
 
 def register(registry):
     registry.register_param_source("cheap-passenger-count-param-source", cheap_passenger_count)
@@ -314,8 +413,15 @@ def register(registry):
     registry.register_param_source("cheap-total-amount-param-source", cheap_total_amount)
     registry.register_param_source("cheap-pickup-param-source", cheap_pickup)
     registry.register_param_source("cheap-dropoff-param-source", cheap_dropoff)
-    registry.register_param_source("expensive-1-param-source", expensive_1)
-    registry.register_param_source("expensive-2-param-source", expensive_2)
-    registry.register_param_source("expensive-3-param-source", expensive_3)
-    registry.register_param_source("expensive-4-param-source", expensive_4)
+    registry.register_param_source("expensive-distance-amount-agg-param-source", expensive_distance_amount_agg)
+    registry.register_param_source("expensive-autohisto-agg-param-source", expensive_autohisto_agg)
+    registry.register_param_source("expensive-date-histogram-agg-param-source", expensive_date_histogram_agg)
+    registry.register_param_source("expensive-date-histogram-calendar-interval-param-source", expensive_date_histogram_calendar_interval)
+    registry.register_param_source("expensive-date-histogram-calendar-interval-with-tz-param-source", expensive_date_histogram_calendar_interval_with_tz)
+    registry.register_param_source("expensive-date-histogram-fixed-interval-param-source", expensive_date_histogram_fixed_interval)
+    registry.register_param_source("expensive-date-histogram-fixed-interval-with-tz-param-source", expensive_date_histogram_fixed_interval_with_tz)
+    registry.register_param_source("expensive-date-histogram-fixed-interval-with-metrics-param-source", expensive_date_histogram_fixed_interval_with_metrics)
+    registry.register_param_source("expensive-auto-date-histogram-param-source", expensive_auto_date_histogram)
+    registry.register_param_source("expensive-auto-date-histogram-with-tz-param-source", expensive_auto_date_histogram_with_tz)
+    registry.register_param_source("expensive-auto-date-histogram-with-metrics-param-source", expensive_auto_date_histogram_with_metrics)
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)

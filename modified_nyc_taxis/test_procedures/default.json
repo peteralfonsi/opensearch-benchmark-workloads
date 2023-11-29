@@ -162,26 +162,8 @@
           "iterations": 10
         },
         {
-          "name":"expensive-1",
-          "operation":"expensive-1", 
-          "settings":{
-            "index.requests.cache.enable":true
-          },
-          "warmup-iterations": 10, 
-          "iterations": 70
-        },
-        {
-          "name":"expensive-1-no-cache",
-          "operation":"expensive-1", 
-          "settings":{
-            "index.requests.cache.enable":false
-          },
-          "warmup-iterations": 10, 
-          "iterations": 70
-        },
-        {
-          "name":"expensive-2", 
-          "operation":"expensive-2",
+          "name":"expensive-distance-amount-agg", 
+          "operation":"expensive-distance-amount-agg",
           "settings": {
             "index.requests.cache.enable":true
           }, 
@@ -189,8 +171,8 @@
           "iterations": 10
         },
         {
-          "name":"expensive-2-no-cache", 
-          "operation":"expensive-2",
+          "name":"expensive-distance-amount-agg-no-cache", 
+          "operation":"expensive-distance-amount-agg",
           "settings": {
             "index.requests.cache.enable":false
           }, 
@@ -198,8 +180,8 @@
           "iterations": 10
         },
         {
-          "name":"expensive-3", 
-          "operation":"expensive-3", 
+          "name":"expensive-autohisto-agg", 
+          "operation":"expensive-autohisto-agg",
           "settings": {
             "index.requests.cache.enable":true
           }, 
@@ -207,8 +189,8 @@
           "iterations": 10
         },
         {
-          "name":"expensive-3-no-cache", 
-          "operation":"expensive-3", 
+          "name":"expensive-autohisto-agg-no-cache", 
+          "operation":"expensive-autohisto-agg",
           "settings": {
             "index.requests.cache.enable":false
           }, 
@@ -216,17 +198,161 @@
           "iterations": 10
         },
         {
-          "name":"expensive-4",
-          "operation":"expensive-4",
+          "name":"expensive-date-histogram-agg", 
+          "operation":"expensive-date-histogram-agg",
           "settings": {
             "index.requests.cache.enable":true
-          },  
+          }, 
           "warmup-iterations": 10, 
           "iterations": 10
         },
         {
-          "name":"expensive-4-no-cache", 
-          "operation":"expensive-4", 
+          "name":"expensive-date-histogram-agg-no-cache", 
+          "operation":"expensive-date-histogram-agg",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-calendar-interval", 
+          "operation":"expensive-date-histogram-calendar-interval",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-calendar-interval-no-cache", 
+          "operation":"expensive-date-histogram-calendar-interval",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-calendar-interval-with-tz", 
+          "operation":"expensive-date-histogram-calendar-interval-with-tz",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-calendar-interval-with-tz-no-cache", 
+          "operation":"expensive-date-histogram-calendar-interval-with-tz",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-fixed-interval", 
+          "operation":"expensive-date-histogram-fixed-interval",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-fixed-interval-no-cache", 
+          "operation":"expensive-date-histogram-fixed-interval",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-fixed-interval-with-tz", 
+          "operation":"expensive-date-histogram-fixed-interval-with-tz",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-fixed-interval-with-tz-no-cache", 
+          "operation":"expensive-date-histogram-fixed-interval-with-tz",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-fixed-interval-with-metrics", 
+          "operation":"expensive-date-histogram-fixed-interval-with-metrics",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-date-histogram-fixed-interval-with-metrics-no-cache", 
+          "operation":"expensive-date-histogram-fixed-interval-with-metrics",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-auto-date-histogram", 
+          "operation":"expensive-auto-date-histogram",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-auto-date-histogram-no-cache", 
+          "operation":"expensive-auto-date-histogram",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-auto-date-histogram-with-tz", 
+          "operation":"expensive-auto-date-histogram-with-tz",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-auto-date-histogram-with-tz-no-cache", 
+          "operation":"expensive-auto-date-histogram-with-tz",
+          "settings": {
+            "index.requests.cache.enable":false
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-auto-date-histogram-with-metrics", 
+          "operation":"cexpensive-auto-date-histogram-with-metrics",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 10, 
+          "iterations": 10
+        },
+        {
+          "name":"expensive-auto-date-histogram-with-metrics-no-cache", 
+          "operation":"expensive-auto-date-histogram-with-metrics",
           "settings": {
             "index.requests.cache.enable":false
           }, 

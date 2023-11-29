@@ -63,6 +63,11 @@ def cheap_dropoff_provider():
     # for cached queries which have both a pickup and dropoff field, which would give a range of 0 -> 
     # non-representative results 
     return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 12, 31))
+
+def cheap_distance_provider(): 
+    gte = random.randint(0, 40)
+    lte = random.randint(gte, 70)
+    return {"gte":gte, "lte":lte}
     
 
 
@@ -74,6 +79,7 @@ fn_names = [
     "cheap_total_amount", 
     "cheap_pickup",
     "cheap_dropoff", 
+    "cheap_distance"
 ]
 
 # the value generator for each specific query
@@ -83,6 +89,7 @@ fn_value_generators = {
     "cheap_fare_amount":cheap_fare_amount_provider,
     "cheap_total_amount":cheap_total_amount_provider, 
     "cheap_pickup":cheap_pickup_provider,
-    "cheap_dropoff":cheap_dropoff_provider
+    "cheap_dropoff":cheap_dropoff_provider,
+    "cheap_distance":cheap_distance_provider
 } 
 
