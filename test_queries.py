@@ -79,29 +79,6 @@ medium_query = query = {
             "field": "vendor_id",
             "size": 10
             },
-            "aggs": {
-            "trip_type_terms": {
-                "terms": {
-                "field": "trip_type",
-                "size": 10
-                },
-                "aggs": {
-                "payment_type_terms": {
-                    "terms": {
-                    "field": "payment_type",
-                    "size": 10
-                    },
-                    "aggs": {
-                    "avg_fare_amount": {
-                        "avg": {
-                        "field": "fare_amount"
-                        }
-                    }
-                    }
-                }
-                }
-            }
-            }
         }
         }
         }
@@ -116,10 +93,6 @@ def send_test_query():
     )
     elapsed = datetime.datetime.now().timestamp() - now 
     print("Time took: {}".format(elapsed))
-    
-    with open(out_fp, "a+") as f: 
-        f.write("****Test query for {}****".format(query_source))
-        f.write(json.dumps(response))
-        f.write("\n\n")
+
 
 send_test_query()
