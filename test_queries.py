@@ -109,17 +109,34 @@ no_aggs_query = {
         },
 }
 
+complex_no_aggs_query = { 
+    "size": 100,
+        "query": {
+        "range": {
+            "dropoff_datetime": {
+            "gte": "2015-02-01 12:45:43",
+            "lte": "2015-11-21 12:12:13"
+            }
+        }
+        },
+
+}
+
 def send_test_query(): 
-    
-    now = datetime.datetime.now().timestamp()
-    response = client.search(
-        body = no_aggs_query,
-        index = "nyc_taxis",
-        request_timeout=120
-    )
-    elapsed = datetime.datetime.now().timestamp() - now 
-    print("Time took: {}".format(elapsed))
-    print("Response size: {}".format(response))
+    for query, str_name in zip(
+        [expensive_4_query, medium_query, small_query, no_aggs_query, complex_no_aggs_query],
+        ["expensive_4_query", "medium_query", "small_query", "no_aggs_query", "complex_no_aggs_query"]):
+        now = datetime.datetime.now().timestamp()
+        response = client.search(
+            body = no_aggs_query,
+            index = "nyc_taxis",
+            request_timeout=120
+        )
+        elapsed = datetime.datetime.now().timestamp() - now
+        print("Results for {}".format(str_name)) 
+        print("Time took: {}".format(elapsed))
+        print("Response size (len(str(response_dict))): {}".format(len(str(response))))
+        print("\n")
 
 
 send_test_query()
