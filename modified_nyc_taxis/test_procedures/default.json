@@ -199,7 +199,7 @@
         },
         {
           "name":"expensive-auto-date-histogram-with-metrics", 
-          "operation":"cexpensive-auto-date-histogram-with-metrics",
+          "operation":"expensive-auto-date-histogram-with-metrics",
           "settings": {
             "index.requests.cache.enable":true
           }, 
