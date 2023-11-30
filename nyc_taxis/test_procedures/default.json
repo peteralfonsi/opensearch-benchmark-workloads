@@ -12,7 +12,8 @@
             "settings": {%- if index_settings is defined %} {{index_settings | tojson}} {%- else %} {
               "index.codec": "best_compression",
               "index.refresh_interval": "30s",
-              "index.translog.flush_threshold_size": "4g"
+              "index.translog.flush_threshold_size": "4g",
+              "index.queries.cache.enabled": "false"
             }{%- endif %}
           }
         },
