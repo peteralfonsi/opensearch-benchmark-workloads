@@ -59,17 +59,8 @@
           "settings": {
             "index.requests.cache.enable":true
           },
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"cheap-passenger-count-no-cache",
-          "operation":"cheap-passenger-count", 
-          "settings": {
-            "index.requests.cache.enable":false
-          },
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"cheap-tip-amount",
@@ -77,17 +68,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"cheap-tip-amount-no-cache", 
-          "operation":"cheap-tip-amount",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"cheap-fare-amount", 
@@ -95,17 +77,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"cheap-fare-amount-no-cache", 
-          "operation":"cheap-fare-amount",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"cheap-total-amount", 
@@ -113,17 +86,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"cheap-total-amount-no-cache", 
-          "operation":"cheap-total-amount",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"cheap-pickup", 
@@ -131,17 +95,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"cheap-pickup-no-cache", 
-          "operation":"cheap-pickup",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"cheap-dropoff", 
@@ -149,17 +104,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"cheap-dropoff-no-cache", 
-          "operation":"cheap-dropoff",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-distance-amount-agg", 
@@ -167,17 +113,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-distance-amount-agg-no-cache", 
-          "operation":"expensive-distance-amount-agg",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-autohisto-agg", 
@@ -185,17 +122,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-autohisto-agg-no-cache", 
-          "operation":"expensive-autohisto-agg",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-date-histogram-agg", 
@@ -203,17 +131,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-date-histogram-agg-no-cache", 
-          "operation":"expensive-date-histogram-agg",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-date-histogram-calendar-interval", 
@@ -221,17 +140,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-date-histogram-calendar-interval-no-cache", 
-          "operation":"expensive-date-histogram-calendar-interval",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-date-histogram-calendar-interval-with-tz", 
@@ -239,17 +149,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-date-histogram-calendar-interval-with-tz-no-cache", 
-          "operation":"expensive-date-histogram-calendar-interval-with-tz",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-date-histogram-fixed-interval", 
@@ -257,17 +158,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-date-histogram-fixed-interval-no-cache", 
-          "operation":"expensive-date-histogram-fixed-interval",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-date-histogram-fixed-interval-with-tz", 
@@ -275,17 +167,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-date-histogram-fixed-interval-with-tz-no-cache", 
-          "operation":"expensive-date-histogram-fixed-interval-with-tz",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-date-histogram-fixed-interval-with-metrics", 
@@ -293,17 +176,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-date-histogram-fixed-interval-with-metrics-no-cache", 
-          "operation":"expensive-date-histogram-fixed-interval-with-metrics",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-auto-date-histogram", 
@@ -311,17 +185,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-auto-date-histogram-no-cache", 
-          "operation":"expensive-auto-date-histogram",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-auto-date-histogram-with-tz", 
@@ -329,17 +194,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-auto-date-histogram-with-tz-no-cache", 
-          "operation":"expensive-auto-date-histogram-with-tz",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         },
         {
           "name":"expensive-auto-date-histogram-with-metrics", 
@@ -347,17 +203,8 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
-        },
-        {
-          "name":"expensive-auto-date-histogram-with-metrics-no-cache", 
-          "operation":"expensive-auto-date-histogram-with-metrics",
-          "settings": {
-            "index.requests.cache.enable":false
-          }, 
-          "warmup-iterations": 10, 
-          "iterations": 10
+          "warmup-iterations": 50, 
+          "iterations": 400
         }
       ]
     }
