@@ -109,7 +109,7 @@ def cheap_dropoff(workload, params, **kwargs):
 
 # The following are randomized versions of the existing agg operations in nyc_taxis/operations/default.json
 def expensive_distance_amount_agg(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_trip_distance"], "expensive_distance_amount_agg")[0]
+    val_dict = get_values(params, ["cheap_distance"], "expensive_distance_amount_agg")[0]
     return {
       "body": {
         "size": 0,

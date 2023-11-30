@@ -90,6 +90,7 @@ fn_value_generators = {
     "cheap_total_amount":cheap_total_amount_provider, 
     "cheap_pickup":cheap_pickup_provider,
     "cheap_dropoff":cheap_dropoff_provider,
+    "cheap_distance":cheap_distance_provider,
     "cheap_distance":cheap_distance_provider
 } 
 
