@@ -123,6 +123,118 @@
           {%-if search_clients is defined and search_clients %}
           ,"clients": {{ search_clients | tojson}}
           {%- endif %}
+        },
+        {
+          "operation": "date_histogram_calendar_interval",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
+        },
+        {
+          "operation": "date_histogram_calendar_interval_with_tz",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
+        },
+        {
+          "operation": "date_histogram_fixed_interval",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
+        },
+        {
+          "operation": "date_histogram_fixed_interval_with_tz",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
+        },
+        {
+          "operation": "date_histogram_fixed_interval_with_metrics",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
+        },
+        {
+          "operation": "auto_date_histogram",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
+        },
+        {
+          "operation": "auto_date_histogram_with_tz",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
+        },
+        {
+          "operation": "auto_date_histogram_with_metrics",
+          "warmup-iterations": 50,
+          "iterations": 100
+          {%- if not target_throughput %}
+          ,"target-throughput": 1.5
+          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
+          {%- else %}
+          ,"target-throughput": {{ target_throughput | tojson }}
+          {%- endif %}
+          {%-if search_clients is defined and search_clients %}
+          ,"clients": {{ search_clients | tojson}}
+          {%- endif %}
         }
       ]
     },
