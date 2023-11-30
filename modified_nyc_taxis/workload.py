@@ -323,7 +323,8 @@ def expensive_date_histogram_fixed_interval_with_metrics(workload, params, **kwa
             }
           }
         }
-      }
+      },
+      "index":"nyc_taxis"
     }
 
 def expensive_auto_date_histogram(workload, params, **kwargs): 
@@ -373,7 +374,8 @@ def expensive_auto_date_histogram_with_tz(workload, params, **kwargs):
             }
           }
         }
-      }
+      },
+      "index":"nyc_taxis"
     }
 
 def expensive_auto_date_histogram_with_metrics(workload, params, **kwargs): 
