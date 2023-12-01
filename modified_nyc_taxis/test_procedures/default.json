@@ -171,15 +171,6 @@
           "iterations": 400
         },
         {
-          "name":"expensive-date-histogram-fixed-interval-with-metrics", 
-          "operation":"expensive-date-histogram-fixed-interval-with-metrics",
-          "settings": {
-            "index.requests.cache.enable":true
-          }, 
-          "warmup-iterations": 50, 
-          "iterations": 400
-        },
-        {
           "name":"expensive-auto-date-histogram", 
           "operation":"expensive-auto-date-histogram",
           "settings": {
@@ -191,15 +182,6 @@
         {
           "name":"expensive-auto-date-histogram-with-tz", 
           "operation":"expensive-auto-date-histogram-with-tz",
-          "settings": {
-            "index.requests.cache.enable":true
-          }, 
-          "warmup-iterations": 50, 
-          "iterations": 400
-        },
-        {
-          "name":"expensive-auto-date-histogram-with-metrics", 
-          "operation":"expensive-auto-date-histogram-with-metrics",
           "settings": {
             "index.requests.cache.enable":true
           }, 
