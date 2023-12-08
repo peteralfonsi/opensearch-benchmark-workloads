@@ -65,6 +65,10 @@ def get_hme(heading):
 
 # Run with repeat_freq = 0, 0.1, 0.3, and 0.65 in sequence. On the first one, also run index commands. 
 rf_list = [0, 0.1, 0.3, 0.65]
+# wipe existing file values
+with open(hme_out_fp, "w") as f: 
+    pass
+
 
 # check tiered caching is on/off as expected 
 stats_result = get_stats_result() 
@@ -81,7 +85,3 @@ for rf in rf_list[1:]:
     subprocess.run(cmd, shell=True)
     get_hme("After rf={}".format(rf))
     subprocess.run(clear_caches_command(), shell=True)
-
-
-
-
