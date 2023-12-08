@@ -1,0 +1,12 @@
+HME for Initial
+Heap: {"hit_count": 0, "miss_count": 0, "evictions": 0, "memory_size_in_bytes": 0, "entries": 0}
+HME for Initial
+Heap: {"hit_count": 0, "miss_count": 0, "evictions": 0, "memory_size_in_bytes": 0, "entries": 0}
+HME for After rf=0
+Heap: {"hit_count": 0, "miss_count": 0, "evictions": 0, "memory_size_in_bytes": 0, "entries": 0}
+HME for After rf=0.1
+Heap: {"hit_count": 0, "miss_count": 0, "evictions": 0, "memory_size_in_bytes": 0, "entries": 0}
+HME for After rf=0.3
+Heap: {"hit_count": 0, "miss_count": 0, "evictions": 0, "memory_size_in_bytes": 0, "entries": 0}
+HME for After rf=0.65
+Heap: {"hit_count": 0, "miss_count": 0, "evictions": 0, "memory_size_in_bytes": 0, "entries": 0}

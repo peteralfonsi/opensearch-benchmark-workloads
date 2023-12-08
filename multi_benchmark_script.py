@@ -5,7 +5,7 @@ node_endpoint = "http://localhost:9200"
 workload_path = "/home/ec2-user/osb/opensearch-benchmark-workloads/modified_nyc_taxis"
 tiered_caching_on = False
 test_mode = True
-hme_out_fp = "/home/ec2-user/hme_data.txt"
+hme_out_fp = "hme_data.txt" #"/home/ec2-user/hme_data.txt"
 
 def get_command(rf): 
     cmd = "opensearch-benchmark execute-test --pipeline=benchmark-only --workload-path={} --workload-params=\'{{\"requests_cache_enabled\":\"true\", \"repeat_freq\":\"{}\"}}\' --exclude-tasks=delete-index,create-index,check-cluster-health,index,refresh-after-index,force-merge,refresh-after-force-merge,wait-until-merges-finish --target-host={}".format(
@@ -56,7 +56,7 @@ def get_hme(heading):
         disk_info = rc_info["tiers"]["disk"]
         for k in keys: 
             ret["disk"][k] = disk_info[k]
-    with open(hme_out_fp, "a") as f: 
+    with open(hme_out_fp, "a+") as f: 
         f.write("HME for {}\n".format(heading))
         f.write("Heap: " + json.dumps(ret["heap"]) + "\n")
         if tiered_caching_on: 
@@ -73,12 +73,12 @@ subprocess.run(clear_caches_command(), shell=True)
 get_hme("Initial")
 
 cmd = get_command_with_index(rf_list[0]) 
-subprocess.run(cmd)
+subprocess.run(cmd, shell=True)
 get_hme("After rf={}".format(rf_list[0]))
 
 for rf in rf_list[1:]: 
     cmd = get_command(rf) 
-    subprocess.run(cmd)
+    subprocess.run(cmd, shell=True)
     get_hme("After rf={}".format(rf))
     subprocess.run(clear_caches_command(), shell=True)
 
