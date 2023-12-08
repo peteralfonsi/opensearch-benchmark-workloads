@@ -64,7 +64,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -74,7 +74,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -84,7 +84,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -94,7 +94,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -104,7 +104,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -114,7 +114,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -124,7 +124,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -134,7 +134,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -144,7 +144,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -154,7 +154,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -164,7 +164,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -174,7 +174,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -184,7 +184,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -194,7 +194,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               },
               {
@@ -204,7 +204,7 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 400,
+                "iterations": 32000,
                 "target-throughput": 0.05
               }
             ]
