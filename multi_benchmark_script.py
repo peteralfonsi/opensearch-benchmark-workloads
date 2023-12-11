@@ -79,6 +79,7 @@ get_hme("Initial")
 cmd = get_command_with_index(rf_list[0]) 
 subprocess.run(cmd, shell=True)
 get_hme("After rf={}".format(rf_list[0]))
+subprocess.run(clear_caches_command(), shell=True)
 
 for rf in rf_list[1:]: 
     cmd = get_command(rf) 
