@@ -3,8 +3,8 @@ import json
 
 node_endpoint = "http://localhost:9200"
 workload_path = "/home/ec2-user/osb/opensearch-benchmark-workloads/modified_nyc_taxis"
-tiered_caching_on = False
-test_mode = True
+tiered_caching_on = True
+test_mode = False
 hme_out_fp = "hme_data.txt" #"/home/ec2-user/hme_data.txt"
 index_on_first_task = False
 

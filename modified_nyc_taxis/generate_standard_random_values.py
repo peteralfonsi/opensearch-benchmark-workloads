@@ -10,7 +10,7 @@ num_values_exceptions = {
     "cheap_passenger_count":50,
 }
 for fn_name in fn_value_generators: 
-    print("Generating values for {}".format(fn_name))
+    #print("Generating values for {}".format(fn_name))
     fp = os.path.dirname(os.path.realpath(__file__)) + "/" + "standard_values/{}_values.json".format(fn_name)
     val_dict = []
     for i in range(num_values_exceptions.get(fn_name, NUM_VALUES)): # default to NUM_VALUES
