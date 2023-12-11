@@ -335,8 +335,8 @@ def expensive_auto_date_histogram(workload, params, **kwargs):
         "query": {
           "range": {
             "dropoff_datetime": {
-              "gte": "2015-01-01 00:00:00",
-              "lt": "2016-01-01 00:00:00"
+              "gte": val_dict["gte"],
+              "lt": val_dict["lte"]
             }
           }
         },
