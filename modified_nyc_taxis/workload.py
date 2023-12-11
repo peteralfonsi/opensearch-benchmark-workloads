@@ -112,7 +112,7 @@ def expensive_distance_amount_agg(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_distance"], "expensive_distance_amount_agg")[0]
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "bool": {
             "filter": {
@@ -148,7 +148,7 @@ def expensive_autohisto_agg(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_autohisto_agg")[0]
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -173,7 +173,7 @@ def expensive_date_histogram_agg(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_agg")[0]
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
               "dropoff_datetime": {
@@ -198,7 +198,7 @@ def expensive_date_histogram_calendar_interval(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_calendar_interval")[0]
     return {
         "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -223,7 +223,7 @@ def expensive_date_histogram_calendar_interval_with_tz(workload, params, **kwarg
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_calendar_interval_with_tz")[0]
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -249,7 +249,7 @@ def expensive_date_histogram_fixed_interval(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval")[0]
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -274,7 +274,7 @@ def expensive_date_histogram_fixed_interval_with_tz(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval_with_tz")[0] 
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -301,7 +301,7 @@ def expensive_date_histogram_fixed_interval_with_metrics(workload, params, **kwa
       "name": "date_histogram_fixed_interval_with_metrics",
       "operation-type": "search",
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -331,7 +331,7 @@ def expensive_auto_date_histogram(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram")[0] 
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -356,7 +356,7 @@ def expensive_auto_date_histogram_with_tz(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram_with_tz")[0] 
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
@@ -382,7 +382,7 @@ def expensive_auto_date_histogram_with_metrics(workload, params, **kwargs):
     val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram_with_metrics")[0] 
     return {
       "body": {
-        "size": 100,
+        "size": 0,
         "query": {
           "range": {
             "dropoff_datetime": {
