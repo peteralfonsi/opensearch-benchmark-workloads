@@ -65,7 +65,7 @@
                 },
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"cheap-tip-amount",
@@ -75,7 +75,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"cheap-fare-amount", 
@@ -85,7 +85,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"cheap-total-amount", 
@@ -95,7 +95,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"cheap-pickup", 
@@ -105,7 +105,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"cheap-dropoff", 
@@ -115,7 +115,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-distance-amount-agg", 
@@ -125,7 +125,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-autohisto-agg", 
@@ -135,7 +135,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-date-histogram-agg", 
@@ -145,7 +145,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-date-histogram-calendar-interval", 
@@ -155,7 +155,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-date-histogram-calendar-interval-with-tz", 
@@ -165,7 +165,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-date-histogram-fixed-interval", 
@@ -175,7 +175,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-date-histogram-fixed-interval-with-tz", 
@@ -185,7 +185,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-auto-date-histogram", 
@@ -195,7 +195,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               },
               {
                 "name":"expensive-auto-date-histogram-with-tz", 
@@ -205,7 +205,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 32000,
-                "target-throughput": 0.05
+                "target-throughput": 0.5
               }
             ]
           }
