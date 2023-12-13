@@ -65,8 +65,8 @@ def cheap_dropoff_provider():
     return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 1, 15))
 
 def cheap_distance_provider(): 
-    gte = random.randint(0, 40)
-    lte = random.randint(gte, 70)
+    gte = random.randint(0, 10)
+    lte = random.randint(gte, 20)
     return {"gte":gte, "lte":lte}
     
 
