@@ -414,7 +414,7 @@ def register(registry):
     registry.register_param_source("cheap-fare-amount-param-source", cheap_fare_amount)
     registry.register_param_source("cheap-total-amount-param-source", cheap_total_amount)
     registry.register_param_source("cheap-pickup-param-source", cheap_pickup)
-    registry.register_param_source("cheap-dropoff-param-source", cheap_dropoff)
+    registry.register_param_source("cheap-dropoff-param-source", cheap_dropoff) 
     registry.register_param_source("expensive-distance-amount-agg-param-source", expensive_distance_amount_agg)
     registry.register_param_source("expensive-autohisto-agg-param-source", expensive_autohisto_agg)
     registry.register_param_source("expensive-date-histogram-agg-param-source", expensive_date_histogram_agg)
