@@ -88,7 +88,7 @@ fn_value_generators = {
     "cheap_tip_amount":cheap_tip_amount_provider,
     "cheap_fare_amount":cheap_fare_amount_provider,
     "cheap_total_amount":cheap_total_amount_provider, 
-    "cheap_pickup":cheap_pickup_provider,d
+    "cheap_pickup":cheap_pickup_provider,
     "cheap_dropoff":cheap_dropoff_provider,
     "cheap_distance":cheap_distance_provider,
     "cheap_distance":cheap_distance_provider
