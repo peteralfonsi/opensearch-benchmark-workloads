@@ -64,8 +64,8 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 50, 
-                "iterations": 250,
-                "target-throughput": 3
+                "iterations": 950,
+                "target-throughput": 10
               },
               {
                 "name":"cheap-tip-amount",
@@ -74,8 +74,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 250,
-                "target-throughput": 3
+                "iterations": 950,
+                "target-throughput": 10
               },
               {
                 "name":"cheap-fare-amount", 
@@ -84,8 +84,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 250,
-                "target-throughput": 3
+                "iterations": 950,
+                "target-throughput": 10
               },
               {
                 "name":"cheap-total-amount", 
@@ -94,8 +94,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 250,
-                "target-throughput": 3
+                "iterations": 950,
+                "target-throughput": 10
               },
               {
                 "name":"cheap-pickup", 
@@ -104,8 +104,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 250,
-                "target-throughput": 3
+                "iterations": 950,
+                "target-throughput": 10
               },
               {
                 "name":"cheap-dropoff", 
@@ -114,8 +114,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 250,
-                "target-throughput": 3
+                "iterations": 950,
+                "target-throughput": 10
               },
               {
                 "name":"expensive-autohisto-agg", 
