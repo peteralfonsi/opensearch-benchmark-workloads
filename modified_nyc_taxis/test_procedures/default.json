@@ -64,8 +64,8 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 50, 
-                "iterations": 950,
-                "target-throughput": 10
+                "iterations": 450,
+                "target-throughput": 5
               },
               {
                 "name":"cheap-tip-amount",
@@ -74,8 +74,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 950,
-                "target-throughput": 10
+                "iterations": 450,
+                "target-throughput": 5
               },
               {
                 "name":"cheap-fare-amount", 
@@ -84,8 +84,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 950,
-                "target-throughput": 10
+                "iterations": 450,
+                "target-throughput": 5
               },
               {
                 "name":"cheap-total-amount", 
@@ -94,8 +94,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 950,
-                "target-throughput": 10
+                "iterations": 450,
+                "target-throughput": 5
               },
               {
                 "name":"cheap-pickup", 
@@ -104,8 +104,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 950,
-                "target-throughput": 10
+                "iterations": 450,
+                "target-throughput": 5
               },
               {
                 "name":"cheap-dropoff", 
@@ -114,8 +114,88 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 950,
-                "target-throughput": 10
+                "iterations": 450,
+                "target-throughput": 5
+              },
+              {
+                "name":"expensive-autohisto-agg", 
+                "operation":"expensive-autohisto-agg",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
+              },
+              {
+                "name":"expensive-date-histogram-agg", 
+                "operation":"expensive-date-histogram-agg",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
+              },
+              {
+                "name":"expensive-date-histogram-calendar-interval", 
+                "operation":"expensive-date-histogram-calendar-interval",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
+              },
+              {
+                "name":"expensive-date-histogram-calendar-interval-with-tz", 
+                "operation":"expensive-date-histogram-calendar-interval-with-tz",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
+              },
+              {
+                "name":"expensive-date-histogram-fixed-interval", 
+                "operation":"expensive-date-histogram-fixed-interval",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
+              },
+              {
+                "name":"expensive-date-histogram-fixed-interval-with-tz", 
+                "operation":"expensive-date-histogram-fixed-interval-with-tz",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
+              },
+              {
+                "name":"expensive-auto-date-histogram", 
+                "operation":"expensive-auto-date-histogram",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
+              },
+              {
+                "name":"expensive-auto-date-histogram-with-tz", 
+                "operation":"expensive-auto-date-histogram-with-tz",
+                "settings": {
+                  "index.requests.cache.enable":true
+                }, 
+                "warmup-iterations": 50, 
+                "iterations": 50,
+                "target-throughput": 1
               }
             ]
           }
