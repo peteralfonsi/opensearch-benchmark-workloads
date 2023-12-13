@@ -55,14 +55,14 @@ def cheap_total_amount_provider():
 
 def cheap_pickup_provider(): 
     # random days between 1/1/2015 and 12/31/2015
-    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 1, 15))
+    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 1, 21))
 
 def cheap_dropoff_provider(): 
     # random days between 1/1/2015 and 12/31/2015
     # Should be different from pickup, otherwise we will use the same values 
     # for cached queries which have both a pickup and dropoff field, which would give a range of 0 -> 
     # non-representative results 
-    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 1, 15))
+    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 1, 21))
 
 def cheap_distance_provider(): 
     gte = random.randint(0, 10)
