@@ -55,7 +55,7 @@ def cheap_total_amount_provider():
 
 def cheap_pickup_provider(): 
     # random days between 1/1/2015 and 12/31/2015
-    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 12, 31))
+    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 2, 1))
 
 def cheap_dropoff_provider(): 
     # random days between 1/1/2015 and 12/31/2015
