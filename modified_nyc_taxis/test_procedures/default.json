@@ -11,7 +11,7 @@
             "operation-type": "create-index",
             "settings": {%- if index_settings is defined %} {{index_settings | tojson}} {%- else %} {
               "index.codec": "best_compression",
-              "index.refresh_interval": "30s",
+              "index.refresh_interval": "-1s",
               "index.translog.flush_threshold_size": "4g",
               "index.queries.cache.enabled": "true"
             }{%- endif %}
@@ -54,21 +54,96 @@
         {
           "operation": "wait-until-merges-finish"
         },
+
         {
-          "parallel": { 
-            "tasks": [ 
-              {
-                "name":"cheap-dropoff", 
-                "operation":"cheap-dropoff",
-                "settings": {
-                  "index.requests.cache.enable":true
-                }, 
-                "warmup-iterations": 500, 
-                "iterations": 250000,
-                "target-throughput": 150
-              }
-            ]
-          }
+          "name":"1w", 
+          "operation":"1w",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 500, 
+          "iterations": 10000,
+          "target-throughput": 100
+        },
+        {
+          "name":"2w", 
+          "operation":"2w",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 500, 
+          "iterations": 10000,
+          "target-throughput": 50
+        },
+        {
+          "name":"3w", 
+          "operation":"3w",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 500, 
+          "iterations": 10000,
+          "target-throughput": 33
+        },
+        {
+          "name":"1m", 
+          "operation":"1m",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 500, 
+          "iterations": 10000,
+          "target-throughput": 25
+        },
+        {
+          "name":"6w", 
+          "operation":"6w",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 500, 
+          "iterations": 5000,
+          "target-throughput": 17
+        },
+        {
+          "name":"2m", 
+          "operation":"2m",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 500, 
+          "iterations": 5000,
+          "target-throughput": 12
+        },
+        {
+          "name":"3m", 
+          "operation":"3m",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 250, 
+          "iterations": 2500,
+          "target-throughput": 8
+        },
+        {
+          "name":"4m", 
+          "operation":"4m",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 250, 
+          "iterations": 2500,
+          "target-throughput": 6
+        },
+        {
+          "name":"6m", 
+          "operation":"6m",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 150, 
+          "iterations": 1000,
+          "target-throughput": 4
         }
       ]
     }

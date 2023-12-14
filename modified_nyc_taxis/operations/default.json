@@ -328,104 +328,56 @@
       }
     },
     {
-      "name": "cheap-passenger-count",
+      "name": "1w",
       "operation-type": "search", 
-      "param-source": "cheap-passenger-count-param-source",
+      "param-source": "1w-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-tip-amount",
+      "name": "2w",
       "operation-type": "search", 
-      "param-source": "cheap-tip-amount-param-source",
+      "param-source": "2w-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-fare-amount",
+      "name": "3w",
       "operation-type": "search", 
-      "param-source": "cheap-fare-amount-param-source",
+      "param-source": "3w-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-total-amount",
+      "name": "1m",
       "operation-type": "search", 
-      "param-source": "cheap-total-amount-param-source",
+      "param-source": "1m-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-pickup",
+      "name": "6w",
       "operation-type": "search", 
-      "param-source": "cheap-pickup-param-source",
+      "param-source": "6w-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "cheap-dropoff",
+      "name": "2m",
       "operation-type": "search", 
-      "param-source": "cheap-dropoff-param-source",
+      "param-source": "2m-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-distance-amount-agg",
+      "name": "3m",
       "operation-type": "search", 
-      "param-source": "expensive-distance-amount-agg-param-source",
+      "param-source": "3m-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-autohisto-agg",
+      "name": "4m",
       "operation-type": "search", 
-      "param-source": "expensive-autohisto-agg-param-source",
+      "param-source": "4m-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     },
     {
-      "name": "expensive-date-histogram-agg",
+      "name": "6m",
       "operation-type": "search", 
-      "param-source": "expensive-date-histogram-agg-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-calendar-interval",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-calendar-interval-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-calendar-interval-with-tz",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-calendar-interval-with-tz-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-fixed-interval",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-fixed-interval-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-fixed-interval-with-tz",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-fixed-interval-with-tz-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-fixed-interval-with-metrics",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-fixed-interval-with-metrics-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-auto-date-histogram",
-      "operation-type": "search", 
-      "param-source": "expensive-auto-date-histogram-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-auto-date-histogram-with-tz",
-      "operation-type": "search", 
-      "param-source": "expensive-auto-date-histogram-with-tz-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-auto-date-histogram-with-metrics",
-      "operation-type": "search", 
-      "param-source": "expensive-auto-date-histogram-with-metrics-param-source",
+      "param-source": "6m-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     }
