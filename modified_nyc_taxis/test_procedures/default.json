@@ -65,7 +65,7 @@
                 }, 
                 "warmup-iterations": 50, 
                 "iterations": 14950,
-                "target-throughput": 200
+                "target-throughput": 175
               }
             ]
           }
