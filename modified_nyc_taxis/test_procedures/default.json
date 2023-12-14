@@ -64,8 +64,8 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 50, 
-                "iterations": 9500,
-                "target-throughput": 100
+                "iterations": 99500,
+                "target-throughput": 1000
               }
             ]
           }
