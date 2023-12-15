@@ -7,7 +7,8 @@ if [ -f $KILL_SIG_FILE ]; then
 fi
 
 echo "Kicked off iostat & vmstat"
-OS_PID=30058
+pids=$(ps aux | grep '[O]penSearch' | awk '{print $2}')
+OS_PID=$(echo "$pids" | sed -n '2p')
 echo "Detected OS PID as : $OS_PID"
 
 LastOutputMin=-1
