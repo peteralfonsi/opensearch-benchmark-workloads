@@ -39,9 +39,9 @@ def do_stop_loop(resp):
     rc_info = resp["nodes"][node_name]["indices"]["request_cache"]
     if tiered_feature_flag_enabled: 
         print(rc_info)
-        heap_entries = int(rc_info["heap"]["entries"])
+        heap_entries = int(rc_info["entries"])
     else: 
-        heap_entries = resp["memory_size_in_bytes"] # dont have entries on main
+        heap_entries = rc_info["memory_size_in_bytes"] # dont have entries on main
     if heap_entries == last_heap_entry_number and heap_entries > 0: 
         num_same_counter += 1
     last_heap_entry_number = heap_entries
