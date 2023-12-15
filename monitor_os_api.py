@@ -6,6 +6,7 @@ import time
 node_endpoint = "http://localhost:9200"
 freq = 15 # seconds. increase to 60 later
 num_same_before_stopping = 5 # if cache stats are unchanged (and > 0) for this many iterations, stop running
+tiered_feature_flag_enabled = True
 
 num_same_counter = 0
 last_heap_entry_number = 0
@@ -36,7 +37,10 @@ def run_search_queue():
 def do_stop_loop(resp): 
     node_name = next(iter(resp["nodes"]))
     rc_info = resp["nodes"][node_name]["indices"]["request_cache"]
-    heap_entries = int(resp["heap"]["entries"])
+    if tiered_feature_flag_enabled: 
+        heap_entries = int(resp["heap"]["entries"])
+    else: 
+        heap_entries = resp["memory_size_in_bytes"] # dont have entries on main
     if heap_entries == last_heap_entry_number and heap_entries > 0: 
         num_same_counter += 1
     last_heap_entry_number = heap_entries
