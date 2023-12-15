@@ -52,7 +52,7 @@ def do_stop_loop(resp):
 def run_cache_stats(): 
     cmd = "curl -XGET \"{}/_nodes/stats/indices/request_cache?pretty\"".format(node_endpoint)
     resp = json.loads(subprocess.run(cmd, shell=True, capture_output=True).stdout)
-    fp = out_path_search_queue + "/" + formatted_now() + ".json"
+    fp = out_path_cache_stats + "/" + formatted_now() + ".json"
     with open(fp, "w") as f: 
         json.dump(resp, f)
     return resp
