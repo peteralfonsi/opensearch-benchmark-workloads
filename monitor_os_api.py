@@ -75,3 +75,4 @@ while True:
 # zip up dump folder for easy scp
 zip_cmd = "zip -r dump.zip dump"
 subprocess.run(zip_cmd, shell=True, capture_output=True)
+print("Ending process")
