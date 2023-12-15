@@ -38,6 +38,7 @@ def do_stop_loop(resp):
     node_name = next(iter(resp["nodes"]))
     rc_info = resp["nodes"][node_name]["indices"]["request_cache"]
     if tiered_feature_flag_enabled: 
+        print(rc_info)
         heap_entries = int(rc_info["heap"]["entries"])
     else: 
         heap_entries = resp["memory_size_in_bytes"] # dont have entries on main
