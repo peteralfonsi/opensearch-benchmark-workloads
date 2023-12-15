@@ -2,6 +2,8 @@ import subprocess
 import json
 import datetime
 import time
+import os
+import shutil
 
 node_endpoint = "http://localhost:9200"
 freq = 15 # seconds. increase to 60 later
@@ -15,6 +17,12 @@ dump_path = "dump"
 out_path_hot_threads = dump_path + "/hot_threads"
 out_path_search_queue = dump_path + "/search_queue"
 out_path_cache_stats = dump_path + "/cache_stats"
+
+# clear folders of old results 
+for dir in [out_path_hot_threads, out_path_search_queue, out_path_cache_stats]: 
+    if os.path.exists(dir):
+        shutil.rmtree(dir)
+    os.makedirs(dir)
 
 def formatted_now(): 
     return datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
@@ -39,7 +47,6 @@ def do_stop_loop(resp):
     node_name = next(iter(resp["nodes"]))
     rc_info = resp["nodes"][node_name]["indices"]["request_cache"]
     if tiered_feature_flag_enabled: 
-        print(rc_info)
         heap_entries = int(rc_info["entries"])
     else: 
         heap_entries = rc_info["memory_size_in_bytes"] # dont have entries on main
