@@ -6,7 +6,7 @@ import os
 import shutil
 
 node_endpoint = "http://localhost:9200"
-freq = 15 # seconds. increase to 60 later
+freq = 60 # seconds. increase to 60 later
 num_same_before_stopping = 5 # if cache stats are unchanged (and > 0) for this many iterations, stop running
 tiered_feature_flag_enabled = True
 
@@ -25,12 +25,12 @@ for dir in [out_path_hot_threads, out_path_search_queue, out_path_cache_stats]:
     os.makedirs(dir)
 
 def formatted_now(): 
-    return datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+    return datetime.datetime.now().strftime("%Y-%m-%d-%H_%M_%S")
 
 def run_hot_threads(): 
     cmd = "curl -XGET \"{}/_nodes/hot_threads?pretty\"".format(node_endpoint)
     resp = str(subprocess.run(cmd, shell=True, capture_output=True).stdout)
-    fp = out_path_hot_threads + "/" + formatted_now() + ".json"
+    fp = out_path_hot_threads + "/" + formatted_now() + ".txt"
     with open(fp, "w") as f: 
         f.write(resp)
 
