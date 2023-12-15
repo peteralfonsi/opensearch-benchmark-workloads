@@ -58,3 +58,7 @@ while True:
     if do_stop_loop(cache_stats): 
         break
     time.sleep(freq)
+
+# zip up dump folder for easy scp
+zip_cmd = "zip -r dump.zip dump"
+subprocess.run(zip_cmd, shell=True, capture_output=True)
