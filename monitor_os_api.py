@@ -8,8 +8,6 @@ freq = 15 # seconds. increase to 60 later
 num_same_before_stopping = 5 # if cache stats are unchanged (and > 0) for this many iterations, stop running
 tiered_feature_flag_enabled = True
 
-global num_same_counter
-global last_heap_entry_number
 num_same_counter = 0
 last_heap_entry_number = 0
 
@@ -36,6 +34,7 @@ def run_search_queue():
         json.dump(resp, f)
 
 def do_stop_loop(resp): 
+    global last_heap_entry_number
     node_name = next(iter(resp["nodes"]))
     rc_info = resp["nodes"][node_name]["indices"]["request_cache"]
     if tiered_feature_flag_enabled: 
