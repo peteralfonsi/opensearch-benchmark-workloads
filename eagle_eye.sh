@@ -28,8 +28,8 @@ while [ ! -f $KILL_SIG_FILE ]; do
     currMinTS=$(echo $currTS | cut -f1-3 -d'-')
     outputFile=/home/ec2-user/jstack-${currTS}.out
     jstack $OS_PID > $outputFile    
-    # sleep 1 second
-    sleep 1
+    # sleep 1 minute
+    sleep 60
     # check for zipping last 1 min
     nextMinTS=$(date +%m-%dT%H-%M)
     if [[ $nextMinTS != $currMinTS ]]; then
