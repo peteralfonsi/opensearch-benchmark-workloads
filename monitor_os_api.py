@@ -21,10 +21,10 @@ def formatted_now():
 
 def run_hot_threads(): 
     cmd = "curl -XGET \"{}/_nodes/hot_threads?pretty\"".format(node_endpoint)
-    resp = json.loads(subprocess.run(cmd, shell=True, capture_output=True).stdout)
+    resp = subprocess.run(cmd, shell=True, capture_output=True).stdout
     fp = out_path_hot_threads + "/" + formatted_now() + ".json"
     with open(fp, "w") as f: 
-        json.dump(resp, f)
+        f.write(resp)
 
 def run_search_queue(): 
     cmd = "curl -XGET \"{}/_nodes/thread_pool?pretty\"".format(node_endpoint)
