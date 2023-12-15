@@ -35,6 +35,7 @@ def run_search_queue():
 
 def do_stop_loop(resp): 
     global last_heap_entry_number
+    global num_same_counter
     node_name = next(iter(resp["nodes"]))
     rc_info = resp["nodes"][node_name]["indices"]["request_cache"]
     if tiered_feature_flag_enabled: 
