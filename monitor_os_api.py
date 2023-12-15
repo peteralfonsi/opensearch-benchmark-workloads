@@ -21,7 +21,7 @@ def formatted_now():
 
 def run_hot_threads(): 
     cmd = "curl -XGET \"{}/_nodes/hot_threads?pretty\"".format(node_endpoint)
-    resp = subprocess.run(cmd, shell=True, capture_output=True).stdout
+    resp = str(subprocess.run(cmd, shell=True, capture_output=True).stdout)
     fp = out_path_hot_threads + "/" + formatted_now() + ".json"
     with open(fp, "w") as f: 
         f.write(resp)
