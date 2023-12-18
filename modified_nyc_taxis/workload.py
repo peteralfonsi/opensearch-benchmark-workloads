@@ -53,7 +53,8 @@ def get_values(params, fn_name_list, query_type):
         i = min(i, shortest_standard_list-1)
         # If the selected value is equal to the current counter value, this is the first time we've used this value. 
         # Increment counter value accordingly so we know it's been used in the next round
-        if i == query_type_counters[query_type]: 
+        counter_buffer = 35
+        if i > query_type_counters[query_type] - counter_buffer:
             query_type_counters[query_type] += 1
         # Return the i-th standard value pair for all the functions in our list
         return [standard_fn_values[fn_name][i] for fn_name in fn_name_list]
