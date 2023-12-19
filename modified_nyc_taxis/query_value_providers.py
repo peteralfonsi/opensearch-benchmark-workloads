@@ -10,7 +10,7 @@ def format_date(datetime_obj):
 
 def random_dates_with_constant_range(separation_days): 
     jan1 = datetime.datetime(2015, 1, 1)
-    dec31 = datetime.datetime(2015, 1, 15)
+    dec31 = datetime.datetime(2015, 12, 31)
     min_lowerbound_timestamp = datetime.datetime.timestamp(jan1) # timestamps are in seconds, not ns
     max_lowerbound_timestamp = datetime.datetime.timestamp(dec31) - (24 * 3600 * separation_days)
     lowerbound_fraction = random.uniform(0, 1)

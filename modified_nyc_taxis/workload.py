@@ -96,7 +96,7 @@ def get_autohisto_agg(gte, lte):
 
 def ps_1d(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_1d"], "ps_1d")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
 def ps_2d(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_2d"], "ps_2d")[0]
