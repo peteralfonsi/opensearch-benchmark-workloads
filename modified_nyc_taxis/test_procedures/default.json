@@ -44,14 +44,45 @@
         },
 
         {
+          "name":"1d", 
+          "operation":"1d",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 50, 
+          "iterations": 1000,
+          "target-throughput": 10
+        },
+        {
+          "name":"2d", 
+          "operation":"2d",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 50, 
+          "iterations": 1000,
+          "target-throughput": 10
+        },
+        {
+          "name":"4d", 
+          "operation":"4d",
+          "settings": {
+            "index.requests.cache.enable":true
+          }, 
+          "warmup-iterations": 50, 
+          "iterations": 1000,
+          "target-throughput": 10
+        },
+
+        {
           "name":"1w", 
           "operation":"1w",
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 500, 
-          "iterations": 10000,
-          "target-throughput": 100
+          "warmup-iterations": 50, 
+          "iterations": 1000,
+          "target-throughput": 10
         },
         {
           "name":"2w", 
@@ -59,9 +90,9 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 500, 
-          "iterations": 10000,
-          "target-throughput": 50
+          "warmup-iterations": 50, 
+          "iterations": 1000,
+          "target-throughput": 5
         },
         {
           "name":"3w", 
@@ -69,9 +100,9 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 500, 
-          "iterations": 10000,
-          "target-throughput": 33
+          "warmup-iterations": 50, 
+          "iterations": 1000,
+          "target-throughput": 3
         },
         {
           "name":"1m", 
@@ -79,9 +110,9 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 500, 
-          "iterations": 10000,
-          "target-throughput": 25
+          "warmup-iterations": 50, 
+          "iterations": 1000,
+          "target-throughput": 2.5
         },
         {
           "name":"6w", 
@@ -89,9 +120,9 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 500, 
-          "iterations": 5000,
-          "target-throughput": 17
+          "warmup-iterations": 50, 
+          "iterations": 500,
+          "target-throughput": 1.7
         },
         {
           "name":"2m", 
@@ -99,39 +130,9 @@
           "settings": {
             "index.requests.cache.enable":true
           }, 
-          "warmup-iterations": 500, 
-          "iterations": 5000,
-          "target-throughput": 12
-        },
-        {
-          "name":"3m", 
-          "operation":"3m",
-          "settings": {
-            "index.requests.cache.enable":true
-          }, 
-          "warmup-iterations": 250, 
-          "iterations": 2500,
-          "target-throughput": 8
-        },
-        {
-          "name":"4m", 
-          "operation":"4m",
-          "settings": {
-            "index.requests.cache.enable":true
-          }, 
-          "warmup-iterations": 250, 
-          "iterations": 2500,
-          "target-throughput": 6
-        },
-        {
-          "name":"6m", 
-          "operation":"6m",
-          "settings": {
-            "index.requests.cache.enable":true
-          }, 
-          "warmup-iterations": 150, 
-          "iterations": 1000,
-          "target-throughput": 4
+          "warmup-iterations": 50, 
+          "iterations": 500,
+          "target-throughput": 1.2
         }
       ]
     }

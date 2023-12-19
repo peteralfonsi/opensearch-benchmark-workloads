@@ -328,6 +328,24 @@
       }
     },
     {
+      "name": "1d",
+      "operation-type": "search", 
+      "param-source": "1d-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "2d",
+      "operation-type": "search", 
+      "param-source": "2d-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
+      "name": "4d",
+      "operation-type": "search", 
+      "param-source": "4d-param-source",
+      "repeat_freq": {{repeat_freq | default(30)}}
+    },
+    {
       "name": "1w",
       "operation-type": "search", 
       "param-source": "1w-param-source",
@@ -361,23 +379,5 @@
       "name": "2m",
       "operation-type": "search", 
       "param-source": "2m-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "3m",
-      "operation-type": "search", 
-      "param-source": "3m-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "4m",
-      "operation-type": "search", 
-      "param-source": "4m-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "6m",
-      "operation-type": "search", 
-      "param-source": "6m-param-source",
       "repeat_freq": {{repeat_freq | default(30)}}
     }

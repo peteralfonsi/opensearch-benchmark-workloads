@@ -49,20 +49,28 @@ def get_values(params, fn_name_list, query_type):
     # Otherwise, return a new completely random value
     return [fn_value_generators[fn_name]() for fn_name in fn_name_list]
 
-def get_basic_range_query(field, gte, lte): 
+def get_autohisto_agg(gte, lte): 
     return {
-        "body": {
-            "size": 0,
-            "query": {
-                "range": {
-                    field: {
-                        "gte": gte,
-                        "lte": lte
-                    }
-                }
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": gte,
+              "lte": lte
             }
+          }
         },
-        "index": 'nyc_taxis'
+        "aggs": {
+          "dropoffs_over_time": {
+            "auto_date_histogram": {
+              "field": "dropoff_datetime",
+              "buckets": 20
+            }
+          }
+        }
+      },
+      "index":"nyc_taxis"
     }
 
 # Each specific query has a wrapper, which is actually used a param source, and a function that provides values, 
@@ -70,54 +78,51 @@ def get_basic_range_query(field, gte, lte):
 # This provider fn is also used to generate standard random values in the first place. 
 
 
-def cheap_dropoff(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "cheap_dropoff")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+def ps_1d(workload, params, **kwargs): 
+    val_dict = get_values(params, ["ps_1d"], "ps_1d")[0]
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
+
+def ps_2d(workload, params, **kwargs): 
+    val_dict = get_values(params, ["ps_2d"], "ps_2d")[0]
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
+
+def ps_4d(workload, params, **kwargs): 
+    val_dict = get_values(params, ["ps_4d"], "ps_4d")[0]
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
 def ps_1w(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_1w"], "ps_1w")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
 def ps_2w(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_2w"], "ps_2w")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
 def ps_3w(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_3w"], "ps_3w")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
 def ps_1m(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_1m"], "ps_1m")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
 def ps_6w(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_6w"], "ps_6w")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
 def ps_2m(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_2m"], "ps_2m")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
+    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
 
-def ps_3m(workload, params, **kwargs): 
-    val_dict = get_values(params, ["ps_3m"], "ps_3m")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
-
-def ps_4m(workload, params, **kwargs): 
-    val_dict = get_values(params, ["ps_4m"], "ps_4m")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
-
-def ps_6m(workload, params, **kwargs): 
-    val_dict = get_values(params, ["ps_6m"], "ps_6m")[0]
-    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
 
 def register(registry):
+    registry.register_param_source("1d-param-source", ps_1d)
+    registry.register_param_source("2d-param-source", ps_2d)
+    registry.register_param_source("4d-param-source", ps_4d)
     registry.register_param_source("1w-param-source", ps_1w)
     registry.register_param_source("2w-param-source", ps_2w)
     registry.register_param_source("3w-param-source", ps_2w)
     registry.register_param_source("1m-param-source", ps_1m)
     registry.register_param_source("6w-param-source", ps_6w)
     registry.register_param_source("2m-param-source", ps_2m)
-    registry.register_param_source("3m-param-source", ps_3m)
-    registry.register_param_source("4m-param-source", ps_4m)
-    registry.register_param_source("6m-param-source", ps_6m)
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)

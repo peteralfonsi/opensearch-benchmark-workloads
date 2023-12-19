@@ -32,6 +32,14 @@ def random_dates_with_constant_range(separation_days):
 
 
 # actual provider functions
+def ps_1d_provider(): 
+    return random_dates_with_constant_range(1)
+
+def ps_2d_provider(): 
+    return random_dates_with_constant_range(2)
+
+def ps_4d_provider(): 
+    return random_dates_with_constant_range(4)
 
 def ps_1w_provider(): 
     return random_dates_with_constant_range(7)
@@ -51,39 +59,30 @@ def ps_6w_provider():
 def ps_2m_provider(): 
     return random_dates_with_constant_range(60)
 
-def ps_3m_provider(): 
-    return random_dates_with_constant_range(90)
-
-def ps_4m_provider(): 
-    return random_dates_with_constant_range(120)
-
-def ps_6m_provider(): 
-    return random_dates_with_constant_range(180)
-
 
 # name for each specific query
 fn_names = [
+    "ps_1d",
+    "ps_2d",
+    "ps_4d"
     "ps_1w", 
     "ps_2w", 
     "ps_3w", 
     "ps_1m", 
     "ps_6w", 
-    "ps_2m", 
-    "ps_3m", 
-    "ps_4m", 
-    "ps_6m"
+    "ps_2m"
 ]
 
 # the value generator for each specific query
 fn_value_generators = {
+    "ps_1d":ps_1d_provider,
+    "ps_2d":ps_2d_provider,
+    "ps_4d":ps_4d_provider,
     "ps_1w":ps_1w_provider, 
     "ps_2w":ps_2w_provider, 
     "ps_3w":ps_3w_provider, 
     "ps_1m":ps_1m_provider, 
     "ps_6w":ps_6w_provider, 
-    "ps_2m":ps_2m_provider, 
-    "ps_3m":ps_3m_provider, 
-    "ps_4m":ps_4m_provider, 
-    "ps_6m":ps_6m_provider
+    "ps_2m":ps_2m_provider
 } 
 
