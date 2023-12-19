@@ -49,6 +49,22 @@ def get_values(params, fn_name_list, query_type):
     # Otherwise, return a new completely random value
     return [fn_value_generators[fn_name]() for fn_name in fn_name_list]
 
+def get_basic_range_query(field, gte, lte): 
+    return {
+        "body": {
+            "size": 0,
+            "query": {
+                "range": {
+                    field: {
+                        "gte": gte,
+                        "lte": lte
+                    }
+                }
+            }
+        },
+        "index": 'nyc_taxis'
+    }
+
 def get_autohisto_agg(gte, lte): 
     return {
       "body": {
@@ -80,7 +96,7 @@ def get_autohisto_agg(gte, lte):
 
 def ps_1d(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_1d"], "ps_1d")[0]
-    return get_autohisto_agg(val_dict["gte"], val_dict["lte"])
+    return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
 
 def ps_2d(workload, params, **kwargs): 
     val_dict = get_values(params, ["ps_2d"], "ps_2d")[0]
