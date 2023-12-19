@@ -64,7 +64,7 @@ def ps_2m_provider():
 fn_names = [
     "ps_1d",
     "ps_2d",
-    "ps_4d"
+    "ps_4d",
     "ps_1w", 
     "ps_2w", 
     "ps_3w", 
