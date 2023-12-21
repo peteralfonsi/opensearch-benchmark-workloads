@@ -64,14 +64,14 @@
                   "index.requests.cache.enable":true
                 }, 
                 "warmup-iterations": 500, 
-                "iterations": 250000,
-                "target-throughput": 150
+                "iterations": 150000,
+                "target-throughput": 60
               },
               {
                 "name": "refresh-to-invalidate",
                 "operation": "refresh",
                 "warmup-iterations": 0, 
-                "iterations": 111, 
+                "iterations": 167, 
                 "target-throughput": 0.06666
               }
             ]
