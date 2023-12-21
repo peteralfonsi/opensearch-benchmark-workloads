@@ -10,6 +10,7 @@ echo "Kicked off iostat & vmstat"
 pids=$(ps aux | grep '[O]penSearch' | awk '{print $2}')
 OS_PID=$(echo "$pids" | sed -n '2p')
 echo "Detected OS PID as : $OS_PID"
+mkdir /home/ec2-user/jstack-outputs
 
 LastOutputMin=-1
 
@@ -26,7 +27,7 @@ while [ ! -f $KILL_SIG_FILE ]; do
 
     currTS=$(date +%m-%dT%H-%M-%S)
     currMinTS=$(echo $currTS | cut -f1-3 -d'-')
-    outputFile=/home/ec2-user/jstack-${currTS}.out
+    outputFile=/home/ec2-user/jstack-outputs/jstack-${currTS}.out
     jstack $OS_PID > $outputFile    
     # sleep 1 minute
     sleep 60
