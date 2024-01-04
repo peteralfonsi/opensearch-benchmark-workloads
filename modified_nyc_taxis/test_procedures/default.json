@@ -58,8 +58,8 @@
           "parallel": { 
             "tasks": [ 
               {
-                "name":"date-histogram-fixed-interval", 
-                "operation":"date-histogram-fixed-interval",
+                "name":"expensive-date-histogram-fixed-interval", 
+                "operation":"expensive-date-histogram-fixed-interval",
                 "settings": {
                   "index.requests.cache.enable":true
                 }, 
