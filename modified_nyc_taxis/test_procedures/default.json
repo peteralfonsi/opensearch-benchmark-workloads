@@ -58,14 +58,14 @@
           "parallel": { 
             "tasks": [ 
               {
-                "name":"cheap-dropoff", 
-                "operation":"cheap-dropoff",
+                "name":"date-histogram-fixed-interval", 
+                "operation":"date-histogram-fixed-interval",
                 "settings": {
                   "index.requests.cache.enable":true
                 }, 
-                "warmup-iterations": 500, 
-                "iterations": 7800,
-                "target-throughput": 130
+                "warmup-iterations": 50, 
+                "iterations": 600,
+                "target-throughput": 10
               }
             ]
           }
