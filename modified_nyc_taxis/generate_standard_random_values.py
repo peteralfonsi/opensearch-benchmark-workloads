@@ -3,7 +3,7 @@ import json
 import os
 
 
-NUM_VALUES = 10000 # number of standard queries to generate by default
+NUM_VALUES = 5000 # number of standard queries to generate by default
 
 # if a standard query is in here, generate this many instead (for example if there are few possible values)
 num_values_exceptions = {

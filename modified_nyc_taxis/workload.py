@@ -1,6 +1,8 @@
 import random
 import json
 from .query_value_providers import fn_names, fn_value_generators
+from .zipf import precompute_H, zipf_cdf_inverse
+from .generate_standard_random_values import NUM_VALUES
 import os
 
 
@@ -12,7 +14,6 @@ async def delete_snapshot(opensearch, params):
 standard_fn_values = {} # keeps a list of the standard values for each fn, for use in repeated queries
 
 for fn_name in fn_names: 
-    #fn_name_counters[fn_name] = 0
     try:
         fp = os.path.dirname(os.path.realpath(__file__)) + "/" + "standard_values/{}_values.json".format(fn_name)
         with open(fp, "r") as f: 
@@ -39,25 +40,20 @@ query_type_counters = {} # keeps track of how many times we have pulled from the
 for query_type in query_types: 
     query_type_counters[query_type] = 0
 
+alpha = 1 # TODO: How can we get this in from workload params? 
+precomputed_H_values = precompute_H(NUM_VALUES, alpha)
+
 # A helper function used by all param sources to decide whether to create new values or pull from standard values
 # fn_name_list should contain all the fn_names you want values for in this query type. 
-# For all values, the decision whether to use existing value is the same, and 
-# the same counter value is used for all of them. (Otherwise, queries with multiple sources would almost never be cached)
+# For all values, the decision whether to use existing value is the same
 def get_values(params, fn_name_list, query_type): 
     if random.random() < params["repeat_freq"]: 
         # We should return standard (repeatable) values 
-        # First, pick a value in [0, current counter value]
-        i = random.randrange(0, query_type_counters[query_type] + 1)
+        # First, draw an index value from the Zipf distribution
+        i = zipf_cdf_inverse(random.random(), precomputed_H_values)
         # Make sure this value doesn't exceed the length of the shortest list of standard function values which we are using
         shortest_standard_list = min([len(standard_fn_values[fn_name]) for fn_name in fn_name_list]) 
         i = min(i, shortest_standard_list-1)
-        # If the selected value is equal to the current counter value, this is the first time we've used this value. 
-        # Increment counter value accordingly so we know it's been used in the next round
-        counter_buffer = 35
-        if i > query_type_counters[query_type] - counter_buffer: 
-            # tweak to increase # of distinct repeated params
-            # previous method led to too few - for example only 50 distinct params after a whole benchmark
-            query_type_counters[query_type] += 1
         # Return the i-th standard value pair for all the functions in our list
         return [standard_fn_values[fn_name][i] for fn_name in fn_name_list]
     # Otherwise, return a new completely random value
