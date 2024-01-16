@@ -21,32 +21,15 @@ for fn_name in fn_names:
     except FileNotFoundError: 
         raise Exception("Must generate standard values for {} using generate_standard_random_values.py!".format(fn_name))
 
-# Make the list of all query types so we can keep track of counters for each
-query_types = fn_names + [
-    "expensive_distance_amount_agg",
-    "expensive_autohisto_agg",
-    "expensive_date_histogram_agg",
-    "expensive_date_histogram_calendar_interval",
-    "expensive_date_histogram_calendar_interval_with_tz",
-    "expensive_date_histogram_fixed_interval",
-    "expensive_date_histogram_fixed_interval_with_tz",
-    "expensive_date_histogram_fixed_interval_with_metrics",
-    "expensive_auto_date_histogram",
-    "expensive_auto_date_histogram_with_tz",
-    "expensive_auto_date_histogram_with_metrics"
-]
-query_type_counters = {} # keeps track of how many times we have pulled from the standard values, for each query type
-
-for query_type in query_types: 
-    query_type_counters[query_type] = 0
-
-alpha = 1 # TODO: How can we get this in from workload params? 
+# Precompute values needed to draw from the Zipf distribution
+alpha = 1 # The skewness of the distribution. Lower alpha -> more spread-out distribubtion. 
+# TODO: Allow alpha to be set via workload-params
 precomputed_H_values = precompute_H(NUM_VALUES, alpha)
 
 # A helper function used by all param sources to decide whether to create new values or pull from standard values
 # fn_name_list should contain all the fn_names you want values for in this query type. 
 # For all values, the decision whether to use existing value is the same
-def get_values(params, fn_name_list, query_type): 
+def get_values(params, fn_name_list): 
     if random.random() < params["repeat_freq"]: 
         # We should return standard (repeatable) values 
         # First, draw an index value from the Zipf distribution
@@ -80,35 +63,35 @@ def get_basic_range_query(field, gte, lte):
 # This provider fn is also used to generate standard random values in the first place. 
 
 def cheap_passenger_count(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_passenger_count"], "cheap_passenger_count")[0]
+    val_dict = get_values(params, ["cheap_passenger_count"])[0]
     # based on random_passenger_count from https://github.com/kiranprakash154/opensearch-benchmark-workloads/blob/kp/custom-workload/nyc_taxis/workload.py
     return get_basic_range_query("passenger_count", val_dict["gte"], val_dict["lte"])
 
 def cheap_tip_amount(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_tip_amount"], "cheap_tip_amount")[0]
+    val_dict = get_values(params, ["cheap_tip_amount"])[0]
     return get_basic_range_query("tip_amount", val_dict["gte"], val_dict["lte"])
 
 
 def cheap_fare_amount(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_fare_amount"], "cheap_fare_amount")[0]
+    val_dict = get_values(params, ["cheap_fare_amount"])[0]
     return get_basic_range_query("fare_amount", val_dict["gte"], val_dict["lte"])
 
 def cheap_total_amount(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_total_amount"], "cheap_total_amount")[0]
+    val_dict = get_values(params, ["cheap_total_amount"])[0]
     return get_basic_range_query("total_amount", val_dict["gte"], val_dict["lte"])
 
 def cheap_pickup(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_pickup"], "cheap_pickup")[0]
+    val_dict = get_values(params, ["cheap_pickup"])[0]
     return get_basic_range_query("pickup_datetime", val_dict["gte"], val_dict["lte"])
 
 def cheap_dropoff(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "cheap_dropoff")[0]
+    val_dict = get_values(params, ["cheap_dropoff"])[0]
     return get_basic_range_query("dropoff_datetime", val_dict["gte"], val_dict["lte"])
 
 
 # The following are randomized versions of the existing agg operations in nyc_taxis/operations/default.json
 def expensive_distance_amount_agg(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_distance"], "expensive_distance_amount_agg")[0]
+    val_dict = get_values(params, ["cheap_distance"])[0]
     return {
       "body": {
         "size": 0,
@@ -144,7 +127,7 @@ def expensive_distance_amount_agg(workload, params, **kwargs):
     }
 
 def expensive_autohisto_agg(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_autohisto_agg")[0]
+    val_dict = get_values(params, ["cheap_dropoff"])[0]
     return {
       "body": {
         "size": 0,
@@ -169,7 +152,7 @@ def expensive_autohisto_agg(workload, params, **kwargs):
     }
 
 def expensive_date_histogram_agg(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_agg")[0]
+    val_dict = get_values(params, ["cheap_dropoff"])[0]
     return {
       "body": {
         "size": 0,
@@ -194,7 +177,7 @@ def expensive_date_histogram_agg(workload, params, **kwargs):
     }
 
 def expensive_date_histogram_calendar_interval(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_calendar_interval")[0]
+    val_dict = get_values(params, ["cheap_dropoff"])[0]
     return {
         "body": {
         "size": 0,
@@ -219,7 +202,7 @@ def expensive_date_histogram_calendar_interval(workload, params, **kwargs):
     }
 
 def expensive_date_histogram_calendar_interval_with_tz(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_calendar_interval_with_tz")[0]
+    val_dict = get_values(params, ["cheap_dropoff"])[0]
     return {
       "body": {
         "size": 0,
@@ -245,7 +228,7 @@ def expensive_date_histogram_calendar_interval_with_tz(workload, params, **kwarg
     }
 
 def expensive_date_histogram_fixed_interval(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval")[0]
+    val_dict = get_values(params, ["cheap_dropoff"])[0]
     return {
       "body": {
         "size": 0,
@@ -270,7 +253,7 @@ def expensive_date_histogram_fixed_interval(workload, params, **kwargs):
     }
 
 def expensive_date_histogram_fixed_interval_with_tz(workload, params, **kwargs):
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval_with_tz")[0] 
+    val_dict = get_values(params, ["cheap_dropoff"])[0] 
     return {
       "body": {
         "size": 0,
@@ -295,7 +278,7 @@ def expensive_date_histogram_fixed_interval_with_tz(workload, params, **kwargs):
       "index":"nyc_taxis"
     }
 def expensive_date_histogram_fixed_interval_with_metrics(workload, params, **kwargs):
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_date_histogram_fixed_interval_with_metrics")[0] 
+    val_dict = get_values(params, ["cheap_dropoff"])[0] 
     return {
       "name": "date_histogram_fixed_interval_with_metrics",
       "operation-type": "search",
@@ -327,7 +310,7 @@ def expensive_date_histogram_fixed_interval_with_metrics(workload, params, **kwa
     }
 
 def expensive_auto_date_histogram(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram")[0] 
+    val_dict = get_values(params, ["cheap_dropoff"])[0] 
     return {
       "body": {
         "size": 0,
@@ -352,7 +335,7 @@ def expensive_auto_date_histogram(workload, params, **kwargs):
     }
 
 def expensive_auto_date_histogram_with_tz(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram_with_tz")[0] 
+    val_dict = get_values(params, ["cheap_dropoff"])[0] 
     return {
       "body": {
         "size": 0,
@@ -378,7 +361,7 @@ def expensive_auto_date_histogram_with_tz(workload, params, **kwargs):
     }
 
 def expensive_auto_date_histogram_with_metrics(workload, params, **kwargs): 
-    val_dict = get_values(params, ["cheap_dropoff"], "expensive_auto_date_histogram_with_metrics")[0] 
+    val_dict = get_values(params, ["cheap_dropoff"])[0] 
     return {
       "body": {
         "size": 0,
