@@ -32,12 +32,12 @@ precomputed_H_values = precompute_H(NUM_VALUES, alpha)
 def get_values(params, fn_name_list): 
     if random.random() < params["repeat_freq"]: 
         # We should return standard (repeatable) values 
-        # First, draw an index value from the Zipf distribution
-        i = zipf_cdf_inverse(random.random(), precomputed_H_values)
-        # Make sure this value doesn't exceed the length of the shortest list of standard function values which we are using
+        # First, draw a value from the Zipf distribution. Subtract one to go from [1, N] -> [0, N-1] and make it an index
+        i = zipf_cdf_inverse(random.random(), precomputed_H_values) - 1
+        # Check this index doesn't exceed the length of the shortest list of standard function values we're using
         shortest_standard_list = min([len(standard_fn_values[fn_name]) for fn_name in fn_name_list]) 
         i = min(i, shortest_standard_list-1)
-        # Return the i-th standard value pair for all the functions in our list
+        # Return the i-th standard value for all the functions in our list
         return [standard_fn_values[fn_name][i] for fn_name in fn_name_list]
     # Otherwise, return a new completely random value
     return [fn_value_generators[fn_name]() for fn_name in fn_name_list]
