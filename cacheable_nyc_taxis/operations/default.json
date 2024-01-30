@@ -329,103 +329,91 @@
     },
     {
       "name": "cheap-passenger-count",
-      "operation-type": "search", 
-      "param-source": "cheap-passenger-count-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+            "range": {
+              "passenger_count": {
+                    "gte": 1,
+                    "lte": 2
+                }
+            }
+        }
+    }
     },
     {
       "name": "cheap-tip-amount",
-      "operation-type": "search", 
-      "param-source": "cheap-tip-amount-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+            "range": {
+                "tip_amount": {
+                    "gte": 0.00,
+                    "lte": 1.00
+                }
+            }
+        }
+    }
     },
     {
       "name": "cheap-fare-amount",
-      "operation-type": "search", 
-      "param-source": "cheap-fare-amount-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+            "range": {
+                "fare_amount": {
+                    "gte": 0.00,
+                    "lte": 2.00
+                }
+            }
+        }
+    }
     },
     {
       "name": "cheap-total-amount",
-      "operation-type": "search", 
-      "param-source": "cheap-total-amount-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+            "range": {
+                "total_amount": {
+                    "gte": 0.00,
+                    "lte": 2.00
+                }
+            }
+        }
+    }
     },
     {
       "name": "cheap-pickup",
-      "operation-type": "search", 
-      "param-source": "cheap-pickup-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+            "range": {
+                "pickup_datetime": {
+                    "gte": "2015-01-01 12:00:00",
+                    "lte": "2015-01-02 12:00:00"
+                }
+            }
+        }
+    }
     },
     {
       "name": "cheap-dropoff",
-      "operation-type": "search", 
-      "param-source": "cheap-dropoff-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-distance-amount-agg",
-      "operation-type": "search", 
-      "param-source": "expensive-distance-amount-agg-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-autohisto-agg",
-      "operation-type": "search", 
-      "param-source": "expensive-autohisto-agg-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-agg",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-agg-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-calendar-interval",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-calendar-interval-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-calendar-interval-with-tz",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-calendar-interval-with-tz-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-fixed-interval",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-fixed-interval-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-fixed-interval-with-tz",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-fixed-interval-with-tz-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-date-histogram-fixed-interval-with-metrics",
-      "operation-type": "search", 
-      "param-source": "expensive-date-histogram-fixed-interval-with-metrics-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-auto-date-histogram",
-      "operation-type": "search", 
-      "param-source": "expensive-auto-date-histogram-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-auto-date-histogram-with-tz",
-      "operation-type": "search", 
-      "param-source": "expensive-auto-date-histogram-with-tz-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
-    },
-    {
-      "name": "expensive-auto-date-histogram-with-metrics",
-      "operation-type": "search", 
-      "param-source": "expensive-auto-date-histogram-with-metrics-param-source",
-      "repeat_freq": {{repeat_freq | default(30)}}
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+            "range": {
+                "dropoff_datetime": {
+                    "gte": "2015-01-01 12:00:00",
+                    "lte": "2015-01-02 12:00:00"
+                }
+            }
+        }
+    }
     }
