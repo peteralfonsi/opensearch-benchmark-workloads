@@ -119,7 +119,7 @@
               },
               {
                 "name":"autohisto-agg",
-                "operation":"autohisto-agg",
+                "operation":"autohisto_agg",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -129,7 +129,7 @@
               },
               {
                 "name":"date-histogram-agg",
-                "operation":"date-histogram-agg",
+                "operation":"date_histogram_agg",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -139,7 +139,7 @@
               },
               {
                 "name":"date-histogram-calendar-interval",
-                "operation":"date-histogram-calendar-interval",
+                "operation":"date_histogram_calendar_interval",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -149,7 +149,7 @@
               },
               {
                 "name":"date-histogram-calendar-interval-with-tz",
-                "operation":"date-histogram-calendar-interval-with-tz",
+                "operation":"date_histogram_calendar_interval_with_tz",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -159,7 +159,7 @@
               },
               {
                 "name":"date-histogram-fixed-interval",
-                "operation":"date-histogram-fixed-interval",
+                "operation":"date_histogram_fixed_interval",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -169,7 +169,7 @@
               },
               {
                 "name":"date-histogram-fixed-interval-with-tz",
-                "operation":"date-histogram-fixed-interval-with-tz",
+                "operation":"date_histogram_fixed_interval_with_tz",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -179,7 +179,7 @@
               },
               {
                 "name":"auto-date-histogram",
-                "operation":"auto-date-histogram",
+                "operation":"auto_date_histogram",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -189,7 +189,7 @@
               },
               {
                 "name":"auto-date-histogram-with-tz",
-                "operation":"auto-date-histogram-with-tz",
+                "operation":"auto_date_histogram_with_tz",
                 "settings": {
                   "index.requests.cache.enable":true
                 },

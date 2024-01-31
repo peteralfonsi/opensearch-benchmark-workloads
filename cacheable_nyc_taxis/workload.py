@@ -28,7 +28,8 @@ def random_dates(min_value, max_value):
     lte_date = datetime.datetime.fromtimestamp(min_timestamp + int(lte_fraction * diff))
     return {
         "gte":format_date(gte_date),
-        "lte":format_date(lte_date)
+        "lte":format_date(lte_date),
+        "format":"yyyy-MM-dd HH:mm:ss"
     }
 
 # Standard value sources for our operations
@@ -58,9 +59,6 @@ def trip_distance_source():
     lte = random.randint(gte, 20)
     return {"gte":gte, "lte":lte}
 
-
-
-
 def register(registry):
     registry.register_standard_value_source("cheap-passenger-count", "passenger_count", passenger_count_source)
     registry.register_standard_value_source("cheap-tip-amount", "tip_amount", tip_amount_source)
@@ -81,21 +79,4 @@ def register(registry):
     registry.register_standard_value_source("auto-date-histogram-with-tz", "dropoff_datetime", date_source)
     registry.register_standard_value_source("auto-date-histogram-with-metrics", "dropoff_datetime", date_source)
 
-    '''registry.register_param_source("cheap-passenger-count-param-source", cheap_passenger_count)
-    registry.register_param_source("cheap-tip-amount-param-source", cheap_tip_amount)
-    registry.register_param_source("cheap-fare-amount-param-source", cheap_fare_amount)
-    registry.register_param_source("cheap-total-amount-param-source", cheap_total_amount)
-    registry.register_param_source("cheap-pickup-param-source", cheap_pickup)
-    registry.register_param_source("cheap-dropoff-param-source", cheap_dropoff)
-    registry.register_param_source("expensive-distance-amount-agg-param-source", expensive_distance_amount_agg)
-    registry.register_param_source("expensive-autohisto-agg-param-source", expensive_autohisto_agg)
-    registry.register_param_source("expensive-date-histogram-agg-param-source", expensive_date_histogram_agg)
-    registry.register_param_source("expensive-date-histogram-calendar-interval-param-source", expensive_date_histogram_calendar_interval)
-    registry.register_param_source("expensive-date-histogram-calendar-interval-with-tz-param-source", expensive_date_histogram_calendar_interval_with_tz)
-    registry.register_param_source("expensive-date-histogram-fixed-interval-param-source", expensive_date_histogram_fixed_interval)
-    registry.register_param_source("expensive-date-histogram-fixed-interval-with-tz-param-source", expensive_date_histogram_fixed_interval_with_tz)
-    registry.register_param_source("expensive-date-histogram-fixed-interval-with-metrics-param-source", expensive_date_histogram_fixed_interval_with_metrics)
-    registry.register_param_source("expensive-auto-date-histogram-param-source", expensive_auto_date_histogram)
-    registry.register_param_source("expensive-auto-date-histogram-with-tz-param-source", expensive_auto_date_histogram_with_tz)
-    registry.register_param_source("expensive-auto-date-histogram-with-metrics-param-source", expensive_auto_date_histogram_with_metrics)'''
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)
