@@ -1,11 +1,16 @@
+import random
 async def delete_snapshot(opensearch, params):
     await opensearch.snapshot.delete(repository=params["repository"], snapshot=params["snapshot"])
 
 def total_amount_std_value_source():
-    return {"gte":1, "lte":4}
+    gte = random.randrange(1, 4)
+    lte = random.randrange(gte, 7)
+    return {"gte":gte, "lte":lte}
 
 def trip_distance_std_value_source():
-    return {"gte":5, "lte":7}
+    gte = random.randrange(1, 7)
+    lte = random.randrange(gte, 15)
+    return {"gte":gte, "lte":lte}
 
 def dropoff_datetime_std_value_source():
     #return {"gte":"2015-01-01 00:00:00", "lte":"2015-01-04 12:00:00"}
