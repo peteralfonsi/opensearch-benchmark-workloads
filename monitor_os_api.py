@@ -5,7 +5,7 @@ import time
 import os
 import shutil
 
-from benchmarking_visualizer import run_cache_graph_generator
+#from benchmarking_visualizer import run_cache_graph_generator
 
 node_endpoint = "http://localhost:9200"
 freq = 60 # seconds. increase to 60 later
@@ -181,7 +181,7 @@ while True:
             cache_stats = run_cache_stats(True)
             if do_stop_loop(cache_stats):
                 print("detected benchmarking search stage finished")
-                run_cache_graph_generator(out_path_cache_stats)
+                #run_cache_graph_generator(out_path_cache_stats)
                 format_result_table()
                 zip_results_to_local()
                 stop_flag = True
