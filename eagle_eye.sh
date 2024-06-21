@@ -33,7 +33,7 @@ while [ ! -f $KILL_SIG_FILE ]; do
     jstack $OS_PID > $outputFile    
     memory_usage=$(ps -p $OS_PID -o %mem,rss | tail -n 1)
     echo "$currTS $memory_usage"
-    echo "$currTS $memory_usage" >> memory_usage.txt
+    echo "$currTS $memory_usage" >> /home/ec2-user/memory_usage.txt
     # sleep 1 minute
     sleep 60
     # check for zipping last 1 min
