@@ -31,7 +31,7 @@ while [ ! -f $KILL_SIG_FILE ]; do
     currMinTS=$(echo $currTS | cut -f1-3 -d'-')
     outputFile=/home/ec2-user/jstack-outputs/jstack-${currTS}.out
     jstack $OS_PID > $outputFile    
-    memory_usage=$(ps -p 1188624 -o %mem,rss | tail -n 1)
+    memory_usage=$(ps -p $OS_PID -o %mem,rss | tail -n 1)
     echo "$currTS $memory_usage" >> memory_usage.txt
     # sleep 1 minute
     sleep 60
