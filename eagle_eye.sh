@@ -11,6 +11,8 @@ pids=$(ps aux | grep '[O]penSearch' | awk '{print $2}')
 OS_PID=$(echo "$pids" | sed -n '2p')
 echo "Detected OS PID as : $OS_PID"
 mkdir /home/ec2-user/jstack-outputs
+touch /home/ec2-user/memory_usage.txt
+echo "Time, Mem, RSS" >> /home/ec2-user/memory_usage.txt
 
 LastOutputMin=-1
 
@@ -29,14 +31,16 @@ while [ ! -f $KILL_SIG_FILE ]; do
     currMinTS=$(echo $currTS | cut -f1-3 -d'-')
     outputFile=/home/ec2-user/jstack-outputs/jstack-${currTS}.out
     jstack $OS_PID > $outputFile    
+    memory_usage=$(ps -p 1188624 -o %mem,rss | tail -n 1)
+    echo "$currTS $memory_usage" >> memory_outputs.txt
     # sleep 1 minute
     sleep 60
     # check for zipping last 1 min
     nextMinTS=$(date +%m-%dT%H-%M)
-    if [[ $nextMinTS != $currMinTS ]]; then
-        tar -czf /home/ec2-user/jstack-${currMinTS}.tgz /home/ec2-user/jstack-${currMinTS}*.out
-        rm -rf /home/ec2-user/jstack-${currMinTS}*.out
-    fi
+    #if [[ $nextMinTS != $currMinTS ]]; then
+    #    tar -czf /home/ec2-user/jstack-${currMinTS}.tgz /home/ec2-user/jstack-${currMinTS}*.out
+    #    rm -rf /home/ec2-user/jstack-${currMinTS}*.out
+    #fi
 done
 
 
