@@ -64,7 +64,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 80000,
+                "iterations": 1600000,
                 "target-throughput": 12
               },
               {
@@ -74,7 +74,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 80000,
+                "iterations": 1600000,
                 "target-throughput": 12
               },
               {
@@ -84,7 +84,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 80000,
+                "iterations": 1600000,
                 "target-throughput": 12
               },
               {
@@ -94,7 +94,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 80000,
+                "iterations": 1600000,
                 "target-throughput": 12
               },
               {
@@ -104,7 +104,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 80000,
+                "iterations": 1600000,
                 "target-throughput": 12
               },
               {
@@ -114,7 +114,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 80000,
+                "iterations": 1600000,
                 "target-throughput": 12
               },
               {
@@ -124,7 +124,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               },
               {
@@ -134,7 +134,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               },
               {
@@ -144,7 +144,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               },
               {
@@ -154,7 +154,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               },
               {
@@ -164,7 +164,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               },
               {
@@ -174,7 +174,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               },
               {
@@ -184,7 +184,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               },
               {
@@ -194,7 +194,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 20000,
+                "iterations": 400000,
                 "target-throughput": 3
               }
             ]
