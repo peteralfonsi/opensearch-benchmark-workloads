@@ -12,6 +12,7 @@ OS_PID=$(echo "$pids" | sed -n '2p')
 echo "Detected OS PID as : $OS_PID"
 mkdir /home/ec2-user/jstack-outputs
 touch /home/ec2-user/memory_usage.txt
+touch /home/ec2-user/benchmark_memory_usage.txt
 echo "Time, Mem, RSS" >> /home/ec2-user/memory_usage.txt
 
 LastOutputMin=-1
@@ -34,6 +35,10 @@ while [ ! -f $KILL_SIG_FILE ]; do
     memory_usage=$(ps -p $OS_PID -o %mem,rss | tail -n 1)
     echo "$currTS $memory_usage"
     echo "$currTS $memory_usage" >> /home/ec2-user/memory_usage.txt
+
+    echo $currMinTS >> /home/ec2-user/benchmark_memory_usage.txt
+    ps -eo pid,%mem,cmd | grep '[b]enchmark' | sort -k 2 -nr >> /home/ec2-user/benchmark_memory_usage.txt
+    echo " " >> /home/ec2-user/benchmark_memory_usage.txt
     # sleep 1 minute
     sleep 60
     # check for zipping last 1 min
