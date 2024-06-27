@@ -44,8 +44,10 @@ def create_new_doc(client):
         "total_amount": random.randint(0, 11)
         }
     client.index(index="nyc_taxis", body=new_doc, refresh=True)
+    print("Document indexed!")
 
 interval = 120 
+print("Indexing new document every {} seconds".format(interval))
 while True: 
     create_new_doc(client)
     time.sleep(interval)
