@@ -13,7 +13,7 @@ client = OpenSearch(
     ssl_show_warn = False
 )
 
-def get_time(timestamp): 
+def get_time(): 
     beginning = datetime.datetime(2015, 1, 1)
     end = datetime.datetime(2015, 1, 15)
     min_timestamp = datetime.datetime.timestamp(beginning)
