@@ -2,16 +2,19 @@ from opensearchpy import OpenSearch
 import time
 import random 
 import datetime
+from create_second_index import get_doc, index_name
 
-client = OpenSearch(
-    hosts = [{'host': "localhost", 'port': 9200}],
-    http_compress = True, # enables gzip compression for request bodies
-    http_auth = ("admin", "admin"),
-    use_ssl = False,
-    verify_certs = False,
-    ssl_assert_hostname = False,
-    ssl_show_warn = False
-)
+def get_client(): 
+    client = client = OpenSearch(
+        hosts = [{'host': "localhost", 'port': 9200}],
+        http_compress = True, # enables gzip compression for request bodies
+        http_auth = ("admin", "admin"),
+        use_ssl = False,
+        verify_certs = False,
+        ssl_assert_hostname = False,
+        ssl_show_warn = False
+    )   
+    return client
 
 def get_time(): 
     beginning = datetime.datetime(2015, 1, 1)
@@ -47,7 +50,13 @@ def create_new_doc(client):
     print("Document indexed!")
 
 interval = 120 
+client = get_client()
 print("Indexing new document every {} seconds".format(interval))
+i = 0
 while True: 
-    create_new_doc(client)
+    if i % 2 == 0: 
+        create_new_doc(client)
+    else: 
+        client.index(index=index_name, body=get_doc(), refresh=True)
+    i += 1
     time.sleep(interval)
