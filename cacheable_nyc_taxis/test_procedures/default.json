@@ -58,16 +58,6 @@
           "parallel": {
             "tasks": [
               {
-                "name":"cheap-passenger-count",
-                "operation":"cheap-passenger-count",
-                "settings": {
-                  "index.requests.cache.enable":true
-                },
-                "warmup-iterations": 1200,
-                "iterations": 80000,
-                "target-throughput": 6
-              },
-              {
                 "name":"cheap-tip-amount",
                 "operation":"cheap-tip-amount",
                 "settings": {
