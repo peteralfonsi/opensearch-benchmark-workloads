@@ -1,29 +1,7 @@
 from opensearchpy import OpenSearch
 import time
 import random 
-import datetime
-from create_second_index import get_doc, index_name
-
-def get_client(): 
-    client = client = OpenSearch(
-        hosts = [{'host': "localhost", 'port': 9200}],
-        http_compress = True, # enables gzip compression for request bodies
-        http_auth = ("admin", "admin"),
-        use_ssl = False,
-        verify_certs = False,
-        ssl_assert_hostname = False,
-        ssl_show_warn = False
-    )   
-    return client
-
-def get_time(): 
-    beginning = datetime.datetime(2015, 1, 1)
-    end = datetime.datetime(2015, 1, 15)
-    min_timestamp = datetime.datetime.timestamp(beginning)
-    max_timestamp = datetime.datetime.timestamp(end)
-    timestamp = min_timestamp + random.random() * (max_timestamp - min_timestamp)
-    res = datetime.datetime.fromtimestamp(timestamp)
-    return res.strftime("%Y-%m-%d %H:%M:%S")
+from create_second_index import get_new_doc, get_time, get_client, index_name
 
 def create_new_doc(client): 
     new_doc = {
@@ -46,17 +24,20 @@ def create_new_doc(client):
         "payment_type": "2", 
         "total_amount": random.randint(0, 11)
         }
-    client.index(index="nyc_taxis", body=new_doc, refresh=True)
-    print("Document indexed!")
+    client.index(index="nyc_taxis", body=new_doc, refresh=False)
 
-interval = 120 
+interval = 60 
 client = get_client()
 print("Indexing new document every {} seconds".format(interval))
 i = 0
 while True: 
-    if i % 2 == 0: 
+    if i % 2 == 1: 
+        print("Indexing nyc_taxis doc")
         create_new_doc(client)
+        print("done")
     else: 
-        client.index(index=index_name, body=get_doc(), refresh=True)
+        print("Indexing {} doc".format(index_name))
+        client.index(index=index_name, body=get_new_doc(), refresh=False)
+        print("done")
     i += 1
     time.sleep(interval)

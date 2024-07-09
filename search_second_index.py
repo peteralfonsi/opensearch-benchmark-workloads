@@ -1,6 +1,5 @@
 from opensearchpy import OpenSearch
-from invalidate import get_time, get_client
-from create_second_index import get_random_value, get_random_string, max_value, index_name
+from create_second_index import get_random_value, get_random_string, max_value, index_name, get_time, get_client
 import random
 import time
 
@@ -23,7 +22,7 @@ def get_value_query():
     return {
             "query": {
                 "range": {
-                    "time": {
+                    "value": {
                         "gte": gt,
                         "lt": lt
                     }
@@ -53,12 +52,12 @@ def search_index(client):
         params={"request_cache":"true"}
     )
 
-initial_delay = 3 * 60 * 60 # three hours approximately matches nyc taxis indexing time 
-delay = 1
+initial_delay = 0 #3 * 60 * 60 # three hours approximately matches nyc taxis indexing time 
+delay = 0.2
 client = get_client() 
 print("Waiting for {} seconds".format(initial_delay))
 time.sleep(initial_delay) 
-print("Beginning searches")
+print("Beginning searches with {} sec delay between each".format(delay))
 while True: 
     search_index(client) 
     time.sleep(delay)
