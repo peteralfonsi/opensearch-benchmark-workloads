@@ -52,7 +52,7 @@ def search_index(client):
         params={"request_cache":"true"}
     )
 
-initial_delay = 0 #3 * 60 * 60 # three hours approximately matches nyc taxis indexing time 
+initial_delay = 3 * 60 * 60 # three hours approximately matches nyc taxis indexing time 
 delay = 0.2
 client = get_client() 
 print("Waiting for {} seconds".format(initial_delay))
