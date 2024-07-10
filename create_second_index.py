@@ -64,7 +64,7 @@ def populate_index(client, index_name, num_docs):
             bulk_data = []
 
 index_name = "second_index"
-num_docs = 1_000_000
+num_docs = 10_000
 
 if __name__ == "__main__":
     client = get_client() 
