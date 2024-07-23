@@ -17,7 +17,7 @@ cd /home/ec2-user/async-profiler-3.0-linux-x64/bin
 
 while true; do 
     currMin=$(date +%m-%dT%H-%M)
-    outputFile=/home/ec2-user/flamegraphs/flamegraph-${currTS}.html
+    outputFile=/home/ec2-user/flamegraphs/flamegraph-${currMin}.html
     ./asprof -d 300 -f "$outputFile" "$OS_PID"
     sleep 600
 done
