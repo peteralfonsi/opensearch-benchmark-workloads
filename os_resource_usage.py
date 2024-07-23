@@ -22,4 +22,4 @@ while True:
     with open(output, "a") as f: 
         f.write(line) 
     print("sleeping...")
-    time.sleep(60)
+    time.sleep(15)
