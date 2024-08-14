@@ -40,6 +40,8 @@ This workload allows the following parameters to be specified using `--workload-
 * `conflict_probability` (default: 25): A number between 0 and 100 that defines the probability of id conflicts. This requires to run the respective test_procedure. Combining ``conflicts=sequential`` and ``conflict-probability=0`` makes Benchmark generate index ids by itself, instead of relying on OpenSearch's `automatic id generation`.
 * `number_of_replicas` (default: 0)
 * `number_of_shards` (default: 5)
+* `query_cache_enabled` (default: false)
+* `requests_cache_enabled` (default: false)
 * `source_enabled` (default: true): A boolean defining whether the `_source` field is stored in the index.
 * `index_settings`: A list of index settings. Index settings defined elsewhere (e.g. `number_of_replicas`) need to be overridden explicitly.
 * `cluster_health` (default: "green"): The minimum required cluster health.
@@ -64,6 +66,7 @@ Once a corpus has been generated, it can be used for a test by supplying the fol
 
 If there are multiple generated corpora files, they are all used concurrently.  Ingestion of the generated and the default corpora are mutually exclusive in any single OSB run.  Once ingested, however, queries packaged with this workload will operate on the entire loaded data set.
 
+Keep in mind when running `expand-data-corpus.py`, the feature by default influences the `~/.benchmark/benchmarks/workloads/default/http_logs` and `~/.benchmark/benchmarks/data/` directories. To choose a different workload repository other than `default`, supply a different workload repository with `-r` parameter. 
 
 ### License
 
