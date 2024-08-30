@@ -51,6 +51,9 @@ def fare_amount_source():
 def total_amount_source():
     return random_money_values(111.98)
 
+def narrow_date_source(): 
+    return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 1, 15))
+
 def date_source():
     return random_dates(datetime.datetime(2015, 1, 1), datetime.datetime(2015, 12, 31))
 
@@ -71,12 +74,12 @@ def register(registry):
     registry.register_standard_value_source("autohisto_agg", "dropoff_datetime", date_source)
     registry.register_standard_value_source("date_histogram_agg", "dropoff_datetime", date_source)
     registry.register_standard_value_source("date_histogram_calendar_interval", "dropoff_datetime", date_source)
-    registry.register_standard_value_source("date_histogram_calendar_interval_with_tz", "dropoff_datetime", date_source)
+    registry.register_standard_value_source("date_histogram_calendar_interval_with_tz", "dropoff_datetime", narrow_date_source)
     registry.register_standard_value_source("date_histogram_fixed_interval", "dropoff_datetime", date_source)
-    registry.register_standard_value_source("date_histogram_fixed_interval_with_tz", "dropoff_datetime", date_source)
+    registry.register_standard_value_source("date_histogram_fixed_interval_with_tz", "dropoff_datetime", narrow_date_source)
     registry.register_standard_value_source("date_histogram_fixed_interval_with_metrics", "dropoff_datetime", date_source)
     registry.register_standard_value_source("auto_date_histogram", "dropoff_datetime", date_source)
-    registry.register_standard_value_source("auto_date_histogram_with_tz", "dropoff_datetime", date_source)
+    registry.register_standard_value_source("auto_date_histogram_with_tz", "dropoff_datetime", narrow_date_source)
     registry.register_standard_value_source("auto_date_histogram_with_metrics", "dropoff_datetime", date_source)
 
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)
