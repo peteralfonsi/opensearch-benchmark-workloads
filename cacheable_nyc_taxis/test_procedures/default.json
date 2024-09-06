@@ -65,7 +65,8 @@
                 },
                 "warmup-iterations": 1200,
                 "iterations": 320000,
-                "target-throughput": 32
+                "target-throughput": 32,
+                "clients": 32
               },
               {
                 "name":"cheap-fare-amount",
@@ -75,7 +76,8 @@
                 },
                 "warmup-iterations": 1200,
                 "iterations": 320000,
-                "target-throughput": 32
+                "target-throughput": 32,
+                "clients": 32
               },
               {
                 "name":"cheap-total-amount",
@@ -85,7 +87,8 @@
                 },
                 "warmup-iterations": 1200,
                 "iterations": 320000,
-                "target-throughput": 32
+                "target-throughput": 32,
+                "clients": 32
               },
               {
                 "name":"cheap-pickup",
@@ -95,7 +98,8 @@
                 },
                 "warmup-iterations": 1200,
                 "iterations": 320000,
-                "target-throughput": 32
+                "target-throughput": 32,
+                "clients": 32
               },
               {
                 "name":"cheap-dropoff",
@@ -105,7 +109,8 @@
                 },
                 "warmup-iterations": 1200,
                 "iterations": 320000,
-                "target-throughput": 32
+                "target-throughput": 32,
+                "clients": 32
               },
               {
                 "name":"autohisto-agg",
@@ -115,7 +120,8 @@
                 },
                 "warmup-iterations": 300,
                 "iterations": 80000,
-                "target-throughput": 8
+                "target-throughput": 8,
+                "clients": 8
               },
               {
                 "name":"date-histogram-agg",
@@ -125,7 +131,8 @@
                 },
                 "warmup-iterations": 300,
                 "iterations": 80000,
-                "target-throughput": 8
+                "target-throughput": 8,
+                "clients": 8
               },
               {
                 "name":"date-histogram-calendar-interval",
@@ -135,7 +142,8 @@
                 },
                 "warmup-iterations": 300,
                 "iterations": 80000,
-                "target-throughput": 8
+                "target-throughput": 8,
+                "clients": 8
               },
               {
                 "name":"date-histogram-fixed-interval",
@@ -145,7 +153,8 @@
                 },
                 "warmup-iterations": 300,
                 "iterations": 80000,
-                "target-throughput": 8
+                "target-throughput": 8,
+                "clients": 8
               },
               {
                 "name":"auto-date-histogram",
@@ -155,7 +164,8 @@
                 },
                 "warmup-iterations": 300,
                 "iterations": 80000,
-                "target-throughput": 8
+                "target-throughput": 8,
+                "clients": 8
               }
             ]
           }
