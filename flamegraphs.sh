@@ -6,6 +6,7 @@ OS_PID=$(echo "$pids" | sed -n '2p')
 echo "Detected OS PID as : $OS_PID"
 
 if [ -z "$OS_PID" ]; then 
+    # happens when running from tar install
     echo "Retrying to get OS PID..."
     OS_PID=$pids
     echo "Detected OS PID as : $OS_PID"
