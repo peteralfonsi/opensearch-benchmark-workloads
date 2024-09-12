@@ -5,6 +5,12 @@ pids=$(ps aux | grep '[O]penSearch' | awk '{print $2}')
 OS_PID=$(echo "$pids" | sed -n '2p')
 echo "Detected OS PID as : $OS_PID"
 
+if [ -z "$OS_PID" ]; then 
+    echo "Retrying to get OS PID..."
+    OS_PID=$pids
+    echo "Detected OS PID as : $OS_PID"
+fi
+
 mkdir /home/ec2-user/flamegraphs
 
 if [ ! -d "/home/ec2-user/async-profiler-3.0-linux-x64" ]; then
