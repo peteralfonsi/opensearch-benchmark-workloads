@@ -138,6 +138,16 @@
                 "target-throughput": 5
               },
               {
+                "name":"date-histogram-calendar-interval-with-tz",
+                "operation":"date_histogram_calendar_interval_with_tz",
+                "settings": {
+                  "index.requests.cache.enable":true
+                },
+                "warmup-iterations": 300,
+                "iterations": 80000,
+                "target-throughput": 5
+              },
+              {
                 "name":"date-histogram-fixed-interval",
                 "operation":"date_histogram_fixed_interval",
                 "settings": {
@@ -148,8 +158,28 @@
                 "target-throughput": 5
               },
               {
+                "name":"date-histogram-fixed-interval-with-tz",
+                "operation":"date_histogram_fixed_interval_with_tz",
+                "settings": {
+                  "index.requests.cache.enable":true
+                },
+                "warmup-iterations": 300,
+                "iterations": 80000,
+                "target-throughput": 5
+              },
+              {
                 "name":"auto-date-histogram",
                 "operation":"auto_date_histogram",
+                "settings": {
+                  "index.requests.cache.enable":true
+                },
+                "warmup-iterations": 300,
+                "iterations": 80000,
+                "target-throughput": 5
+              },
+              {
+                "name":"auto-date-histogram-with-tz",
+                "operation":"auto_date_histogram_with_tz",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
