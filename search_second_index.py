@@ -2,6 +2,7 @@ from opensearchpy import OpenSearch
 from create_second_index import get_random_value, get_random_string, max_value, index_name, get_time, get_client
 import random
 import time
+import threading
 
 def get_time_query(): 
     return {
@@ -54,5 +55,12 @@ def search_index(client):
 
 client = get_client() 
 print("Beginning searches")
-while True: 
-    search_index(client) 
+def infinite_search():
+    while True: 
+        search_index(client) 
+
+num_threads = 8
+threads = []
+for i in range(num_threads): 
+    threads.append(threading.Thread(target=infinite_search))
+    threads[i].start()
