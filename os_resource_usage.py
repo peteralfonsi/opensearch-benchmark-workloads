@@ -1,8 +1,15 @@
 import requests 
 import time 
 import datetime
+import sys
 
-output = "/home/ec2-user/cluster_resource_usage.csv"
+if len(sys.argv) < 2: 
+    raise Exception("Must pass run code to name file!")
+
+run_code = sys.argv[1]
+print("Detected run code as {}".format(run_code))
+
+output = "/home/ec2-user/cluster_resource_usages/{}.csv".format(run_code)
 
 with open(output, "a") as f: 
     f.write("Time, CPU, JVM pressure, JVM max (B), Pct of time on old GC, Pct of time on young GC\n")
