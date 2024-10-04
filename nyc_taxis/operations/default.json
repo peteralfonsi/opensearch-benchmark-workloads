@@ -27,6 +27,10 @@
     },
     {
       "name": "default",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "query": {
@@ -36,6 +40,10 @@
     },
     {
       "name": "range",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "query": {
@@ -50,6 +58,10 @@
     },
     {
       "name": "distance_amount_agg",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -84,6 +96,10 @@
     },
     {
       "name": "autohisto_agg",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -108,6 +124,10 @@
     },
     {
       "name": "date_histogram_agg",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -132,6 +152,10 @@
     },
     {
       "name": "date_histogram_calendar_interval",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -155,6 +179,10 @@
     },
     {
       "name": "date_histogram_calendar_interval_with_tz",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -179,6 +207,10 @@
     },
     {
       "name": "date_histogram_fixed_interval",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -202,6 +234,10 @@
     },
     {
       "name": "date_histogram_fixed_interval_with_tz",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -226,6 +262,10 @@
     },
     {
       "name": "date_histogram_fixed_interval_with_metrics",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -254,6 +294,10 @@
     },
     {
       "name": "auto_date_histogram",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -277,6 +321,10 @@
     },
     {
       "name": "auto_date_histogram_with_tz",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -301,6 +349,10 @@
     },
     {
       "name": "auto_date_histogram_with_metrics",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -329,6 +381,10 @@
     },
     {
       "name": "desc_sort_tip_amount",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "index": "nyc_taxis",
       "body": {
@@ -342,6 +398,10 @@
     },
     {
       "name": "asc_sort_tip_amount",
+      "headers": {
+        "Content-Type": "application/json",
+        "queryGroupId": "test_group"
+      },
       "operation-type": "search",
       "index": "nyc_taxis",
       "body": {
