@@ -82,4 +82,12 @@ def register(registry):
     registry.register_standard_value_source("auto_date_histogram_with_tz", "dropoff_datetime", narrow_date_source)
     registry.register_standard_value_source("auto_date_histogram_with_metrics", "dropoff_datetime", date_source)
 
+    registry.register_standard_value_source("dropoff-datetime-size-nonzero", "dropoff_datetime", date_source)
+    registry.register_standard_value_source("pickup-datetime-size-nonzero", "pickup_datetime", date_source)
+    registry.register_standard_value_source("total-amount-size-nonzero", "total_amount", total_amount_source)
+    registry.register_standard_value_source("tip-amount-size-nonzero", "tip_amount", tip_amount_source)
+    registry.register_standard_value_source("fare-amount-size-nonzero", "fare_amount", fare_amount_source)
+    registry.register_standard_value_source("trip-distance-size-nonzero", "trip_distance", trip_distance_source)
+    registry.register_standard_value_source("passenger-count-size-nonzero", "passenger_count", passenger_count_source)
+
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)

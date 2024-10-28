@@ -138,28 +138,8 @@
                 "target-throughput": 5
               },
               {
-                "name":"date-histogram-calendar-interval-with-tz",
-                "operation":"date_histogram_calendar_interval_with_tz",
-                "settings": {
-                  "index.requests.cache.enable":true
-                },
-                "warmup-iterations": 300,
-                "iterations": 80000,
-                "target-throughput": 5
-              },
-              {
                 "name":"date-histogram-fixed-interval",
                 "operation":"date_histogram_fixed_interval",
-                "settings": {
-                  "index.requests.cache.enable":true
-                },
-                "warmup-iterations": 300,
-                "iterations": 80000,
-                "target-throughput": 5
-              },
-              {
-                "name":"date-histogram-fixed-interval-with-tz",
-                "operation":"date_histogram_fixed_interval_with_tz",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
@@ -178,14 +158,56 @@
                 "target-throughput": 5
               },
               {
-                "name":"auto-date-histogram-with-tz",
-                "operation":"auto_date_histogram_with_tz",
+                "name":"dropoff-datetime-size-nonzero",
+                "operation":"dropoff-datetime-size-nonzero",
                 "settings": {
                   "index.requests.cache.enable":true
                 },
-                "warmup-iterations": 300,
-                "iterations": 80000,
-                "target-throughput": 5
+                "warmup-iterations": 1200,
+                "iterations": 320000,
+                "target-throughput": 20
+              },
+              {
+                "name":"pickup-datetime-size-nonzero",
+                "operation":"pickup-datetime-size-nonzero",
+                "warmup-iterations": 1200,
+                "iterations": 320000,
+                "target-throughput": 20
+              },
+              {
+                "name":"total-amount-size-nonzero",
+                "operation":"total-amount-size-nonzero",
+                "warmup-iterations": 1200,
+                "iterations": 320000,
+                "target-throughput": 20
+              },
+              {
+                "name":"tip-amount-size-nonzero",
+                "operation":"tip-amount-size-nonzero",
+                "warmup-iterations": 1200,
+                "iterations": 320000,
+                "target-throughput": 20
+              },
+              {
+                "name":"fare-amount-size-nonzero",
+                "operation":"fare-amount-size-nonzero",
+                "warmup-iterations": 1200,
+                "iterations": 320000,
+                "target-throughput": 20
+              },
+              {
+                "name":"trip-distance-size-nonzero",
+                "operation":"trip-distance-size-nonzero",
+                "warmup-iterations": 1200,
+                "iterations": 320000,
+                "target-throughput": 20
+              },
+              {
+                "name":"passenger-count-size-nonzero",
+                "operation":"passenger-count-size-nonzero",
+                "warmup-iterations": 1200,
+                "iterations": 320000,
+                "target-throughput": 20
               }
             ]
           }

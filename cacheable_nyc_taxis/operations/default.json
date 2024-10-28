@@ -414,4 +414,152 @@
             }
         }
     }
+    }, 
+    { 
+      "name": "dropoff-datetime-size-nonzero", 
+      "operation-type": "search", 
+      "body": {
+        "size": {{size | default(10)}},
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "dropoff_datetime": {
+                    "gte": "2015-01-01 12:00:00",
+                    "lte": "2015-01-02 12:00:00"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }, 
+    { 
+      "name": "pickup-datetime-size-nonzero", 
+      "operation-type": "search", 
+      "body": {
+        "size": {{size | default(10)}},
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "pickup_datetime": {
+                    "gte": "2015-01-01 12:00:00",
+                    "lte": "2015-01-02 12:00:00"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "total-amount-size-nonzero", 
+      "operation-type": "search", 
+      "body": {
+        "size": {{size | default(10)}},
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "total_amount": {
+                    "gte": 0.00,
+                    "lte": 2.00
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "tip-amount-size-nonzero", 
+      "operation-type": "search", 
+      "body": {
+        "size": {{size | default(10)}},
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "tip_amount": {
+                    "gte": 0.00,
+                    "lte": 2.00
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "fare-amount-size-nonzero", 
+      "operation-type": "search", 
+      "body": {
+        "size": {{size | default(10)}},
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "fare_amount": {
+                    "gte": 0.00,
+                    "lte": 2.00
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "trip-distance-size-nonzero", 
+      "operation-type": "search", 
+      "body": {
+        "size": {{size | default(10)}},
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "trip_distance": {
+                    "gte": 0.00,
+                    "lte": 2.00
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "passenger-count-size-nonzero", 
+      "operation-type": "search", 
+      "body": {
+        "size": {{size | default(10)}},
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "range": {
+                  "passenger_count": {
+                    "gte": 0.00,
+                    "lte": 2.00
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
     }
+    
