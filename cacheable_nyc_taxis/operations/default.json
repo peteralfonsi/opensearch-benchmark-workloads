@@ -169,7 +169,7 @@
             "date_histogram": {
               "field": "dropoff_datetime",
               "calendar_interval": "month",
-              "time_zone": "America/New_York"
+              "time_zone": "-05:00"
             }
           }
         }
