@@ -57,16 +57,16 @@
         {
           "name":"date-histogram-calendar-interval",
           "operation":"date_histogram_calendar_interval",
-          "warmup-iterations": 10,
-          "iterations": 50,
-          "target-throughput": 0.1
+          "warmup-iterations": 50,
+          "iterations": 250,
+          "target-throughput": 0.5
         },
         {
           "name":"date-histogram-calendar-interval-with-tz",
           "operation":"date_histogram_calendar_interval_with_tz",
-          "warmup-iterations": 10,
-          "iterations": 50,
-          "target-throughput": 0.1
+          "warmup-iterations": 50,
+          "iterations": 250,
+          "target-throughput": 0.5
         }
       ]
     }
