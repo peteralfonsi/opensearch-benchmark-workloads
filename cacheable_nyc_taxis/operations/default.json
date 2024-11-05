@@ -419,7 +419,7 @@
       "name": "dropoff-datetime-size-nonzero", 
       "operation-type": "search", 
       "body": {
-        "size": {{size | default(100)}},
+        "size": {{size | default(1000)}},
         "query": {
           "bool": {
             "must": [
@@ -440,7 +440,7 @@
       "name": "pickup-datetime-size-nonzero", 
       "operation-type": "search", 
       "body": {
-        "size": {{size | default(100)}},
+        "size": {{size | default(1000)}},
         "query": {
           "bool": {
             "must": [
@@ -461,7 +461,7 @@
       "name": "total-amount-size-nonzero", 
       "operation-type": "search", 
       "body": {
-        "size": {{size | default(100)}},
+        "size": {{size | default(1000)}},
         "query": {
           "bool": {
             "must": [
@@ -482,7 +482,7 @@
       "name": "tip-amount-size-nonzero", 
       "operation-type": "search", 
       "body": {
-        "size": {{size | default(100)}},
+        "size": {{size | default(1000)}},
         "query": {
           "bool": {
             "must": [
@@ -503,7 +503,7 @@
       "name": "fare-amount-size-nonzero", 
       "operation-type": "search", 
       "body": {
-        "size": {{size | default(100)}},
+        "size": {{size | default(1000)}},
         "query": {
           "bool": {
             "must": [
@@ -524,7 +524,7 @@
       "name": "trip-distance-size-nonzero", 
       "operation-type": "search", 
       "body": {
-        "size": {{size | default(100)}},
+        "size": {{size | default(1000)}},
         "query": {
           "bool": {
             "must": [
@@ -545,7 +545,7 @@
       "name": "passenger-count-size-nonzero", 
       "operation-type": "search", 
       "body": {
-        "size": {{size | default(100)}},
+        "size": {{size | default(1000)}},
         "query": {
           "bool": {
             "must": [
