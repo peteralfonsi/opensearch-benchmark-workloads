@@ -64,7 +64,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 320000,
+                "iterations": 32000,
                 "target-throughput": 20
               },
               {
@@ -74,7 +74,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 320000,
+                "iterations": 32000,
                 "target-throughput": 20
               },
               {
@@ -84,7 +84,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 320000,
+                "iterations": 32000,
                 "target-throughput": 20
               },
               {
@@ -94,7 +94,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 320000,
+                "iterations": 32000,
                 "target-throughput": 20
               },
               {
@@ -104,7 +104,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 1200,
-                "iterations": 320000,
+                "iterations": 32000,
                 "target-throughput": 20
               },
               {
@@ -114,7 +114,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
@@ -124,7 +124,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
@@ -134,7 +134,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
@@ -144,7 +144,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
@@ -154,7 +154,7 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
@@ -164,49 +164,49 @@
                   "index.requests.cache.enable":true
                 },
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
                 "name":"pickup-datetime-size-nonzero",
                 "operation":"pickup-datetime-size-nonzero",
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
                 "name":"total-amount-size-nonzero",
                 "operation":"total-amount-size-nonzero",
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
                 "name":"tip-amount-size-nonzero",
                 "operation":"tip-amount-size-nonzero",
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
                 "name":"fare-amount-size-nonzero",
                 "operation":"fare-amount-size-nonzero",
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
                 "name":"trip-distance-size-nonzero",
                 "operation":"trip-distance-size-nonzero",
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               },
               {
                 "name":"passenger-count-size-nonzero",
                 "operation":"passenger-count-size-nonzero",
                 "warmup-iterations": 300,
-                "iterations": 80000,
+                "iterations": 8000,
                 "target-throughput": 5
               }
             ]
