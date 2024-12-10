@@ -38,6 +38,7 @@
       "name": "bbox",
       "operation-type": "search",
       "body": {
+        "size": 0,
         "query": {
           "geo_bounding_box": {
             "location": {
