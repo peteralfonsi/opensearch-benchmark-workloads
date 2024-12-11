@@ -57,7 +57,7 @@ def bounding_box_source():
     # widen the box if it's small so we match more docs
     if bottom_longitude - top_longitude < 0.35: 
         bottom_longitude += 0.2
-        top_longitde -= 0.2
+        top_longitude -= 0.2
     if top_latitude - bottom_latitude < 0.25: 
         top_latitude += 0.1 
         bottom_latitude -= 0.1 
