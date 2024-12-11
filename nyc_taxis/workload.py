@@ -47,6 +47,17 @@ def trip_distance_source():
     lte = random.randint(gte, 20)
     return {"gte":gte, "lte":lte}
 
+def bounding_box_source(): 
+    top_longitude = random.uniform(-74.27, -73.68)
+    top_latitude = random.uniform(40.49, 40.92)
+
+    bottom_longitude = random.uniform(top_longitude, -73.68)
+    bottom_latitude = random.uniform(40.49, top_latitude)
+    return { 
+        "top_left":[top_longitude, top_latitude],
+        "bottom_right":[bottom_longitude, bottom_latitude]
+    }
+
 def register(registry):
     # Register standard value sources for range queries defined in operations/default.json. 
     # These are only used if --randomization-enabled is present. 
@@ -62,5 +73,8 @@ def register(registry):
     registry.register_standard_value_source("auto_date_histogram", "dropoff_datetime", date_source_with_hours)
     registry.register_standard_value_source("auto_date_histogram_with_tz", "dropoff_datetime", date_source_with_hours)
     registry.register_standard_value_source("auto_date_histogram_with_metrics", "dropoff_datetime", date_source_with_hours)
+
+    registry.register_standard_value_source("bbox", "pickup_location", bounding_box_source)
+    registry.register_target_keys_info("bbox", "geo_bounding_box", [["top_left"], ["bottom_right"]], [])
 
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)

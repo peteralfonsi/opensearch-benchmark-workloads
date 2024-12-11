@@ -352,4 +352,20 @@
           {"tip_amount" : "asc"}
         ]
       }
+    },
+    {
+      "name": "bbox", 
+      "operation-type": "search", 
+      "index": "nyc_taxis",
+      "body": { 
+        "size": 0,
+        "query": {
+          "geo_bounding_box": {
+            "pickup_location": {
+              "top_left": [-74.27, 40.92],
+              "bottom_right": [-73.68, 40.49]
+            }
+          }
+        }
+      }
     }
