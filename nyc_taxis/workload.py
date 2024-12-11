@@ -53,6 +53,14 @@ def bounding_box_source():
 
     bottom_longitude = random.uniform(top_longitude, -73.68)
     bottom_latitude = random.uniform(40.49, top_latitude)
+
+    # widen the box if it's small so we match more docs
+    if bottom_longitude - top_longitude < 0.35: 
+        bottom_longitude += 0.2
+        top_longitde -= 0.2
+    if top_latitude - bottom_latitude < 0.25: 
+        top_latitude += 0.1 
+        bottom_latitude -= 0.1 
     return { 
         "top_left":[top_longitude, top_latitude],
         "bottom_right":[bottom_longitude, bottom_latitude]
