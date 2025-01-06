@@ -362,8 +362,14 @@
         "query": {
           "geo_bounding_box": {
             "pickup_location": {
-              "top_left": [-74.27, 40.92],
-              "bottom_right": [-73.68, 40.49]
+              "top_left": {
+                "lat":40.78,
+                "lon":-73.99
+              },
+              "bottom_right": {
+                "lat":40.64,
+                "lon":-73.93
+              }
             }
           }
         }

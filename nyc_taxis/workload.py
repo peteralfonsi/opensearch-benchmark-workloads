@@ -83,6 +83,6 @@ def register(registry):
     registry.register_standard_value_source("auto_date_histogram_with_metrics", "dropoff_datetime", date_source_with_hours)
 
     registry.register_standard_value_source("bbox", "pickup_location", bounding_box_source)
-    registry.register_query_randomization_info("bbox", "geo_bounding_box", [["top_left"], ["bottom_right"]], [])
+    #registry.register_query_randomization_info("bbox", "geo_bounding_box", [["top_left"], ["bottom_right"]], [])
 
     registry.register_runner("delete-snapshot", delete_snapshot, async_runner=True)
