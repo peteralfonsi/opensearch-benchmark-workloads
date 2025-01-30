@@ -26,8 +26,5 @@
     "query_data_set_path":"/tmp/sift-128-euclidean.hdf5",
     "query_count": 100,
 
-    //"requests_cache_enabled":"true", 
-    //#"query_cache_enabled":"false",
-
     "target_index_bulk_index_data_set_corpus":"cohere-10m"
   }
