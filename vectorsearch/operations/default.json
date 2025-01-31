@@ -32,7 +32,12 @@
 { 
     "name": "randomized-vector-search", 
     "operation-type": "vector-search", 
-    "index": {{ target_index_name | default('target_index') }},
+    "index": "target_index",
+    "field": "target_field",
+    "data_set_format" : "hdf5",
+    "data_set_path" : "{{ query_data_set_path }}",
+    "data_set_corpus" : "{{ query_data_set_corpus }}",
+    "k": {{ query_k }},
     "body": { 
         "size": {{ query_k }},
         "query": {
@@ -40,14 +45,7 @@
                 "target_field": {
                     "vector": [2, 3, 5, 6],
                     "k": {{ query_k }}
-                },
-                "detailed-results": true,
-                {% if query_max_distance is defined %}
-                "max_distance": {{ query_max_distance }},
-                {% endif %}
-                {% if query_min_score is defined %}
-                "min_score": {{ query_min_score }},
-                {% endif %}
+                }
             }
         }
     }
