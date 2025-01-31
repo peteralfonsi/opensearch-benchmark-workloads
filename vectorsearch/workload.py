@@ -7,10 +7,10 @@
 from .runners import register as register_runners
 from random import uniform
 
-dimensions = 128 
+dimensions = 768
 # TODO: Refine this based on the distribution of base vectors in corpus. 
-min_value = -100 
-max_value = 100
+min_value = -1
+max_value = 1
 def vector_source(): 
     v = [] 
     for i in range(dimensions): 
