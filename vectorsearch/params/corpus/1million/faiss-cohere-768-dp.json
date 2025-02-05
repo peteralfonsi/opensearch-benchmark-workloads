@@ -26,5 +26,5 @@
     "query_count": 10000,
 
     "iterations":10000,
-    "target_throughput":3
+    "target_throughput":10
   }
