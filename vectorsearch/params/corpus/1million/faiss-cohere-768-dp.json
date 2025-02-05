@@ -23,5 +23,8 @@
 
     "query_data_set_format": "hdf5",
     "query_data_set_corpus": "cohere-1m",
-    "query_count": 10000
+    "query_count": 10000,
+
+    "iterations":10000,
+    "target_throughput":3
   }

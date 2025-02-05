@@ -37,6 +37,7 @@
     "data_set_format" : "hdf5",
     "data_set_path" : "{{ query_data_set_path }}",
     "data_set_corpus" : "{{ query_data_set_corpus }}",
+    "neighbors": [0], 
     "k": {{ query_k }},
     "body": { 
         "size": {{ query_k }},
