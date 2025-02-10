@@ -25,6 +25,6 @@
     "query_data_set_corpus": "cohere-1m",
     "query_count": 10000,
 
-    "iterations":20000,
+    "iterations":5000,
     "target_throughput":3
   }
