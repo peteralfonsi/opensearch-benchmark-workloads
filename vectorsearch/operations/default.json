@@ -40,6 +40,8 @@
     "neighbors": [0], 
     "k": {{ query_k }},
     "body": { 
+        "docvalue_fields" : ["_id"],
+        "stored_fields" : "_none_",
         "size": {{ query_k }},
         "query": {
             "knn": {
