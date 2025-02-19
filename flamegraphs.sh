@@ -27,4 +27,7 @@ while true; do
     outputFile=/home/ec2-user/flamegraphs/flamegraph-${currMin}.html
     ./asprof -d 300 -f "$outputFile" "$OS_PID"
     sleep 600
+    hotThreadsFile=/home/ec2-user/flamegraphs/hot_threads-${currMin}.txt
+    touch $hotThreadsFile
+    curl -XGET "localhost:9200/_nodes/hot_threads" > $hotThreadsFile
 done
