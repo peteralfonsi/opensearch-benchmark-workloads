@@ -25,6 +25,55 @@
       "retry-until-success": true,
       "include-in-reporting": false
     },
+    { 
+      "name": "unnormalized_q1", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must": [
+              { 
+                "bool": { 
+                  "should": [ 
+                    {"range" : {"trip_distance" : {"gte": 5, "lte": 15}}}, 
+                    {"range" : {"dropoff_datetime" : {"gte": "1/21/2015", "lte": "4/3/2015", "format": "dd/MM/yyyy"}}}
+                  ]
+                }
+              },
+              { 
+                "bool": { 
+                  "should": [ 
+                    {"range" : {"trip_distance" : {"gte": 5, "lte": 15}}}, 
+                    {"range" : {"total_amount" : {"gte": 10, "lte": 20}}}
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "normalized_q1", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "should": [ 
+              {
+                "bool": {
+                  "must": [
+                    {"range" : {"dropoff_datetime" : {"gte": "1/21/2015", "lte": "4/3/2015", "format": "dd/MM/yyyy"}}}, 
+                    {"range" : {"total_amount" : {"gte": 10, "lte": 20}}}
+                  ]
+                }
+              },
+              {"range" : {"trip_distance" : {"gte": 5, "lte": 15}}}
+            ]
+          }
+        }
+      }
+    },
     {
       "name": "default",
       "operation-type": "search",
