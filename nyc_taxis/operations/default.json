@@ -36,7 +36,7 @@
                 "bool": { 
                   "should": [ 
                     {"range" : {"trip_distance" : {"gte": 5, "lte": 15}}}, 
-                    {"range" : {"dropoff_datetime" : {"gte": "1/21/2015", "lte": "4/3/2015", "format": "dd/MM/yyyy"}}}
+                    {"range" : {"dropoff_datetime" : {"gte": "21/01/2015", "lte": "03/04/2015", "format": "dd/MM/yyyy"}}}
                   ]
                 }
               },
@@ -63,7 +63,7 @@
               {
                 "bool": {
                   "must": [
-                    {"range" : {"dropoff_datetime" : {"gte": "1/21/2015", "lte": "4/3/2015", "format": "dd/MM/yyyy"}}}, 
+                    {"range" : {"dropoff_datetime" : {"gte": "21/01/2015", "lte": "03/04/2015", "format": "dd/MM/yyyy"}}}, 
                     {"range" : {"total_amount" : {"gte": 10, "lte": 20}}}
                   ]
                 }
