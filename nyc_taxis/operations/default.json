@@ -168,8 +168,8 @@
         "query": { 
           "bool": { 
             "should": [
-              {"filter": {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}}},
-              {"filter": {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}} 
+              {"bool": {"filter": {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}}}},
+              {"bool": {"filter": {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}}}
             ]
           }
         }
