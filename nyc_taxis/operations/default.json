@@ -101,6 +101,19 @@
       }
     },
     { 
+      "name": "filter_q2", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "filter": [ 
+              {"range" : {"dropoff_datetime" : {"gte": "01/07/2015", "format": "dd/MM/yyyy"}}} 
+            ]
+          }
+        }
+      }
+    },
+    { 
       "name": "must_q2_flipped", 
       "operation-type": "search", 
       "body": { 
@@ -121,6 +134,19 @@
           "bool" : { 
             "must_not": [ 
               {"range" : {"dropoff_datetime" : {"gte": "01/07/2015", "format": "dd/MM/yyyy"}}}
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "filter_q2_flipped", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "filter": [ 
+              {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}} 
             ]
           }
         }
