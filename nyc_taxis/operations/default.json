@@ -209,8 +209,8 @@
         "query": { 
           "bool" : { 
             "must": [
-              {"must_not": {"range" : {"dropoff_datetime" : {"gte": "21/01/2015", "lte": "03/04/2015", "format": "dd/MM/yyyy"}}}},
-              {"must_not": {"range" : {"total_amount" : {"gte": 10, "lte": 20}}}}
+              {"bool":{"must_not": {"range" : {"dropoff_datetime" : {"gte": "21/01/2015", "lte": "03/04/2015", "format": "dd/MM/yyyy"}}}}},
+              {"bool":{"must_not": {"range" : {"total_amount" : {"gte": 10, "lte": 20}}}}}
             ]
           }
         }
