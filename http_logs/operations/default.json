@@ -231,15 +231,6 @@
               }
             ]
           }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
-            }
-          }
         }
       }
     },
@@ -265,15 +256,6 @@
                 }
               }
             ]
-          }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
-            }
           }
         }
       }
@@ -301,15 +283,6 @@
               }
             ]
           }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
-            }
-          }
         }
       }
     },
@@ -336,15 +309,6 @@
               }
             ]
           }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
-            }
-          }
         }
       }
     },
@@ -367,15 +331,6 @@
               "match": {
                 "status": "200"
               }
-            }
-          }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
             }
           }
         }
@@ -402,15 +357,6 @@
               }
             }
           }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
-            }
-          }
         }
       }
     },
@@ -435,15 +381,6 @@
               }
             }
           }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
-            }
-          }
         }
       }
     },
@@ -466,15 +403,6 @@
                   "lt": "1998-06-13T00:00:00Z"
                 }
               }
-            }
-          }
-        }, 
-        "size": 0,
-        "aggs": {
-          "by_hour": {
-            "date_histogram": {
-              "field": "@timestamp",
-              "calendar_interval": "hour"
             }
           }
         }
