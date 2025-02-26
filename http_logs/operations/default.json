@@ -313,7 +313,7 @@
       }
     },
     {
-      "name": "q8_prefilter_200",
+      "name": "q8_prefilter_on_timestamp_200",
       "operation-type": "search",
       "index": "logs-*",
       "body": {
@@ -337,7 +337,7 @@
       }
     },
     {
-      "name": "q8_prefilter_404",
+      "name": "q8_prefilter_on_timestamp_404",
       "operation-type": "search",
       "index": "logs-*",
       "body": {
@@ -353,13 +353,61 @@
             },
             "must": {
               "match": {
-                "status": "200"
+                "status": "404"
               }
             }
           }
         }
       }
     },
+    {
+      "name": "q8_prefilter_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "match": {
+                "status": "200"
+              }
+            },
+            "must": {
+              "range": {
+                "@timestamp": {
+                  "gte": "1998-05-01T00:00:00Z",
+                  "lt": "1998-05-02T00:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "q8_prefilter_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "match": {
+                "status": "404"
+              }
+            },
+            "must": {
+              "range": {
+                "@timestamp": {
+                  "gte": "1998-05-01T00:00:00Z",
+                  "lt": "1998-05-02T00:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     {
       "name": "hourly_agg",
       "operation-type": "search",
