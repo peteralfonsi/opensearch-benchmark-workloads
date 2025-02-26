@@ -313,6 +313,54 @@
       }
     },
     {
+      "name": "q8_prefilter_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "range": {
+                "@timestamp": {
+                  "gte": "1998-05-01T00:00:00Z",
+                  "lt": "1998-05-02T00:00:00Z"
+                }
+              }
+            },
+            "must": {
+              "match": {
+                "status": "200"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "q8_prefilter_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "range": {
+                "@timestamp": {
+                  "gte": "1998-05-01T00:00:00Z",
+                  "lt": "1998-05-02T00:00:00Z"
+                }
+              }
+            },
+            "must": {
+              "match": {
+                "status": "200"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "hourly_agg",
       "operation-type": "search",
       "index": "logs-*",
