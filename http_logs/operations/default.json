@@ -261,6 +261,58 @@
       }
     },
     {
+      "name": "q8_filter_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": [
+              {
+                "range": {
+                  "@timestamp": {
+                    "gte": "1998-05-01T00:00:00Z",
+                    "lt": "1998-05-02T00:00:00Z"
+                  }
+                }
+              },
+              {
+                "match": {
+                  "status": "200"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q8_filter_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": [
+              {
+                "range": {
+                  "@timestamp": {
+                    "gte": "1998-05-01T00:00:00Z",
+                    "lt": "1998-05-02T00:00:00Z"
+                  }
+                }
+              },
+              {
+                "match": {
+                  "status": "404"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "name": "hourly_agg",
       "operation-type": "search",
       "index": "logs-*",
