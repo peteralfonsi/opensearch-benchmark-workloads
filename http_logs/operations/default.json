@@ -409,6 +409,94 @@
       }
     },
     {
+      "name": "q9_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "404"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "200"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_prefilter_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "match": {
+                "status": "404"
+              }
+            },
+            "must": {
+              "match": {
+                "request": "images"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_prefilter_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "match": {
+                "status": "404"
+              }
+            },
+            "must": {
+              "match": {
+                "request": "images"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "hourly_agg",
       "operation-type": "search",
       "index": "logs-*",
