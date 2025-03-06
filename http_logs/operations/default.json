@@ -497,6 +497,165 @@
       }
     },
     {
+      "name": "q13_and",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "match":{
+            "request": {
+              "query": "GET images",
+              "operator": "and"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "q13_and_rewritten",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {"match": {"request": "GET"}},
+              {"match": {"request": "images"}},
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q13_or",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "match":{
+            "request": {
+              "query": "GET images",
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "q13_or_rewritten",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "should": [
+              {"match": {"request": "GET"}},
+              {"match": {"request": "images"}},
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q11",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "terms": {
+            "status": [400, 403, 404, 500]
+          }
+        }
+      }
+    },
+    {
+      "name": "q11_range",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "range": {
+            "status": {"gte": 400, "lte": 500}
+          }
+        }
+      }
+    },
+    {
+      "name": "q11_2xx",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "terms": {
+            "status": [200, 206]
+          }
+        }
+      }
+    },
+    {
+      "name": "q11_2xx_range",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "range": {
+            "status": {"gte": 200, "lte": 206}
+          }
+        }
+      }
+    },
+    {
+      "name": "q12_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "constant_score": {
+            "filter": [
+              {
+                "range": {
+                  "@timestamp": {
+                    "gte": "1998-06-10T00:00:00Z",
+                    "lt": "1998-06-13T00:00:00Z"
+                  }
+                }
+              },
+              {
+                "match": {
+                  "status": "404"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q12_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "constant_score": {
+            "filter": [
+              {
+                "range": {
+                  "@timestamp": {
+                    "gte": "1998-06-10T00:00:00Z",
+                    "lt": "1998-06-13T00:00:00Z"
+                  }
+                }
+              },
+              {
+                "match": {
+                  "status": "200"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "name": "hourly_agg",
       "operation-type": "search",
       "index": "logs-*",
