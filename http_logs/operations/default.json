@@ -520,7 +520,7 @@
           "bool": {
             "must": [
               {"match": {"request": "GET"}},
-              {"match": {"request": "images"}},
+              {"match": {"request": "images"}}
             ]
           }
         }
@@ -549,7 +549,7 @@
           "bool": {
             "should": [
               {"match": {"request": "GET"}},
-              {"match": {"request": "images"}},
+              {"match": {"request": "images"}}
             ]
           }
         }
