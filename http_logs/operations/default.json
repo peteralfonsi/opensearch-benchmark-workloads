@@ -484,7 +484,7 @@
           "bool": {
             "filter": {
               "match": {
-                "status": "404"
+                "status": "200"
               }
             },
             "must": {
