@@ -497,6 +497,66 @@
       }
     },
     {
+      "name": "q9_200_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "200"
+                }
+              }
+            ]
+          }
+        },
+        "aggs": {
+          "by_hour": {
+            "date_histogram": {
+              "field": "@timestamp",
+              "calendar_interval": "hour"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_prefilter_200_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "match": {
+                "status": "200"
+              }
+            },
+            "must": {
+              "match": {
+                "request": "images"
+              }
+            }
+          }
+        },
+        "aggs": {
+          "by_hour": {
+            "date_histogram": {
+              "field": "@timestamp",
+              "calendar_interval": "hour"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "q9_range",
       "operation-type": "search",
       "index": "logs-*",
