@@ -455,6 +455,29 @@
       }
     },
     {
+      "name": "q9_500",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "500"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "name": "q9_prefilter_404",
       "operation-type": "search",
       "index": "logs-*",
@@ -485,6 +508,27 @@
             "filter": {
               "match": {
                 "status": "200"
+              }
+            },
+            "must": {
+              "match": {
+                "request": "images"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_prefilter_500",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+              "match": {
+                "status": "500"
               }
             },
             "must": {
