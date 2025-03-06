@@ -534,7 +534,7 @@
         "query": {
           "match":{
             "request": {
-              "query": "GET images",
+              "query": "GET images"
             }
           }
         }
