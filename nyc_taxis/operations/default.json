@@ -190,6 +190,22 @@
       }
     },
     { 
+      "name": "nested_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "must":{"bool":{
+              "should": [
+                {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}},
+                {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}
+              ]
+            }}
+          }
+        }
+      }
+    },
+    { 
       "name": "must_not_wide_q3", 
       "operation-type": "search", 
       "body": { 
@@ -226,6 +242,22 @@
               {"range" : {"dropoff_datetime" : {"lt": "01/01/2015", "format": "dd/MM/yyyy"}}},
               {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}
             ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "nested_wide_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "must":{"bool":{
+              "should": [
+                {"range" : {"dropoff_datetime" : {"lt": "01/01/2015", "format": "dd/MM/yyyy"}}},
+                {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}
+              ]
+            }}
           }
         }
       }
