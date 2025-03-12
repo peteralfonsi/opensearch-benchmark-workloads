@@ -94,6 +94,13 @@
           "clients": {{ range_search_clients or search_clients | default(1) }}
         },
         {
+          "operation": "should_q3",
+          "warmup-iterations": {{ range_warmup_iterations or warmup_iterations | default(25) | tojson }},
+          "iterations": {{ range_iterations or iterations | default(50) | tojson }},
+          "target-throughput": {{ range_target_throughput or target_throughput | default(0.5) | tojson }},
+          "clients": {{ range_search_clients or search_clients | default(1) }}
+        },
+        {
           "operation": "must_not_wide_q3",
           "warmup-iterations": {{ range_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ range_iterations or iterations | default(50) | tojson }},
@@ -102,6 +109,13 @@
         },
         {
           "operation": "filter_wide_q3",
+          "warmup-iterations": {{ range_warmup_iterations or warmup_iterations | default(25) | tojson }},
+          "iterations": {{ range_iterations or iterations | default(50) | tojson }},
+          "target-throughput": {{ range_target_throughput or target_throughput | default(0.5) | tojson }},
+          "clients": {{ range_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "should_wide_q3",
           "warmup-iterations": {{ range_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ range_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ range_target_throughput or target_throughput | default(0.5) | tojson }},
