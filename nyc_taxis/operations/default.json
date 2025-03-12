@@ -176,6 +176,33 @@
       }
     },
     { 
+      "name": "must_not_wide_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": [ 
+              {"range" : {"dropoff_datetime" : {"gte": "01/01/2015", "lte": "01/09/2015", "format": "dd/MM/yyyy"}}}
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "filter_wide_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "should": [
+              {"bool": {"filter": {"range" : {"dropoff_datetime" : {"lt": "01/01/2015", "format": "dd/MM/yyyy"}}}}},
+              {"bool": {"filter": {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}}}
+            ]
+          }
+        }
+      }
+    },
+    { 
       "name": "redundant_q4", 
       "operation-type": "search", 
       "body": { 
