@@ -415,7 +415,7 @@
           "bool" : {
             "should": [
               {"bool":{"must_not": {"range" : {"dropoff_datetime" : {"gte": "21/01/2015", "lte": "03/04/2015", "format": "dd/MM/yyyy"}}}}},
-              {"match" : {"vendor_id" : "1"}}
+              {"bool":{"must_not":{"match" : {"vendor_id" : "1"}}}}
             ]
           }
         }
