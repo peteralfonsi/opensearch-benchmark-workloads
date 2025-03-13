@@ -195,12 +195,14 @@
       "body": { 
         "query": { 
           "bool": { 
-            "must":{"bool":{
-              "should": [
-                {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}},
-                {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}
-              ]
-            }}
+            "must":{
+              "bool":{
+                "should": [
+                  {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}},
+                  {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}}
+                ]
+              }
+            }
           }
         }
       }
@@ -460,7 +462,7 @@
         "query": {
           "bool" : {
             "should": [
-              {"bool":{"must_not": {"range" : {"dropoff_datetime" : {"gte": "21/01/2015", "lte": "03/04/2015", "format": "dd/MM/yyyy"}}}}},
+              {"bool":{"must_not": {"match" : {"payment_type" : "2"}}}},
               {"bool":{"must_not":{"match" : {"vendor_id" : "1"}}}}
             ]
           }
