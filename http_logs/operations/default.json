@@ -808,6 +808,7 @@
     { 
       "name": "nested_wide_q3", 
       "operation-type": "search", 
+      "index": "logs-*",
       "body": { 
         "query": { 
           "bool": { 
@@ -826,6 +827,7 @@
     { 
       "name": "must_not_q3", 
       "operation-type": "search", 
+      "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
@@ -839,6 +841,7 @@
     { 
       "name": "nested_q3", 
       "operation-type": "search", 
+      "index": "logs-*",
       "body": { 
         "query": { 
           "bool": { 
@@ -857,6 +860,7 @@
     { 
       "name": "must_not_wide_q3", 
       "operation-type": "search", 
+      "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
