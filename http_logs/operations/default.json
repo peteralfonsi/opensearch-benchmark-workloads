@@ -805,6 +805,68 @@
         }
       }
     },
+    { 
+      "name": "nested_wide_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "must":{
+              "bool":{
+                "should": [
+                  {"range" : {"@timestamp" : {"lt": "1998-06-10T00:00:00Z"}}},
+                  {"range" : {"@timestamp" : {"gte": "1998-06-13T00:00:00Z"}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "must_not_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": [ 
+              {"range" : {"@timestamp" : {"gte": "1998-06-09T00:00:00Z", "lt": "1998-06-10T00:00:00Z"}}}
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "nested_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "must":{
+              "bool":{
+                "should": [
+                  {"range" : {"@timestamp" : {"lt": "1998-06-09T00:00:00Z"}}},
+                  {"range" : {"@timestamp" : {"gte": "1998-06-10T00:00:00Z"}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "must_not_wide_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": [ 
+              {"range" : {"@timestamp" : {"gte": "1998-06-10T00:00:00Z", "lt": "1998-06-13T00:00:00Z"}}}
+            ]
+          }
+        }
+      }
+    },
     {
       "name": "hourly_agg",
       "operation-type": "search",
