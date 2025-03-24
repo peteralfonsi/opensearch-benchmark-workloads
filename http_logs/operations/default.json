@@ -871,6 +871,99 @@
         }
       }
     },
+    { 
+      "name": "q14_must_not_200", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"match": {"status": "200"}}
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_should_200", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must": {
+              "bool": {
+                "should":[
+                  {"range":{"status":{"lt":200}}},
+                  {"range":{"status":{"gt":200}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_must_not_404", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"match": {"status": "404"}}
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_should_404", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must": {
+              "bool": {
+                "should":[
+                  {"range":{"status":{"lt":404}}},
+                  {"range":{"status":{"gt":404}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_must_not_500", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"match": {"status": "500"}}
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_should_500", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must": {
+              "bool": {
+                "should":[
+                  {"range":{"status":{"lt":500}}},
+                  {"range":{"status":{"gt":500}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     {
       "name": "hourly_agg",
       "operation-type": "search",
