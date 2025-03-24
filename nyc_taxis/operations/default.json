@@ -265,6 +265,37 @@
       }
     },
     { 
+      "name": "nested_narrow_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "must":{
+              "bool":{
+                "should": [
+                  {"range" : {"dropoff_datetime" : {"lt": "2015-01-01 12:00:00"}}},
+                  {"range" : {"dropoff_datetime" : {"gt": "2015-01-01 12:01:00"}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "must_not_narrow_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": [ 
+              {"range" : {"dropoff_datetime" : {"gte": "2015-01-01 12:00:00", "lte": "2015-01-01 12:01:00"}}}
+            ]
+          }
+        }
+      }
+    },
+    { 
       "name": "redundant_q4", 
       "operation-type": "search", 
       "body": { 
