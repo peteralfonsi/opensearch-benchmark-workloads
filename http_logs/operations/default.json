@@ -965,73 +965,73 @@
       }
     },
     { 
-      "name": "q15_must_200", 
+      "name": "q15_term_200", 
       "operation-type": "search", 
       "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
-            "must": {"terms": {"status": "200"}}
+            "must": {"term": {"status": 200}}
           }
         }
       }
     },
     { 
-      "name": "q15_terms_200", 
+      "name": "q15_match_200", 
       "operation-type": "search", 
       "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
-            "must": {"match": {"status": 200}}
+            "must": {"match": {"status": "200"}}
           }
         }
       }
     },
     { 
-      "name": "q15_must_404", 
+      "name": "q15_term_404", 
       "operation-type": "search", 
       "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
-            "must": {"terms": {"status": "404"}}
+            "must": {"term": {"status": 404}}
           }
         }
       }
     },
     { 
-      "name": "q15_terms_404", 
+      "name": "q15_match_404", 
       "operation-type": "search", 
       "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
-            "must": {"match": {"status": 404}}
+            "must": {"match": {"status": "404"}}
           }
         }
       }
     },
     { 
-      "name": "q15_must_500", 
+      "name": "q15_term_500", 
       "operation-type": "search", 
       "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
-            "must": {"terms": {"status": "500"}}
+            "must": {"term": {"status": 500}}
           }
         }
       }
     },
     { 
-      "name": "q15_terms_500", 
+      "name": "q15_match_500", 
       "operation-type": "search", 
       "index": "logs-*",
       "body": { 
         "query": { 
           "bool" : { 
-            "must": {"match": {"status": 500}}
+            "must": {"match": {"status": "500"}}
           }
         }
       }

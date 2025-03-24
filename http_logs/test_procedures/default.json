@@ -271,42 +271,42 @@
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q15_must_200",
+          "operation": "q15_match_200",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.5) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q15_terms_200",
+          "operation": "q15_term_200",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.5) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q15_must_404",
+          "operation": "q15_match_404",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.5) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q15_terms_404",
+          "operation": "q15_term_404",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.5) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q15_must_500",
+          "operation": "q15_match_500",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.5) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q15_terms_500",
+          "operation": "q15_term_500",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.5) | tojson }},
