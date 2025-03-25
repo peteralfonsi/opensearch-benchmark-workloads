@@ -543,6 +543,32 @@
       }
     },
     { 
+      "name": "q17_term_wide", 
+      "operation-type": "search", 
+      "body": { 
+        "query": {
+          "bool" : {
+            "must": [
+                {"term" : {"vendor_id" : "1"}},
+                {"range" : {"dropoff_datetime" : {"gte": "01/01/2015", "lte": "01/09/2015", "format": "dd/MM/yyyy"}}}
+            ]
+          }
+        }
+      }
+    },
+    { 
+      "name": "q17_filter_term_wide", 
+      "operation-type": "search", 
+      "body": { 
+        "query": {
+          "bool" : {
+            "must": {"term" : {"vendor_id" : "1"}},
+            "filter": {"range" : {"dropoff_datetime" : {"gte": "01/01/2015", "lte": "01/09/2015", "format": "dd/MM/yyyy"}}}
+          }
+        }
+      }
+    },
+    { 
       "name": "q17", 
       "operation-type": "search", 
       "body": { 
