@@ -647,6 +647,52 @@
       }
     },
     {
+      "name": "q9_range_narrow",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "range": {
+                "@timestamp": {
+                  "gte": "1998-06-10T00:00:00Z",
+                  "lt": "1998-06-10T00:01:00Z"
+                }
+              }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_prefilter_range_narrow",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": {"match": {"request": "images"}},
+            "filter": {
+                "range": {
+                "@timestamp": {
+                  "gte": "1998-06-10T00:00:00Z",
+                  "lt": "1998-06-10T00:01:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "q13_and",
       "operation-type": "search",
       "index": "logs-*",
@@ -1074,6 +1120,94 @@
               "filter":{
                   "term": {
                     "status": "200"
+                  }
+              }
+          }
+        }
+      }
+    },
+    {
+      "name": "q16_must_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "term": {
+                  "status": "404"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q16_filter_404",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": {
+                "match": {
+                  "request": "images"
+                }
+              },
+              "filter":{
+                  "term": {
+                    "status": "404"
+                  }
+              }
+          }
+        }
+      }
+    },
+    {
+      "name": "q16_must_500",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "term": {
+                  "status": "500"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q16_filter_500",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": {
+                "match": {
+                  "request": "images"
+                }
+              },
+              "filter":{
+                  "term": {
+                    "status": "500"
                   }
               }
           }
