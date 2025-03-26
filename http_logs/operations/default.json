@@ -693,6 +693,52 @@
       }
     },
     {
+      "name": "q9_range_wide",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "range": {
+                "@timestamp": {
+                  "gte": "1998-06-01T00:00:00Z",
+                  "lt": "1998-06-13T00:00:00Z"
+                }
+              }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_prefilter_range_wide",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": {"match": {"request": "images"}},
+            "filter": {
+                "range": {
+                "@timestamp": {
+                  "gte": "1998-06-01T00:00:00Z",
+                  "lt": "1998-06-13T00:00:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "q13_and",
       "operation-type": "search",
       "index": "logs-*",
