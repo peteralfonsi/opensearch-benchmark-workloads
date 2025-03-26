@@ -631,6 +631,17 @@
         }
       }
     },
+    { 
+      "name": "q17_must_wide_only", 
+      "operation-type": "search", 
+      "body": { 
+        "query": {
+          "bool" : {
+            "must": {"match" : {"vendor_id" : "1"}},
+          }
+        }
+      }
+    },
     {
       "name": "default",
       "operation-type": "search",
