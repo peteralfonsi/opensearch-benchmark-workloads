@@ -620,6 +620,17 @@
         }
       }
     },
+    { 
+      "name": "q17_filter_term_wide_only", 
+      "operation-type": "search", 
+      "body": { 
+        "query": {
+          "bool" : {
+            "filter": {"range" : {"dropoff_datetime" : {"gte": "01/01/2015", "lte": "01/09/2015", "format": "dd/MM/yyyy"}}}
+          }
+        }
+      }
+    },
     {
       "name": "default",
       "operation-type": "search",
