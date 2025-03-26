@@ -621,7 +621,7 @@
       }
     },
     { 
-      "name": "q17_filter_term_wide_only", 
+      "name": "q17_filter_wide_only", 
       "operation-type": "search", 
       "body": { 
         "query": {
