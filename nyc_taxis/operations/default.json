@@ -637,7 +637,7 @@
       "body": { 
         "query": {
           "bool" : {
-            "must": {"match" : {"vendor_id" : "1"}},
+            "must": {"match" : {"vendor_id" : "1"}}
           }
         }
       }
