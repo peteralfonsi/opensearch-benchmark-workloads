@@ -247,6 +247,45 @@
       }
     },
     { 
+      "name": "nested_filter_exists_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "filter":{
+              "bool":{
+                "should": [
+                  {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}},
+                  {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}},
+                  {"bool":{"must_not":{"exists":{"field":"dropoff_datetime"}}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "nested_filter_exists_redundant_q3", 
+      "operation-type": "search", 
+      "body": { 
+        "query": { 
+          "bool": { 
+            "filter":{
+              "bool":{
+                "should": [
+                  {"range" : {"dropoff_datetime" : {"lt": "01/07/2015", "format": "dd/MM/yyyy"}}},
+                  {"range" : {"dropoff_datetime" : {"gt": "01/09/2015", "format": "dd/MM/yyyy"}}},
+                  {"bool":{"must_not":{"exists":{"field":"dropoff_datetime"}}}}
+                ]
+              }
+            },
+            "must_not":{"range" : {"dropoff_datetime" : {"gte": "01/01/2015", "lte": "01/09/2015", "format": "dd/MM/yyyy"}}}
+          }
+        }
+      }
+    },
+    { 
       "name": "must_not_wide_q3", 
       "operation-type": "search", 
       "body": { 
