@@ -809,6 +809,76 @@
       }
     },
     {
+      "name": "q18_narrow_top10",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "terms": {
+                  "request.raw": [
+                    "GET /images/dot.gif HTTP/1.0",
+                    "GET /english/splash_inet.html HTTP/1.0",
+                    "GET /images/space.gif HTTP/1.0",
+                    "GET / HTTP/1.0",
+                    "GET /images/nav_bg_bottom.jpg HTTP/1.0",
+                    "GET /images/nav_bg_top.gif HTTP/1.0",
+                    "GET /images/logo_cfo.gif HTTP/1.0",
+                    "GET /english/nav_inet.html HTTP/1.0",
+                    "GET /js/factoid.js HTTP/1.0",
+                    "GET /english/index.html HTTP/1.0"
+                  ]
+                }
+              },
+              {
+                "range": {
+                "@timestamp": {
+                  "gte": "1998-06-10T00:00:00Z",
+                  "lt": "1998-06-10T00:01:00Z"
+                }
+              }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q18_narrow_prefilter_top10",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "must": {"terms": {
+                  "request.raw": [
+                    "GET /images/dot.gif HTTP/1.0",
+                    "GET /english/splash_inet.html HTTP/1.0",
+                    "GET /images/space.gif HTTP/1.0",
+                    "GET / HTTP/1.0",
+                    "GET /images/nav_bg_bottom.jpg HTTP/1.0",
+                    "GET /images/nav_bg_top.gif HTTP/1.0",
+                    "GET /images/logo_cfo.gif HTTP/1.0",
+                    "GET /english/nav_inet.html HTTP/1.0",
+                    "GET /js/factoid.js HTTP/1.0",
+                    "GET /english/index.html HTTP/1.0"
+                  ]
+                }},
+            "filter": {
+                "range": {
+                "@timestamp": {
+                  "gte": "1998-06-10T00:00:00Z",
+                  "lt": "1998-06-10T00:01:00Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "q13_and",
       "operation-type": "search",
       "index": "logs-*",
