@@ -263,6 +263,70 @@
       }
     },
     {
+      "name": "autohisto_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "dropoffs_over_time": {
+            "auto_date_histogram": {
+              "field": "@timestamp",
+              "buckets": 200
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "date_histogram_agg_day",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "@timestamp",
+              "calendar_interval": "day"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "date_histogram_agg_week",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "@timestamp",
+              "calendar_interval": "week"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "size_histogram",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "size_histogram": {
+            "histogram": {
+              "field": "size",
+              "interval": 10000
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "scroll",
       "operation-type": "search",
       "index": "logs-*",
