@@ -252,6 +252,17 @@
       }
     },
     {
+      "name": "status_terms_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "status_count": {"terms":{"field":"status"}}
+        }
+      }
+    },
+    {
       "name": "scroll",
       "operation-type": "search",
       "index": "logs-*",
