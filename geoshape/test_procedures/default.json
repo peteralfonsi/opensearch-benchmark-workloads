@@ -3,27 +3,11 @@
       "description": "Indexes the whole document corpus using OpenSearch default settings. We only adjust the number of replicas as we benchmark a single node cluster and Benchmark will only start the benchmark if the cluster turns green. Document ids are unique so all index operations are append only. After that a couple of queries are run.",
       "default": true,
       "schedule": [
-        {
-          "operation": "delete-index"
-        },
-        {
-          "operation": {
-            "operation-type": "create-index",
-            "settings": {{index_settings | default({}) | tojson}}
-          }
-        },
-        {
-          "name": "check-cluster-health",
-          "operation": {
-            "operation-type": "cluster-health",
-            "index": "osm*",
-            "request-params": {
-              "wait_for_status": "{{cluster_health | default('green')}}",
-              "wait_for_no_relocating_shards": "true"
-            },
-            "retry-until-success": true
-          }
-        },
+        {{ benchmark.collect(parts="../../common_operations/delete_index.json") }},
+        {{ benchmark.collect(parts="../../common_operations/create_index.json") }},
+        {% with default_index_settings={}, index_name="osm*" %}
+        {{ benchmark.collect(parts="../../common_operations/check_cluster_health.json") }},
+        {% endwith %}
         {
           "operation": "index-append-linestrings",
           "warmup-time-period": 120,
@@ -126,31 +110,17 @@
         },
         {
           "operation": "polygon",
-          "warmup-iterations": 200,
-          "iterations": 100
-          {%- if not target_throughput %}
-          ,"target-throughput": 0.3
-          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
-          {%- else %}
-          ,"target-throughput": {{ target_throughput | tojson }}
-          {%- endif %}
-          {%- if search_clients is defined and search_clients %}
-          ,"clients": {{ search_clients | tojson}}
-          {%- endif %}
+          "warmup-iterations": {{ polygon_warmup_iterations or warmup_iterations | default(200) | tojson }},
+          "iterations": {{ polygon_iterations or iterations | default(100) | tojson }},
+          "target-throughput": {{ polygon_target_throughput or target_throughput | default(0.3) | tojson }},
+          "clients": {{ polygon_search_clients or search_clients | default(1) }}
         },
         {
           "operation": "bbox",
-          "warmup-iterations": 200,
-          "iterations": 100
-          {%- if not target_throughput %}
-          ,"target-throughput": 0.25
-          {%- elif target_throughput is string and target_throughput.lower() == 'none' %}
-          {%- else %}
-          ,"target-throughput": {{ target_throughput | tojson }}
-          {%- endif %}
-          {%- if search_clients is defined and search_clients %}
-          ,"clients": {{ search_clients | tojson}}
-          {%- endif %}
+          "warmup-iterations": {{ bbox_warmup_iterations or warmup_iterations | default(200) | tojson }},
+          "iterations": {{ bbox_iterations or iterations | default(100) | tojson }},
+          "target-throughput": {{ bbox_target_throughput or target_throughput | default(0.25) | tojson }},
+          "clients": {{ bbox_search_clients or search_clients | default(1) }}
         }
       ]
     }

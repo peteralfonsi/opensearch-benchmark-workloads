@@ -48,27 +48,15 @@
         {
           "operation": "create-ingest-pipeline"
         },
-        {
-          "operation": {
-            "operation-type": "create-index",
-            "settings": {%- if index_settings is defined %} {{index_settings | tojson}} {%- else %} {
-              "index.refresh_interval": "5s",
-              "index.translog.flush_threshold_size": "1g"
-            }{%- endif %}
-          }
-        },
-        {
-          "name": "check-cluster-health",
-          "operation": {
-            "operation-type": "cluster-health",
-            "index": "treccovid",
-            "request-params": {
-              "wait_for_status": "{{cluster_health | default('green')}}",
-              "wait_for_no_relocating_shards": "true"
-            },
-            "retry-until-success": true
-          }
-        },
+        {% with default_index_settings={
+          "index.refresh_interval": "5s",
+          "index.translog.flush_threshold_size": "1g"
+        } %}
+        {{ benchmark.collect(parts="../../common_operations/create_index.json") }},
+        {% endwith %}
+        {% with default_index_settings={}, index_name="treccovid" %}
+        {{ benchmark.collect(parts="../../common_operations/check_cluster_health.json") }},
+        {% endwith %}
         {
           "operation": "index-append",
           "warmup-time-period": 60,
@@ -79,23 +67,9 @@
           "name": "refresh-after-index",
           "operation": "refresh"
         },
+        {{ benchmark.collect(parts="../../common_operations/force_merge.json") }},
         {
-          "operation": {
-            "operation-type": "force-merge",
-            "request-timeout": 7200{%- if force_merge_max_num_segments is defined %},
-            "max-num-segments": {{ force_merge_max_num_segments | tojson }}
-            {%- endif %}
-          }
-        },
-        {
-          "name": "refresh-after-force-merge",
-          "operation": "refresh"
-        },
-        {
-          "operation": "wait-until-merges-finish"
-        },
-        {
-          "operation": "default",
+          "operation": "match-all",
           "warmup-iterations": {{warmup_iterations | default(500) | tojson}},
           "iterations": {{iterations | default(500) | tojson }},
           "target-throughput": {{ target_throughput | default(100) | tojson}},

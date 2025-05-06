@@ -8,6 +8,9 @@
         {%- if target_index_replica_shards is defined %}
         ,"number_of_replicas": {{ target_index_replica_shards }}
         {%- endif %}
+        {%- if derived_source_enabled is defined and derived_source_enabled %}
+        ,"knn.derived_source.enabled": true
+        {%- endif %}
       }
     },
     "mappings": {
@@ -21,6 +24,12 @@
         "target_field": {
           "type": "knn_vector",
           "dimension": {{ target_index_dimension }},
+          {%- if mode is defined %}
+          "mode": "{{ mode }}",
+          {%- endif %}
+          {%- if compression_level is defined %}
+          "compression_level": "{{ compression_level }}",
+          {%- endif %}
           {%- if train_model_id is defined %}
           "model_id": "{{ train_model_id }}"
           {%- else %}
