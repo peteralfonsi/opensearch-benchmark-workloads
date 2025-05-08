@@ -167,6 +167,16 @@
       }
     },
     {
+      "name": "vendor_id_terms",
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "passenger_count": {"terms":{"field":"vendor_id"}}
+        }
+      }
+    },
+    {
       "name": "autohisto_agg",
       "operation-type": "search",
       "body": {
