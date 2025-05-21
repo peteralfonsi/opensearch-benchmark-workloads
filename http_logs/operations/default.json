@@ -455,6 +455,29 @@
       }
     },
     {
+      "name": "q9_200_both_filter",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "200"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "name": "q9_500",
       "operation-type": "search",
       "index": "logs-*",
