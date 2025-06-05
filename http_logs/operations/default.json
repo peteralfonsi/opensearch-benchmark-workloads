@@ -327,6 +327,90 @@
       }
     },
     {
+      "name": "size_histogram_interval_01",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "query": {
+          "bool": {
+            "filter": {
+              "range": {
+                "size": {
+                  "lt": 1000,
+                  "gte": 0
+                }
+              }
+            }
+          }
+        },
+        "aggs": {
+          "size_histogram": {
+            "histogram": {
+              "field": "size",
+              "interval": 0.1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "size_histogram_interval_1",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "query": {
+          "bool": {
+            "filter": {
+              "range": {
+                "size": {
+                  "lt": 1000,
+                  "gte": 0
+                }
+              }
+            }
+          }
+        },
+        "aggs": {
+          "size_histogram": {
+            "histogram": {
+              "field": "size",
+              "interval": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "size_histogram_interval_10",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "query": {
+          "bool": {
+            "filter": {
+              "range": {
+                "size": {
+                  "lt": 1000,
+                  "gte": 0
+                }
+              }
+            }
+          }
+        },
+        "aggs": {
+          "size_histogram": {
+            "histogram": {
+              "field": "size",
+              "interval": 10
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "scroll",
       "operation-type": "search",
       "index": "logs-*",
