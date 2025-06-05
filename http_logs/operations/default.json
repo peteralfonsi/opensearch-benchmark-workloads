@@ -376,6 +376,42 @@
       }
     },
     {
+      "name": "timestamp_percentiles_agg_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "timestamp_percentiles": {
+            "percentiles": {
+              "field": "@timestamp",
+              "tdigest":{
+                "compression":200
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "status_percentiles_agg_200",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "timestamp_percentiles": {
+            "percentiles": {
+              "field": "status",
+              "tdigest":{
+                "compression":200
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "create-http-log-baseline-pipeline",
       "operation-type": "put-pipeline",
       "id": "http-log-baseline-pipeline",
