@@ -930,6 +930,18 @@
       }
     },
     { 
+      "name": "q14_must_not_term_200", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"term": {"status": "200"}}
+          }
+        }
+      }
+    },
+    { 
       "name": "q14_should_200", 
       "operation-type": "search", 
       "index": "logs-*",
@@ -956,6 +968,18 @@
         "query": { 
           "bool" : { 
             "must_not": {"match": {"status": "404"}}
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_must_not_term_404", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"term": {"status": "404"}}
           }
         }
       }
@@ -992,6 +1016,18 @@
       }
     },
     { 
+      "name": "q14_must_not_term_500", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"term": {"status": "500"}}
+          }
+        }
+      }
+    },
+    { 
       "name": "q14_should_500", 
       "operation-type": "search", 
       "index": "logs-*",
@@ -1002,6 +1038,70 @@
               "bool": {
                 "should":[
                   {"range":{"status":{"lt":500}}},
+                  {"range":{"status":{"gt":500}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_must_not_terms_200_500", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"terms": {"status": ["200", "500"]}}
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_should_terms_200_500", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must": {
+              "bool": {
+                "should":[
+                  {"range":{"status":{"lt":200}}},
+                  {"range":{"status":{"gt":200, "lt":500}}},
+                  {"range":{"status":{"gt":500}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_must_not_terms_404_500", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must_not": {"terms": {"status": ["404", "500"]}}
+          }
+        }
+      }
+    },
+    { 
+      "name": "q14_should_terms_404_500", 
+      "operation-type": "search", 
+      "index": "logs-*",
+      "body": { 
+        "query": { 
+          "bool" : { 
+            "must": {
+              "bool": {
+                "should":[
+                  {"range":{"status":{"lt":404}}},
+                  {"range":{"status":{"gt":404, "lt":500}}},
                   {"range":{"status":{"gt":500}}}
                 ]
               }
