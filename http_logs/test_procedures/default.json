@@ -5,87 +5,24 @@
       "schedule": [
         {{ benchmark.collect(parts="../../common_operations/workload_setup.json") }},
         {
-          "operation": "q9_200_no_ta",
+          "operation": "range_only",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q9_200_ta10k",
+          "operation": "range_as_sole_filter",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "q9_200_ta1k",
+          "operation": "range_as_sole_filter_ta10k",
           "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q9_404_no_ta",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q9_404_ta10k",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q9_404_ta1k",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q9_range_no_ta",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q9_range_ta10k",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q9_range_ta1k",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q18_no_ta",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.3) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q18_ta10k",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.3) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "q18_ta1k",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(0.3) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
         }
       ]
