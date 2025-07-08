@@ -790,7 +790,7 @@
       }
     },
     {
-      "name": "range_as_sole_filter_ta80k",
+      "name": "size_range_as_sole_filter_ta80k",
       "operation-type": "search",
       "index": "logs-*",
       "body": {
