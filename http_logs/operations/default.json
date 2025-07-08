@@ -716,6 +716,100 @@
       }
     },
     {
+      "name": "range_as_sole_filter_ta80k",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "terminate_after":80000,
+        "query": {
+          "bool": {
+            "filter": {
+                "range": {
+                "@timestamp": {
+                  "gte": "1998-06-10T00:00:00Z",
+                  "lt": "1998-06-13T00:00:00Z"
+                }
+              }
+              }
+          }
+        }
+      }
+    },
+    {
+      "name": "size_range_only",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+                "range": {
+                "size": {
+                  "gte": "200",
+                  "lt": "500"
+                }
+              }
+        }
+      }
+    },
+    {
+      "name": "size_range_as_sole_filter",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": {
+                "range": {
+                "size": {
+                  "gte": "200",
+                  "lt": "500"
+                }
+              }
+              }
+          }
+        }
+      }
+    },
+    {
+      "name": "size_range_as_sole_filter_ta10k",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "terminate_after":10000,
+        "query": {
+          "bool": {
+            "filter": {
+                "range": {
+                "size": {
+                  "gte": "200",
+                  "lt": "500"
+                }
+              }
+              }
+          }
+        }
+      }
+    },
+    {
+      "name": "range_as_sole_filter_ta80k",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "terminate_after":80000,
+        "query": {
+          "bool": {
+            "filter": {
+                "range": {
+                "size": {
+                  "gte": "200",
+                  "lt": "500"
+                }
+              }
+              }
+          }
+        }
+      }
+    },
+    {
       "name": "q18_ta10k",
       "operation-type": "search",
       "index": "logs-*",

@@ -24,6 +24,41 @@
           "iterations": {{ default_iterations or iterations | default(50) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "range_as_sole_filter_ta80k",
+          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
+          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
+          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
+          "clients": {{ default_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "size_range_only",
+          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
+          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
+          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
+          "clients": {{ default_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "size_range_as_sole_filter",
+          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
+          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
+          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
+          "clients": {{ default_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "size_range_as_sole_filter_ta10k",
+          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
+          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
+          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
+          "clients": {{ default_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "size_range_as_sole_filter_ta80k",
+          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(25) | tojson }},
+          "iterations": {{ default_iterations or iterations | default(50) | tojson }},
+          "target-throughput": {{ default_target_throughput or target_throughput | default(0.25) | tojson }},
+          "clients": {{ default_search_clients or search_clients | default(1) }}
         }
       ]
     },
