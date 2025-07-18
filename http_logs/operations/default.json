@@ -524,6 +524,29 @@
       }
     },
     {
+      "name": "q9_500_no_ta",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "bool": {
+            "filter": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "500"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "name": "q9_range_no_ta",
       "operation-type": "search",
       "index": "logs-*",
@@ -627,6 +650,30 @@
               {
                 "match": {
                   "status": "404"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_500_ta10k",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "terminate_after":10000,
+        "query": {
+          "bool": {
+            "filter": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "500"
                 }
               }
             ]
@@ -740,6 +787,30 @@
               {
                 "match": {
                   "status": "404"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "q9_500_ta1k",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "terminate_after":1000,
+        "query": {
+          "bool": {
+            "filter": [
+              {
+                "match": {
+                  "request": "images"
+                }
+              },
+              {
+                "match": {
+                  "status": "500"
                 }
               }
             ]
