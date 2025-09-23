@@ -7,6 +7,20 @@
         {{ benchmark.collect(parts="../../common_operations/workload_setup.json") }},
         {% endwith %}
         {
+          "operation": "avg_agg",
+          "warmup-iterations": {{ hourly_agg_warmup_iterations or warmup_iterations | default(50) | tojson }},
+          "iterations": {{ hourly_agg_iterations or iterations | default(200) | tojson }},
+          "target-throughput": {{ hourly_agg_target_throughput or target_throughput | default(1) | tojson }},
+          "clients": {{ hourly_agg_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "sum_agg",
+          "warmup-iterations": {{ hourly_agg_warmup_iterations or warmup_iterations | default(50) | tojson }},
+          "iterations": {{ hourly_agg_iterations or iterations | default(200) | tojson }},
+          "target-throughput": {{ hourly_agg_target_throughput or target_throughput | default(1) | tojson }},
+          "clients": {{ hourly_agg_search_clients or search_clients | default(1) }}
+        },
+        {
           "operation": "max_agg",
           "warmup-iterations": {{ hourly_agg_warmup_iterations or warmup_iterations | default(50) | tojson }},
           "iterations": {{ hourly_agg_iterations or iterations | default(200) | tojson }},
@@ -40,27 +54,6 @@
           "iterations": {{ multi_term_agg_iterations or iterations | default(200) | tojson }},
           "target-throughput": {{ multi_term_agg_target_throughput or target_throughput | default(0.2) | tojson }},
           "clients": {{ multi_term_agg_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "asc_sort_size",
-          "warmup-iterations": {{ asc_sort_size_warmup_iterations or warmup_iterations | default(200) | tojson }},
-          "iterations": {{ asc_sort_size_iterations or iterations | default(100) | tojson }},
-          "target-throughput": {{ asc_sort_size_target_throughput or target_throughput | default(0.5) | tojson }},
-          "clients": {{ asc_sort_size_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "asc_sort_timestamp",
-          "warmup-iterations": {{ asc_sort_timestamp_warmup_iterations or warmup_iterations | default(200) | tojson }},
-          "iterations": {{ asc_sort_timestamp_iterations or iterations | default(100) | tojson }},
-          "target-throughput": {{ asc_sort_timestamp_target_throughput or target_throughput | default(0.5) | tojson }},
-          "clients": {{ asc_sort_timestamp_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "asc_sort_request",
-          "warmup-iterations": {{ asc_sort_timestamp_warmup_iterations or warmup_iterations | default(200) | tojson }},
-          "iterations": {{ asc_sort_timestamp_iterations or iterations | default(100) | tojson }},
-          "target-throughput": {{ asc_sort_timestamp_target_throughput or target_throughput | default(0.5) | tojson }},
-          "clients": {{ asc_sort_timestamp_search_clients or search_clients | default(1) }}
         }
       ]
     },

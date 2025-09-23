@@ -209,6 +209,36 @@
       ]
     },
     {
+      "name": "avg_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "avg_timestamp": {
+            "avg": {
+              "field": "@timestamp"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "sum_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "sum_timestamp": {
+            "sum": {
+              "field": "@timestamp"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "max_agg",
       "operation-type": "search",
       "index": "logs-*",
@@ -246,7 +276,7 @@
         "size": 0,
         "aggs": {
           "ranges_timestamp": {
-            "ranges": {
+            "range": {
               "field": "@timestamp",
               "ranges": [
                 {"from":"1998-06-01T00:00:00Z", "to":"1998-06-02T00:00:00Z"},
