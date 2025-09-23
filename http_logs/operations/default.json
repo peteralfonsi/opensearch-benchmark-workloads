@@ -217,7 +217,7 @@
         "aggs": {
           "max_timestamp": {
             "max": {
-              "field": "@timestamp",
+              "field": "@timestamp"
             }
           }
         }
@@ -232,7 +232,7 @@
         "aggs": {
           "min_timestamp": {
             "min": {
-              "field": "@timestamp",
+              "field": "@timestamp"
             }
           }
         }
