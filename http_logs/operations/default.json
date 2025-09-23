@@ -209,6 +209,57 @@
       ]
     },
     {
+      "name": "max_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "max_timestamp": {
+            "max": {
+              "field": "@timestamp",
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "min_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "min_timestamp": {
+            "min": {
+              "field": "@timestamp",
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "range_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "ranges_timestamp": {
+            "ranges": {
+              "field": "@timestamp",
+              "ranges": [
+                {"from":"1998-06-01T00:00:00Z", "to":"1998-06-02T00:00:00Z"},
+                {"from":"1998-06-02T00:00:00Z", "to":"1998-06-03T00:00:00Z"},
+                {"from":"1998-06-03T00:00:00Z", "to":"1998-06-04T00:00:00Z"},
+                {"from":"1998-06-04T00:00:00Z", "to":"1998-06-05T00:00:00Z"}
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "hourly_agg",
       "operation-type": "search",
       "index": "logs-*",
@@ -273,6 +324,19 @@
         },
         "sort" : [
           {"size" : "desc"}
+        ]
+      }
+    },
+    {
+      "name": "asc_sort_request",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "query": {
+          "match_all": {}
+        },
+        "sort" : [
+          {"request" : "asc"}
         ]
       }
     },
