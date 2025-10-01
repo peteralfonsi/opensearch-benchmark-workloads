@@ -306,6 +306,22 @@
       }
     },
     {
+      "name": "minutely_agg",
+      "operation-type": "search",
+      "index": "logs-*",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "by_hour": {
+            "date_histogram": {
+              "field": "@timestamp",
+              "calendar_interval": "minute"
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "multi_term_agg",
       "operation-type": "search",
       "index": "logs-*",

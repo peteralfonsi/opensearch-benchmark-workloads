@@ -49,6 +49,13 @@
           "clients": {{ hourly_agg_search_clients or search_clients | default(1) }}
         },
         {
+          "operation": "minutely_agg",
+          "warmup-iterations": {{ hourly_agg_warmup_iterations or warmup_iterations | default(50) | tojson }},
+          "iterations": {{ hourly_agg_iterations or iterations | default(200) | tojson }},
+          "target-throughput": {{ hourly_agg_target_throughput or target_throughput | default(0.2) | tojson }},
+          "clients": {{ hourly_agg_search_clients or search_clients | default(1) }}
+        },
+        {
           "operation": "multi_term_agg",
           "warmup-iterations": {{ multi_term_agg_warmup_iterations or warmup_iterations | default(50) | tojson }},
           "iterations": {{ multi_term_agg_iterations or iterations | default(200) | tojson }},
