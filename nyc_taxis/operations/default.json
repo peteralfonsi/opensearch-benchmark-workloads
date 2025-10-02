@@ -38,7 +38,7 @@
       "name": "range",
       "operation-type": "search",
       "body": {
-        "size": 100000,
+        "track_total_hits": true,
         "query": {
           "range": {
             "total_amount": {
@@ -385,7 +385,7 @@
       "operation-type": "search", 
       "index": "nyc_taxis",
       "body": { 
-        "size": 100000,
+        "track_total_hits": true,
         "query": {
           "geo_bounding_box": {
             "pickup_location": {

@@ -404,7 +404,7 @@
       "operation-type": "search",
       "index": "logs-*",
       "body": {
-        "size":100000,
+        "track_total_hits": true,
         "query": {
           "range": {
             "size": {
@@ -676,7 +676,7 @@
       "operation-type": "search",
       "index": "logs-*",
       "body": {
-        "size": 100,
+        "track_total_hits": true,
         "query": {
           "range": {
             "size": {
@@ -695,7 +695,7 @@
       "operation-type": "search",
       "index": "logs-*",
       "body": {
-        "size": 100,
+        "track_total_hits": true,
         "query": {
           "range": {
             "size": {
