@@ -61,6 +61,13 @@
           "iterations": {{ multi_term_agg_iterations or iterations | default(200) | tojson }},
           "target-throughput": {{ multi_term_agg_target_throughput or target_throughput | default(0.2) | tojson }},
           "clients": {{ multi_term_agg_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "range_size",
+          "warmup-iterations": {{ range_size_warmup_iterations or warmup_iterations | default(200) | tojson }},
+          "iterations": {{ range_size_iterations or iterations | default(500) | tojson }},
+          "target-throughput": {{ range_size_target_throughput or target_throughput | default(2) | tojson }},
+          "clients": {{ range_size_search_clients or search_clients | default(1) }}
         }
       ]
     },
