@@ -404,6 +404,7 @@
       "operation-type": "search",
       "index": "logs-*",
       "body": {
+        "size":100000,
         "query": {
           "range": {
             "size": {
