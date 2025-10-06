@@ -69,14 +69,14 @@
         },
         {
           "operation": "range",
-          "warmup-iterations": {{ range_warmup_iterations or warmup_iterations | default(250) | tojson }},
+          "warmup-iterations": {{ range_warmup_iterations or warmup_iterations | default(1000) | tojson }},
           "iterations": {{ range_iterations or iterations | default(100) | tojson }},
           "target-throughput": {{ range_target_throughput or target_throughput | default(0.7) | tojson }},
           "clients": {{ range_search_clients or search_clients | default(1) }}
         },
         {
           "operation": "bbox",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(250) | tojson }},
+          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(1500) | tojson }},
           "iterations": {{ default_iterations or iterations | default(100) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(3) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
