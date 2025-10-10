@@ -80,6 +80,13 @@
           "iterations": {{ default_iterations or iterations | default(100) | tojson }},
           "target-throughput": {{ default_target_throughput or target_throughput | default(3) | tojson }},
           "clients": {{ default_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "date_histogram_agg_wide",
+          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(200) | tojson }},
+          "iterations": {{ date_histogram_agg_iterations or iterations | default(100) | tojson }},
+          "target-throughput": {{ date_histogram_agg_target_throughput or target_throughput | default(0.5) | tojson }},
+          "clients": {{ date_histogram_agg_search_clients or search_clients | default(1) }}
         }
       ]
     },
