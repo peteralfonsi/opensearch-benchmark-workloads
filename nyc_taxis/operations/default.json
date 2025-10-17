@@ -156,6 +156,29 @@
       }
     },
     {
+      "name": "matrix_stats",
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+              "dropoff_datetime": {
+              "gte": "01/01/2015",
+              "lte": "31/12/2015",
+              "format": "dd/MM/yyyy"
+            }
+          }
+        },
+        "aggs": {
+          "matrix_stats_result": {
+            "matrix_stats": {
+              "fields":["trip_distance", "tip_amount"]
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "date_histogram_calendar_interval",
       "operation-type": "search",
       "body": {
