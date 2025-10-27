@@ -26,73 +26,31 @@
         },
         {{ benchmark.collect(parts="../../common_operations/force_merge.json") }},
         {
-          "operation": "match-all",
-          "warmup-iterations": {{ match_all_warmup_iterations or warmup_iterations | default(10) | tojson }},
-          "iterations": {{ match_all_iterations or iterations | default(10) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(3) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "distance_amount_agg",
-          "warmup-iterations": {{ distance_amount_agg_warmup_iterations or warmup_iterations | default(10) | tojson }},
-          "iterations": {{ distance_amount_agg_iterations or iterations | default(10) | tojson }},
-          "target-throughput": {{ distance_amount_agg_target_throughput or target_throughput | default(2) | tojson }},
-          "clients": {{ distance_amount_agg_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "autohisto_agg",
-          "warmup-iterations": {{ autohisto_agg_warmup_iterations or warmup_iterations | default(10) | tojson }},
-          "iterations": {{ autohisto_agg_iterations or iterations | default(10) | tojson }},
-          "target-throughput": {{ autohisto_agg_target_throughput or target_throughput | default(1.5) | tojson }},
-          "clients": {{ autohisto_agg_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "date_histogram_agg",
-          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(10) | tojson }},
-          "iterations": {{ date_histogram_agg_iterations or iterations | default(10) | tojson }},
-          "target-throughput": {{ date_histogram_agg_target_throughput or target_throughput | default(1.5) | tojson }},
-          "clients": {{ date_histogram_agg_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "asc_sort_tip_amount",
-          "warmup-iterations": {{ asc_sort_tip_amount_warmup_iterations or warmup_iterations | default(10) | tojson }},
-          "iterations": {{ asc_sort_tip_amount_iterations or iterations | default(10) | tojson }},
-          "target-throughput": {{ asc_sort_tip_amount_target_throughput or target_throughput | default(0.5) | tojson }},
-          "clients": {{ asc_sort_tip_amount_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "asc_sort_passenger_count",
-          "warmup-iterations": {{ asc_sort_passenger_count_warmup_iterations or warmup_iterations | default(10) | tojson }},
-          "iterations": {{ asc_sort_passenger_count_iterations or iterations | default(10) | tojson }},
-          "target-throughput": {{ asc_sort_passenger_count_target_throughput or target_throughput | default(2) | tojson }},
-          "clients": {{ asc_sort_passenger_count_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "range",
-          "warmup-iterations": {{ range_warmup_iterations or warmup_iterations | default(1000) | tojson }},
-          "iterations": {{ range_iterations or iterations | default(100) | tojson }},
-          "target-throughput": {{ range_target_throughput or target_throughput | default(0.7) | tojson }},
-          "clients": {{ range_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "bbox",
-          "warmup-iterations": {{ default_warmup_iterations or warmup_iterations | default(1500) | tojson }},
-          "iterations": {{ default_iterations or iterations | default(100) | tojson }},
-          "target-throughput": {{ default_target_throughput or target_throughput | default(3) | tojson }},
-          "clients": {{ default_search_clients or search_clients | default(1) }}
-        },
-        {
-          "operation": "date_histogram_agg_wide",
-          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(200) | tojson }},
+          "operation": "date_histogram_calendar_interval_with_tz_month",
+          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(20) | tojson }},
           "iterations": {{ date_histogram_agg_iterations or iterations | default(100) | tojson }},
           "target-throughput": {{ date_histogram_agg_target_throughput or target_throughput | default(0.5) | tojson }},
           "clients": {{ date_histogram_agg_search_clients or search_clients | default(1) }}
         },
         {
-          "operation": "matrix_stats",
-          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(10) | tojson }},
-          "iterations": {{ date_histogram_agg_iterations or iterations | default(50) | tojson }},
-          "target-throughput": {{ date_histogram_agg_target_throughput or target_throughput | default(0.025) | tojson }},
+          "operation": "date_histogram_calendar_interval_with_tz_day",
+          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(20) | tojson }},
+          "iterations": {{ date_histogram_agg_iterations or iterations | default(100) | tojson }},
+          "target-throughput": {{ date_histogram_agg_target_throughput or target_throughput | default(0.5) | tojson }},
+          "clients": {{ date_histogram_agg_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "date_histogram_calendar_interval_with_tz_hour",
+          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(20) | tojson }},
+          "iterations": {{ date_histogram_agg_iterations or iterations | default(100) | tojson }},
+          "target-throughput": {{ date_histogram_agg_target_throughput or target_throughput | default(0.5) | tojson }},
+          "clients": {{ date_histogram_agg_search_clients or search_clients | default(1) }}
+        },
+        {
+          "operation": "date_histogram_calendar_interval_with_tz_minute",
+          "warmup-iterations": {{ date_histogram_agg_warmup_iterations or warmup_iterations | default(20) | tojson }},
+          "iterations": {{ date_histogram_agg_iterations or iterations | default(100) | tojson }},
+          "target-throughput": {{ date_histogram_agg_target_throughput or target_throughput | default(0.5) | tojson }},
           "clients": {{ date_histogram_agg_search_clients or search_clients | default(1) }}
         }
       ]

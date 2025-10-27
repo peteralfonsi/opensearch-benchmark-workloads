@@ -202,7 +202,7 @@
       }
     },
     {
-      "name": "date_histogram_calendar_interval_with_tz",
+      "name": "date_histogram_calendar_interval_with_tz_month",
       "operation-type": "search",
       "body": {
         "size": 0,
@@ -211,6 +211,78 @@
             "dropoff_datetime": {
               "gte": "2015-01-01 00:00:00",
               "lt": "2016-01-01 00:00:00"
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "calendar_interval": "month",
+              "time_zone": "America/New_York"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "date_histogram_calendar_interval_with_tz_day",
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": "2015-01-01 00:00:00",
+              "lt": "2016-01-01 00:00:00"
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "calendar_interval": "month",
+              "time_zone": "America/New_York"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "date_histogram_calendar_interval_with_tz_hour",
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": "2015-01-01 00:00:00",
+              "lt": "2016-01-31 00:00:00"
+            }
+          }
+        },
+        "aggs": {
+          "dropoffs_over_time": {
+            "date_histogram": {
+              "field": "dropoff_datetime",
+              "calendar_interval": "month",
+              "time_zone": "America/New_York"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "date_histogram_calendar_interval_with_tz_minute",
+      "operation-type": "search",
+      "body": {
+        "size": 0,
+        "query": {
+          "range": {
+            "dropoff_datetime": {
+              "gte": "2015-01-01 00:00:00",
+              "lt": "2016-01-31 00:00:00"
             }
           }
         },
