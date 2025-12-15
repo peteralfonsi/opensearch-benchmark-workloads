@@ -1,0 +1,2703 @@
+    {
+        "name": "dsl-q01-count-all",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "track_total_hits": 2147483647
+        }
+    },
+    {
+        "name": "dsl-q02-count-adv-engine",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "AdvEngineID",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "AdvEngineID": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "AdvEngineID"
+                ],
+                "excludes": []
+            },
+            "track_total_hits": 2147483647
+        }
+    },
+    {
+        "name": "dsl-q03-sum-count-avg",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "sum(AdvEngineID)": {
+                    "sum": {
+                        "field": "AdvEngineID"
+                    }
+                },
+                "count()": {
+                    "value_count": {
+                        "field": "_index"
+                    }
+                },
+                "avg(ResolutionWidth)": {
+                    "avg": {
+                        "field": "ResolutionWidth"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q04-avg-userid",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "avg(UserID)": {
+                    "avg": {
+                        "field": "UserID"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q05-distinct-userid",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "exists": {
+                    "field": "UserID",
+                    "boost": 1.0
+                }
+            },
+            "aggregations": {
+                "dc(UserID)": {
+                    "cardinality": {
+                        "field": "UserID"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q06-distinct-searchphrase",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "exists": {
+                    "field": "SearchPhrase",
+                    "boost": 1.0
+                }
+            },
+            "aggregations": {
+                "dc(SearchPhrase)": {
+                    "cardinality": {
+                        "field": "SearchPhrase"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q07-min-max-eventdate",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "min(EventDate)": {
+                    "min": {
+                        "field": "EventDate"
+                    }
+                },
+                "max(EventDate)": {
+                    "max": {
+                        "field": "EventDate"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q08-group-by-adv-engine",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "AdvEngineID",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "AdvEngineID": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "aggregations": {
+                "AdvEngineID": {
+                    "terms": {
+                        "field": "AdvEngineID",
+                        "size": 10000,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q09-region-users",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "RegionID": {
+                    "terms": {
+                        "field": "RegionID",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "u": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "u": {
+                            "cardinality": {
+                                "field": "UserID"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q10-region-stats",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "RegionID": {
+                    "terms": {
+                        "field": "RegionID",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "c": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "sum(AdvEngineID)": {
+                            "sum": {
+                                "field": "AdvEngineID"
+                            }
+                        },
+                        "avg(ResolutionWidth)": {
+                            "avg": {
+                                "field": "ResolutionWidth"
+                            }
+                        },
+                        "dc(UserID)": {
+                            "cardinality": {
+                                "field": "UserID"
+                            }
+                        },
+                        "c": {
+                            "value_count": {
+                                "field": "_index"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q11-mobile-phone-model",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "MobilePhoneModel",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "MobilePhoneModel": {
+                                    "value": "",
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "aggregations": {
+                "MobilePhoneModel": {
+                    "terms": {
+                        "field": "MobilePhoneModel",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "u": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "u": {
+                            "cardinality": {
+                                "field": "UserID"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q12-mobile-phone-stats",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "MobilePhoneModel",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "MobilePhoneModel": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "MobilePhone",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "MobilePhoneModel",
+                    "MobilePhone",
+                    "UserID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "MobilePhone|MobilePhoneModel": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "MobilePhone"
+                            },
+                            {
+                                "field": "MobilePhoneModel"
+                            }
+                        ],
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "u": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "u": {
+                            "cardinality": {
+                                "field": "UserID"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q13-search-phrase-count",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "SearchPhrase",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "SearchPhrase": {
+                                    "value": "",
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "aggregations": {
+                "SearchPhrase": {
+                    "terms": {
+                        "field": "SearchPhrase",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q14-search-phrase-users",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "SearchPhrase",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "SearchPhrase": {
+                                    "value": "",
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "aggregations": {
+                "SearchPhrase": {
+                    "terms": {
+                        "field": "SearchPhrase",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "u": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "u": {
+                            "cardinality": {
+                                "field": "UserID"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q15-search-engine-phrase",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "SearchPhrase",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "SearchPhrase": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "SearchEngineID",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "SearchPhrase",
+                    "SearchEngineID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "SearchEngineID|SearchPhrase": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "SearchEngineID"
+                            },
+                            {
+                                "field": "SearchPhrase"
+                            }
+                        ],
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q16-user-activity",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "UserID": {
+                    "terms": {
+                        "field": "UserID",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q17-user-search-activity",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "UserID|SearchPhrase": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "UserID"
+                            },
+                            {
+                                "field": "SearchPhrase"
+                            }
+                        ],
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q18-user-search-limit",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "composite_buckets": {
+                    "composite": {
+                        "size": 10,
+                        "sources": [
+                            {
+                                "UserID": {
+                                    "terms": {
+                                        "field": "UserID",
+                                        "missing_bucket": false,
+                                        "order": "asc"
+                                    }
+                                }
+                            },
+                            {
+                                "SearchPhrase": {
+                                    "terms": {
+                                        "field": "SearchPhrase",
+                                        "missing_bucket": false,
+                                        "order": "asc"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q19-user-minute-search",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "UserID|m|SearchPhrase": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "UserID"
+                            },
+                            {
+                                "script": {
+                                    "source": "{\"langType\":\"calcite\",\"script\":\"rO0ABXQCZnsKICAib3AiOiB7CiAgICAibmFtZSI6ICJFWFRSQUNUIiwKICAgICJraW5kIjogIk9USEVSX0ZVTkNUSU9OIiwKICAgICJzeW50YXgiOiAiRlVOQ1RJT04iCiAgfSwKICAib3BlcmFuZHMiOiBbCiAgICB7CiAgICAgICJkeW5hbWljUGFyYW0iOiAwLAogICAgICAidHlwZSI6IHsKICAgICAgICAidHlwZSI6ICJWQVJDSEFSIiwKICAgICAgICAibnVsbGFibGUiOiBmYWxzZSwKICAgICAgICAicHJlY2lzaW9uIjogLTEKICAgICAgfQogICAgfSwKICAgIHsKICAgICAgImR5bmFtaWNQYXJhbSI6IDEsCiAgICAgICJ0eXBlIjogewogICAgICAgICJ1ZHQiOiAiRVhQUl9USU1FU1RBTVAiLAogICAgICAgICJ0eXBlIjogIlZBUkNIQVIiLAogICAgICAgICJudWxsYWJsZSI6IHRydWUsCiAgICAgICAgInByZWNpc2lvbiI6IC0xCiAgICAgIH0KICAgIH0KICBdLAogICJjbGFzcyI6ICJvcmcub3BlbnNlYXJjaC5zcWwuZXhwcmVzc2lvbi5mdW5jdGlvbi5Vc2VyRGVmaW5lZEZ1bmN0aW9uQnVpbGRlciQxIiwKICAidHlwZSI6IHsKICAgICJ0eXBlIjogIkJJR0lOVCIsCiAgICAibnVsbGFibGUiOiB0cnVlCiAgfSwKICAiZGV0ZXJtaW5pc3RpYyI6IHRydWUsCiAgImR5bmFtaWMiOiBmYWxzZQp9\"}",
+                                    "lang": "opensearch_compounded_script",
+                                    "params": {
+                                        "utcTimestamp": 1765261854238124000,
+                                        "SOURCES": [
+                                            2,
+                                            0
+                                        ],
+                                        "DIGESTS": [
+                                            "minute",
+                                            "EventTime"
+                                        ]
+                                    }
+                                },
+                                "value_type": "long"
+                            },
+                            {
+                                "field": "SearchPhrase"
+                            }
+                        ],
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q20-specific-user",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 10000,
+            "timeout": "1m",
+            "query": {
+                "term": {
+                    "UserID": {
+                        "value": 435090932899640449,
+                        "boost": 1.0
+                    }
+                }
+            },
+            "_source": {
+                "includes": [
+                    "UserID"
+                ],
+                "excludes": []
+            }
+        }
+    },
+    {
+        "name": "dsl-q21-google-urls",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "wildcard": {
+                    "URL": {
+                        "wildcard": "*google*",
+                        "boost": 1.0
+                    }
+                }
+            },
+            "_source": {
+                "includes": [
+                    "URL"
+                ],
+                "excludes": []
+            },
+            "track_total_hits": 2147483647
+        }
+    },
+    {
+        "name": "dsl-q22-google-search-phrases",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "wildcard": {
+                                "URL": {
+                                    "wildcard": "*google*",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "SearchPhrase",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "SearchPhrase": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "URL",
+                    "SearchPhrase"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "SearchPhrase": {
+                    "terms": {
+                        "field": "SearchPhrase",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q23-google-title-search",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "wildcard": {
+                                "Title": {
+                                    "wildcard": "*Google*",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "SearchPhrase",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "SearchPhrase": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must_not": [
+                                    {
+                                        "wildcard": {
+                                            "URL": {
+                                                "wildcard": "*.google.*",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "URL",
+                    "SearchPhrase",
+                    "UserID",
+                    "Title"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "SearchPhrase": {
+                    "terms": {
+                        "field": "SearchPhrase",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "c": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "dc(UserID)": {
+                            "cardinality": {
+                                "field": "UserID"
+                            }
+                        },
+                        "c": {
+                            "value_count": {
+                                "field": "_index"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q24-google-urls-sorted",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 10,
+            "timeout": "1m",
+            "query": {
+                "wildcard": {
+                    "URL": {
+                        "wildcard": "*google*",
+                        "boost": 1.0
+                    }
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "URLRegionID",
+                    "HasGCLID",
+                    "Income",
+                    "Interests",
+                    "Robotness",
+                    "BrowserLanguage",
+                    "CounterClass",
+                    "BrowserCountry",
+                    "OriginalURL",
+                    "ClientTimeZone",
+                    "RefererHash",
+                    "TraficSourceID",
+                    "HitColor",
+                    "RefererRegionID",
+                    "URLCategoryID",
+                    "LocalEventTime",
+                    "EventTime",
+                    "UTMTerm",
+                    "AdvEngineID",
+                    "UserAgentMinor",
+                    "UserAgentMajor",
+                    "RemoteIP",
+                    "Sex",
+                    "JavaEnable",
+                    "URLHash",
+                    "URL",
+                    "ParamOrderID",
+                    "OpenstatSourceID",
+                    "HTTPError",
+                    "SilverlightVersion3",
+                    "MobilePhoneModel",
+                    "SilverlightVersion4",
+                    "SilverlightVersion1",
+                    "SilverlightVersion2",
+                    "IsDownload",
+                    "IsParameter",
+                    "CLID",
+                    "FlashMajor",
+                    "FlashMinor",
+                    "UTMMedium",
+                    "WatchID",
+                    "DontCountHits",
+                    "CookieEnable",
+                    "HID",
+                    "SocialAction",
+                    "WindowName",
+                    "ConnectTiming",
+                    "PageCharset",
+                    "IsLink",
+                    "IsArtifical",
+                    "JavascriptEnable",
+                    "ClientEventTime",
+                    "DNSTiming",
+                    "CodeVersion",
+                    "ResponseEndTiming",
+                    "FUniqID",
+                    "WindowClientHeight",
+                    "OpenstatServiceName",
+                    "UTMContent",
+                    "HistoryLength",
+                    "IsOldCounter",
+                    "MobilePhone",
+                    "SearchPhrase",
+                    "FlashMinor2",
+                    "SearchEngineID",
+                    "IsEvent",
+                    "UTMSource",
+                    "RegionID",
+                    "OpenstatAdID",
+                    "UTMCampaign",
+                    "GoodEvent",
+                    "IsRefresh",
+                    "ParamCurrency",
+                    "Params",
+                    "ResolutionHeight",
+                    "ClientIP",
+                    "FromTag",
+                    "ParamCurrencyID",
+                    "ResponseStartTiming",
+                    "ResolutionWidth",
+                    "SendTiming",
+                    "RefererCategoryID",
+                    "OpenstatCampaignID",
+                    "UserID",
+                    "WithHash",
+                    "UserAgent",
+                    "ParamPrice",
+                    "ResolutionDepth",
+                    "IsMobile",
+                    "Age",
+                    "SocialSourceNetworkID",
+                    "OpenerName",
+                    "OS",
+                    "IsNotBounce",
+                    "Referer",
+                    "NetMinor",
+                    "Title",
+                    "NetMajor",
+                    "IPNetworkID",
+                    "FetchTiming",
+                    "SocialNetwork",
+                    "SocialSourcePage",
+                    "CounterID",
+                    "WindowClientWidth"
+                ],
+                "excludes": []
+            },
+            "sort": [
+                {
+                    "EventTime": {
+                        "order": "asc",
+                        "missing": "_first"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "dsl-q25-search-phrases-by-time",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 10,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "SearchPhrase",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "SearchPhrase": {
+                                    "value": "",
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "SearchPhrase"
+                ],
+                "excludes": []
+            },
+            "sort": [
+                {
+                    "EventTime": {
+                        "order": "asc",
+                        "missing": "_first"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "dsl-q26-search-phrases-sorted",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 10,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "SearchPhrase",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "SearchPhrase": {
+                                    "value": "",
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "SearchPhrase"
+                ],
+                "excludes": []
+            },
+            "sort": [
+                {
+                    "SearchPhrase": {
+                        "order": "asc",
+                        "missing": "_first"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "dsl-q27-search-phrases-multi-sort",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 10,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "SearchPhrase",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "SearchPhrase": {
+                                    "value": "",
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "SearchPhrase"
+                ],
+                "excludes": []
+            },
+            "sort": [
+                {
+                    "EventTime": {
+                        "order": "asc",
+                        "missing": "_first"
+                    }
+                },
+                {
+                    "SearchPhrase": {
+                        "order": "asc",
+                        "missing": "_first"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "name": "dsl-q28-counter-url-length",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "URL",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "URL": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "CounterID",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "URL",
+                    "CounterID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "composite_buckets": {
+                    "composite": {
+                        "size": 10000,
+                        "sources": [
+                            {
+                                "CounterID": {
+                                    "terms": {
+                                        "field": "CounterID",
+                                        "missing_bucket": false,
+                                        "order": "asc"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "l": {
+                            "avg": {
+                                "script": {
+                                    "source": "{\"langType\":\"calcite\",\"script\":\"rO0ABXQA/3sKICAib3AiOiB7CiAgICAibmFtZSI6ICJDSEFSX0xFTkdUSCIsCiAgICAia2luZCI6ICJDSEFSX0xFTkdUSCIsCiAgICAic3ludGF4IjogIkZVTkNUSU9OIgogIH0sCiAgIm9wZXJhbmRzIjogWwogICAgewogICAgICAiZHluYW1pY1BhcmFtIjogMCwKICAgICAgInR5cGUiOiB7CiAgICAgICAgInR5cGUiOiAiVkFSQ0hBUiIsCiAgICAgICAgIm51bGxhYmxlIjogdHJ1ZSwKICAgICAgICAicHJlY2lzaW9uIjogLTEKICAgICAgfQogICAgfQogIF0KfQ==\"}",
+                                    "lang": "opensearch_compounded_script",
+                                    "params": {
+                                        "utcTimestamp": 1765261854565507000,
+                                        "SOURCES": [
+                                            0
+                                        ],
+                                        "DIGESTS": [
+                                            "URL"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q29-referer-analysis",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "exists": {
+                                "field": "Referer",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "must_not": [
+                        {
+                            "term": {
+                                "Referer": {
+                                    "value": "",
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "Referer"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "composite_buckets": {
+                    "composite": {
+                        "size": 10000,
+                        "sources": [
+                            {
+                                "k": {
+                                    "terms": {
+                                        "script": {
+                                            "source": "{\"langType\":\"calcite\",\"script\":\"rO0ABXQCGXsKICAib3AiOiB7CiAgICAibmFtZSI6ICJSRUdFWFBfUkVQTEFDRSIsCiAgICAia2luZCI6ICJPVEhFUl9GVU5DVElPTiIsCiAgICAic3ludGF4IjogIkZVTkNUSU9OIgogIH0sCiAgIm9wZXJhbmRzIjogWwogICAgewogICAgICAiZHluYW1pY1BhcmFtIjogMCwKICAgICAgInR5cGUiOiB7CiAgICAgICAgInR5cGUiOiAiVkFSQ0hBUiIsCiAgICAgICAgIm51bGxhYmxlIjogdHJ1ZSwKICAgICAgICAicHJlY2lzaW9uIjogLTEKICAgICAgfQogICAgfSwKICAgIHsKICAgICAgImR5bmFtaWNQYXJhbSI6IDEsCiAgICAgICJ0eXBlIjogewogICAgICAgICJ0eXBlIjogIlZBUkNIQVIiLAogICAgICAgICJudWxsYWJsZSI6IGZhbHNlLAogICAgICAgICJwcmVjaXNpb24iOiAtMQogICAgICB9CiAgICB9LAogICAgewogICAgICAiZHluYW1pY1BhcmFtIjogMiwKICAgICAgInR5cGUiOiB7CiAgICAgICAgInR5cGUiOiAiQ0hBUiIsCiAgICAgICAgIm51bGxhYmxlIjogZmFsc2UsCiAgICAgICAgInByZWNpc2lvbiI6IDIKICAgICAgfQogICAgfQogIF0KfQ==\"}",
+                                            "lang": "opensearch_compounded_script",
+                                            "params": {
+                                                "utcTimestamp": 1765261854612898000,
+                                                "SOURCES": [
+                                                    0,
+                                                    2,
+                                                    2
+                                                ],
+                                                "DIGESTS": [
+                                                    "Referer",
+                                                    "^https?://(?:www\\.)?([^/]+)/.*$",
+                                                    "$1"
+                                                ]
+                                            }
+                                        },
+                                        "missing_bucket": false,
+                                        "order": "asc"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "l": {
+                            "avg": {
+                                "script": {
+                                    "source": "{\"langType\":\"calcite\",\"script\":\"rO0ABXQA/3sKICAib3AiOiB7CiAgICAibmFtZSI6ICJDSEFSX0xFTkdUSCIsCiAgICAia2luZCI6ICJDSEFSX0xFTkdUSCIsCiAgICAic3ludGF4IjogIkZVTkNUSU9OIgogIH0sCiAgIm9wZXJhbmRzIjogWwogICAgewogICAgICAiZHluYW1pY1BhcmFtIjogMCwKICAgICAgInR5cGUiOiB7CiAgICAgICAgInR5cGUiOiAiVkFSQ0hBUiIsCiAgICAgICAgIm51bGxhYmxlIjogdHJ1ZSwKICAgICAgICAicHJlY2lzaW9uIjogLTEKICAgICAgfQogICAgfQogIF0KfQ==\"}",
+                                    "lang": "opensearch_compounded_script",
+                                    "params": {
+                                        "utcTimestamp": 1765261854612898000,
+                                        "SOURCES": [
+                                            0
+                                        ],
+                                        "DIGESTS": [
+                                            "Referer"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "min(Referer)": {
+                            "top_hits": {
+                                "from": 0,
+                                "size": 1,
+                                "version": false,
+                                "seq_no_primary_term": false,
+                                "explain": false,
+                                "fields": [
+                                    {
+                                        "field": "Referer"
+                                    }
+                                ],
+                                "sort": [
+                                    {
+                                        "Referer": {
+                                            "order": "asc"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q30-resolution-width-sums",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "sum(ResolutionWidth)": {
+                    "sum": {
+                        "field": "ResolutionWidth"
+                    }
+                },
+                "sum(ResolutionWidth+1)_COUNT": {
+                    "value_count": {
+                        "field": "ResolutionWidth"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q31-search-engine-client-stats",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "SearchPhrase",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "SearchPhrase": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "SearchEngineID",
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "ClientIP",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "SearchPhrase",
+                    "SearchEngineID",
+                    "IsRefresh",
+                    "ClientIP",
+                    "ResolutionWidth"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "SearchEngineID|ClientIP": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "SearchEngineID"
+                            },
+                            {
+                                "field": "ClientIP"
+                            }
+                        ],
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "c": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "sum(IsRefresh)": {
+                            "sum": {
+                                "field": "IsRefresh"
+                            }
+                        },
+                        "avg(ResolutionWidth)": {
+                            "avg": {
+                                "field": "ResolutionWidth"
+                            }
+                        },
+                        "c": {
+                            "value_count": {
+                                "field": "_index"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q32-watch-client-stats",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "SearchPhrase",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "SearchPhrase": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "WatchID",
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "ClientIP",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "WatchID",
+                    "SearchPhrase",
+                    "IsRefresh",
+                    "ClientIP",
+                    "ResolutionWidth"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "WatchID|ClientIP": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "WatchID"
+                            },
+                            {
+                                "field": "ClientIP"
+                            }
+                        ],
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "c": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "sum(IsRefresh)": {
+                            "sum": {
+                                "field": "IsRefresh"
+                            }
+                        },
+                        "avg(ResolutionWidth)": {
+                            "avg": {
+                                "field": "ResolutionWidth"
+                            }
+                        },
+                        "c": {
+                            "value_count": {
+                                "field": "_index"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q33-watch-client-all",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "WatchID|ClientIP": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "WatchID"
+                            },
+                            {
+                                "field": "ClientIP"
+                            }
+                        ],
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "c": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    },
+                    "aggregations": {
+                        "sum(IsRefresh)": {
+                            "sum": {
+                                "field": "IsRefresh"
+                            }
+                        },
+                        "avg(ResolutionWidth)": {
+                            "avg": {
+                                "field": "ResolutionWidth"
+                            }
+                        },
+                        "c": {
+                            "value_count": {
+                                "field": "_index"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q34-url-popularity",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "URL": {
+                    "terms": {
+                        "field": "URL",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q35-url-with-constant",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "aggregations": {
+                "URL": {
+                    "terms": {
+                        "field": "URL",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q36-client-ip-variations",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "exists": {
+                    "field": "ClientIP",
+                    "boost": 1.0
+                }
+            },
+            "aggregations": {
+                "ClientIP": {
+                    "terms": {
+                        "field": "ClientIP",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q37-counter-62-urls",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "CounterID": {
+                                    "value": 62,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "EventDate": {
+                                    "from": "2013-07-01T00:00:00.000Z",
+                                    "to": "2013-07-31T00:00:00.000Z",
+                                    "include_lower": true,
+                                    "include_upper": true,
+                                    "format": "date_time",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "DontCountHits": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsRefresh": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "URL",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "URL": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "URL",
+                    "DontCountHits",
+                    "IsRefresh",
+                    "CounterID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "URL": {
+                    "terms": {
+                        "field": "URL",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q38-counter-62-titles",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "CounterID": {
+                                    "value": 62,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "EventDate": {
+                                    "from": "2013-07-01T00:00:00.000Z",
+                                    "to": "2013-07-31T00:00:00.000Z",
+                                    "include_lower": true,
+                                    "include_upper": true,
+                                    "format": "date_time",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "DontCountHits": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsRefresh": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "Title",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "Title": {
+                                                "value": "",
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "DontCountHits",
+                    "IsRefresh",
+                    "Title",
+                    "CounterID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "Title": {
+                    "terms": {
+                        "field": "Title",
+                        "size": 10,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q39-counter-62-links",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "CounterID": {
+                                    "value": 62,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "EventDate": {
+                                    "from": "2013-07-01T00:00:00.000Z",
+                                    "to": "2013-07-31T00:00:00.000Z",
+                                    "include_lower": true,
+                                    "include_upper": true,
+                                    "format": "date_time",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsRefresh": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "exists": {
+                                            "field": "IsLink",
+                                            "boost": 1.0
+                                        }
+                                    }
+                                ],
+                                "must_not": [
+                                    {
+                                        "term": {
+                                            "IsLink": {
+                                                "value": 0,
+                                                "boost": 1.0
+                                            }
+                                        }
+                                    }
+                                ],
+                                "adjust_pure_negative": true,
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsDownload": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "URL",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "URL",
+                    "IsDownload",
+                    "IsLink",
+                    "IsRefresh",
+                    "CounterID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "URL": {
+                    "terms": {
+                        "field": "URL",
+                        "size": 1010,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q40-traffic-source-analysis",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "CounterID": {
+                                    "value": 62,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "EventDate": {
+                                    "from": "2013-07-01T00:00:00.000Z",
+                                    "to": "2013-07-31T00:00:00.000Z",
+                                    "include_lower": true,
+                                    "include_upper": true,
+                                    "format": "date_time",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsRefresh": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "TraficSourceID",
+                    "AdvEngineID",
+                    "URL",
+                    "SearchEngineID",
+                    "IsRefresh",
+                    "Referer",
+                    "CounterID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "TraficSourceID|SearchEngineID|AdvEngineID|Src|Dst": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "TraficSourceID"
+                            },
+                            {
+                                "field": "SearchEngineID"
+                            },
+                            {
+                                "field": "AdvEngineID"
+                            },
+                            {
+                                "script": {
+                                    "source": "{\"langType\":\"calcite\",\"script\":\"rO0ABXQGCnsKICAib3AiOiB7CiAgICAibmFtZSI6ICJDQVNFIiwKICAgICJraW5kIjogIkNBU0UiLAogICAgInN5bnRheCI6ICJTUEVDSUFMIgogIH0sCiAgIm9wZXJhbmRzIjogWwogICAgewogICAgICAib3AiOiB7CiAgICAgICAgIm5hbWUiOiAiQU5EIiwKICAgICAgICAia2luZCI6ICJBTkQiLAogICAgICAgICJzeW50YXgiOiAiQklOQVJZIgogICAgICB9LAogICAgICAib3BlcmFuZHMiOiBbCiAgICAgICAgewogICAgICAgICAgIm9wIjogewogICAgICAgICAgICAibmFtZSI6ICI9IiwKICAgICAgICAgICAgImtpbmQiOiAiRVFVQUxTIiwKICAgICAgICAgICAgInN5bnRheCI6ICJCSU5BUlkiCiAgICAgICAgICB9LAogICAgICAgICAgIm9wZXJhbmRzIjogWwogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImR5bmFtaWNQYXJhbSI6IDAsCiAgICAgICAgICAgICAgInR5cGUiOiB7CiAgICAgICAgICAgICAgICAidHlwZSI6ICJTTUFMTElOVCIsCiAgICAgICAgICAgICAgICAibnVsbGFibGUiOiB0cnVlCiAgICAgICAgICAgICAgfQogICAgICAgICAgICB9LAogICAgICAgICAgICB7CiAgICAgICAgICAgICAgImR5bmFtaWNQYXJhbSI6IDEsCiAgICAgICAgICAgICAgInR5cGUiOiB7CiAgICAgICAgICAgICAgICAidHlwZSI6ICJJTlRFR0VSIiwKICAgICAgICAgICAgICAgICJudWxsYWJsZSI6IGZhbHNlCiAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgICBdCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAib3AiOiB7CiAgICAgICAgICAgICJuYW1lIjogIj0iLAogICAgICAgICAgICAia2luZCI6ICJFUVVBTFMiLAogICAgICAgICAgICAic3ludGF4IjogIkJJTkFSWSIKICAgICAgICAgIH0sCiAgICAgICAgICAib3BlcmFuZHMiOiBbCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiZHluYW1pY1BhcmFtIjogMiwKICAgICAgICAgICAgICAidHlwZSI6IHsKICAgICAgICAgICAgICAgICJ0eXBlIjogIlNNQUxMSU5UIiwKICAgICAgICAgICAgICAgICJudWxsYWJsZSI6IHRydWUKICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0sCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAiZHluYW1pY1BhcmFtIjogMywKICAgICAgICAgICAgICAidHlwZSI6IHsKICAgICAgICAgICAgICAgICJ0eXBlIjogIklOVEVHRVIiLAogICAgICAgICAgICAgICAgIm51bGxhYmxlIjogZmFsc2UKICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICAgIF0KICAgICAgICB9CiAgICAgIF0KICAgIH0sCiAgICB7CiAgICAgICJkeW5hbWljUGFyYW0iOiA0LAogICAgICAidHlwZSI6IHsKICAgICAgICAidHlwZSI6ICJWQVJDSEFSIiwKICAgICAgICAibnVsbGFibGUiOiB0cnVlLAogICAgICAgICJwcmVjaXNpb24iOiAtMQogICAgICB9CiAgICB9LAogICAgewogICAgICAiZHluYW1pY1BhcmFtIjogNSwKICAgICAgInR5cGUiOiB7CiAgICAgICAgInR5cGUiOiAiVkFSQ0hBUiIsCiAgICAgICAgIm51bGxhYmxlIjogZmFsc2UsCiAgICAgICAgInByZWNpc2lvbiI6IC0xCiAgICAgIH0KICAgIH0KICBdCn0=\"}",
+                                    "lang": "opensearch_compounded_script",
+                                    "params": {
+                                        "utcTimestamp": 1765261855083734000,
+                                        "SOURCES": [
+                                            0,
+                                            2,
+                                            0,
+                                            2,
+                                            0,
+                                            2
+                                        ],
+                                        "DIGESTS": [
+                                            "SearchEngineID",
+                                            0,
+                                            "AdvEngineID",
+                                            0,
+                                            "Referer",
+                                            ""
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "field": "URL"
+                            }
+                        ],
+                        "size": 1010,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q41-url-hash-date",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "CounterID": {
+                                    "value": 62,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "EventDate": {
+                                    "from": "2013-07-01T00:00:00.000Z",
+                                    "to": "2013-07-31T00:00:00.000Z",
+                                    "include_lower": true,
+                                    "include_upper": true,
+                                    "format": "date_time",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsRefresh": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "terms": {
+                                "TraficSourceID": [
+                                    -1.0,
+                                    6.0
+                                ],
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "term": {
+                                "RefererHash": {
+                                    "value": 3594120000172545465,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "URLHash",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "RefererHash",
+                    "TraficSourceID",
+                    "URLHash",
+                    "IsRefresh",
+                    "CounterID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "URLHash|EventDate": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "URLHash"
+                            },
+                            {
+                                "field": "EventDate",
+                                "value_type": "long"
+                            }
+                        ],
+                        "size": 110,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q42-window-client-dimensions",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "CounterID": {
+                                    "value": 62,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "EventDate": {
+                                    "from": "2013-07-01T00:00:00.000Z",
+                                    "to": "2013-07-31T00:00:00.000Z",
+                                    "include_lower": true,
+                                    "include_upper": true,
+                                    "format": "date_time",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsRefresh": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "DontCountHits": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "URLHash": {
+                                    "value": 2868770270353813622,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "WindowClientWidth",
+                                "boost": 1.0
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "WindowClientHeight",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "URLHash",
+                    "DontCountHits",
+                    "WindowClientHeight",
+                    "IsRefresh",
+                    "CounterID",
+                    "WindowClientWidth"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "WindowClientWidth|WindowClientHeight": {
+                    "multi_terms": {
+                        "terms": [
+                            {
+                                "field": "WindowClientWidth"
+                            },
+                            {
+                                "field": "WindowClientHeight"
+                            }
+                        ],
+                        "size": 10000,
+                        "min_doc_count": 1,
+                        "shard_min_doc_count": 0,
+                        "show_term_doc_count_error": false,
+                        "order": [
+                            {
+                                "_count": "desc"
+                            },
+                            {
+                                "_key": "asc"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "dsl-q43-hourly-pageviews",
+        "operation-type": "raw-request",
+        "path": "/_search",
+        "method": "POST",
+        "body": {
+            "from": 0,
+            "size": 0,
+            "timeout": "1m",
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "CounterID": {
+                                    "value": 62,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "range": {
+                                "EventDate": {
+                                    "from": "2013-07-01T00:00:00.000Z",
+                                    "to": "2013-07-15T00:00:00.000Z",
+                                    "include_lower": true,
+                                    "include_upper": true,
+                                    "format": "date_time",
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "IsRefresh": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "term": {
+                                "DontCountHits": {
+                                    "value": 0,
+                                    "boost": 1.0
+                                }
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "EventTime",
+                                "boost": 1.0
+                            }
+                        }
+                    ],
+                    "adjust_pure_negative": true,
+                    "boost": 1.0
+                }
+            },
+            "_source": {
+                "includes": [
+                    "EventDate",
+                    "EventTime",
+                    "DontCountHits",
+                    "IsRefresh",
+                    "CounterID"
+                ],
+                "excludes": []
+            },
+            "aggregations": {
+                "composite_buckets": {
+                    "composite": {
+                        "size": 1010,
+                        "sources": [
+                            {
+                                "M": {
+                                    "date_histogram": {
+                                        "field": "EventTime",
+                                        "missing_bucket": false,
+                                        "order": "asc",
+                                        "fixed_interval": "1m"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }

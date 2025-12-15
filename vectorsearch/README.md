@@ -49,6 +49,10 @@ You can define the underlying configuration of the vector search algorithm like 
 method definition . Check [vector search method definitions]([https://opensearch.org/docs/latest/search-plugins/knn/knn-index/#method-definitions)
 for more details.
 
+### gRPC No Train Test
+
+The No Train Test procedure with search components executed with gRPC/protobuf over the `transport-grpc` plugin. To utilize this procedure ensure the `transport-grpc` plugin is [installed and enabled](https://github.com/opensearch-project/OpenSearch/tree/main/modules/transport-grpc#readme) on your cluster. Specify the this procedure with `--test-procedure="grpc-no-train-test"`, and provide the gRPC transport endpoint with `--grpc-target-hosts=<host:port>`.
+
 ### No Train Test Index Only
 This procedure is used to index only vector search index which requires no training. This will be useful if
 you are interested in benchmarking only indexing operation.
@@ -108,6 +112,7 @@ This workload allows the following parameters to be specified using `--workload-
 | derived_source_enabled                  | Whether or not derived source feature should be enabled on the index (default null, pass in either true or false)                    |
 | remote_index_build_enabled              | Whether or not remote index build feature should be enabled on the index (default false, pass in either true or false)               |
 | remote_index_build_size_threshold       | If remote_index_build_enabled, indicates the size threshold above which remote vector builds will be enabled (default 50mb)          |
+| memory_optimized_search_enabled         | Whether to enable memory optimized search on the index. (default false, pass in either true or fals)                                 |
 
 
 
