@@ -10,14 +10,16 @@ with open(output, "a") as f:
 last_gc_old = -1
 last_gc_young = -1
 
-sleep_time = 15
+sleep_time = 180
 
+i = 0
 while True: 
     cpu_result = requests.get("http://localhost:9200/_nodes/stats/process?pretty").json()
     jvm_result = requests.get("http://localhost:9200/_nodes/stats/jvm?pretty").json()
 
     node_id = list(cpu_result["nodes"].keys())[0]
-    print("Found node ID = ", node_id)
+    if i == 0: 
+        print("Found node ID = ", node_id)
 
     cpu_usage = cpu_result["nodes"][node_id]["process"]["cpu"]["percent"]
     jvm_pressure = jvm_result["nodes"][node_id]["jvm"]["mem"]["heap_used_percent"]
@@ -33,5 +35,5 @@ while True:
     line = "{},{},{},{},{},{}\n".format(now, cpu_usage, jvm_pressure, jvm_max, gc_old_percent, gc_young_percent)
     with open(output, "a") as f: 
         f.write(line) 
-    print("sleeping...")
     time.sleep(sleep_time)
+    i+=1
