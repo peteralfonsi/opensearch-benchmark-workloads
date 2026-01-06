@@ -10,7 +10,7 @@ with open(output, "a") as f:
 last_gc_old = -1
 last_gc_young = -1
 
-sleep_time = 180
+sleep_time = 15
 
 i = 0
 while True: 
