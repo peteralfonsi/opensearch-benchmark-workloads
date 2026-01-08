@@ -55,7 +55,7 @@
     {
       "operation": "range-auto-date-histo",
       "warmup-time-period": {{ warmup_time | default(300) | tojson }},
-      "time-period": {{ time_period | default(900) | tojson }},
+      "time-period": {{ time_period | default(1800) | tojson }},
       "target-throughput": {{ target_throughput | default(2) | tojson }},
       "clients": {{ search_clients | default(20) }}
     }
