@@ -49,7 +49,7 @@ while True:
 
 
     now = datetime.datetime.now()
-    line = "{},{},{},{},{},{},{},{},{},{}\n".format(now, cpu_usage, jvm_pressure, jvm_max, gc_old_percent, gc_young_percent, queued_virtual_thread_count, mounted_virtual_thread_count, parallelism, pool_size, search_active, search_queued, searcher_active, searcher_queued)
+    line = "{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n".format(now, cpu_usage, jvm_pressure, jvm_max, gc_old_percent, gc_young_percent, queued_virtual_thread_count, mounted_virtual_thread_count, parallelism, pool_size, search_active, search_queued, searcher_active, searcher_queued)
     with open(output, "a") as f: 
         f.write(line) 
     time.sleep(sleep_time)
