@@ -17,8 +17,8 @@ while True:
     cpu_result = requests.get("http://localhost:9200/_nodes/stats/process?pretty").json()
     jvm_result = requests.get("http://localhost:9200/_nodes/stats/jvm?pretty").json()
     vthreads_result = requests.get("http://localhost:9200/_nodes/stats/virtual_thread_scheduler?pretty").json()
-    cat_search_threadpool_result = requests.get("http://localhost:9200/_cat/thread_pool/search?pretty&format=json").json()
-    cat_searcher_threadpool_result= requests.get("http://localhost:9200/_cat/thread_pool/index_searcher?pretty&format=json").json()
+    cat_search_threadpool_result = requests.get("http://localhost:9200/_cat/thread_pool/search?pretty&format=json").json()[0]
+    cat_searcher_threadpool_result= requests.get("http://localhost:9200/_cat/thread_pool/index_searcher?pretty&format=json").json()[0]
 
     node_id = list(cpu_result["nodes"].keys())[0]
     if i == 0: 
