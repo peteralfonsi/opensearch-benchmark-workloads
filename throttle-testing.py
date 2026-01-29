@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-Iterated OpenSearch Benchmark (OSB) runner that varies search_clients and writes
-key metrics to a single CSV.
+Iterated OpenSearch Benchmark (OSB) runner with exhaustive debugging output.
 
-Features:
-- Python-enforced timeout (kills OSB if it hangs)
-- --kill-running-processes always enabled
-- stdout parsed, stderr ignored for metrics
-- retries on timeout
-- structured CSV output
-- separate, clean event log for monitoring
+This version:
+- Enforces timeout via Python
+- Always uses --kill-running-processes
+- Captures stdout/stderr separately
+- Strips ANSI escape codes
+- Falls back to stderr if stdout has no table
+- Writes a detailed per-run "results dump" for debugging
+- Writes clean CSV output
+- Writes a concise event log
 """
 
 from __future__ import annotations
@@ -19,16 +20,14 @@ import csv
 import json
 import re
 import subprocess
-import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Tuple
 
 
 DEFAULT_WORKLOAD_PATH = "/home/ec2-user/osb/opensearch-benchmark-workloads/big5"
 DEFAULT_INCLUDE_TASKS = "term"
-
 
 PIPE_ROW_RE = re.compile(
     r"^\|\s*(?P<metric>.*?)\s*\|\s*(?P<op>.*?)\s*\|\s*(?P<value>.*?)\s*\|\s*(?P<unit>.*?)\s*\|\s*$"
@@ -39,14 +38,20 @@ PERCENTILE_RE = re.compile(
     re.I,
 )
 
+ANSI_RE = re.compile(r"\x1b\[[0-9;?]*[ -/]*[@-~]")
+
 
 def utc_ts() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def log_event(log_path: Path, msg: str) -> None:
-    log_path.parent.mkdir(parents=True, exist_ok=True)
-    with log_path.open("a") as f:
+def strip_ansi(s: str) -> str:
+    return ANSI_RE.sub("", s)
+
+
+def log_event(path: Path, msg: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a") as f:
         f.write(f"{utc_ts()} | {msg}\n")
 
 
@@ -66,25 +71,20 @@ def norm(s: str) -> str:
 
 
 def make_column_name(op: str, metric: str, unit: str) -> str:
-    metric = metric.strip()
-    unit = norm(unit)
-
+    unit_n = norm(unit)
     m = PERCENTILE_RE.match(metric)
     if m:
-        base = f"p{m.group('pct')}_{norm(m.group('what'))}_{unit}"
+        base = f"p{m.group('pct')}_{norm(m.group('what'))}_{unit_n}"
     else:
-        base = f"{norm(metric)}_{unit}"
+        base = f"{norm(metric)}_{unit_n}"
 
-    op = norm(op)
-    if op:
-        return f"{op}__{base}"
-    return base
+    op_n = norm(op)
+    return f"{op_n}__{base}" if op_n else base
 
 
-def parse_osb_stdout(stdout: str) -> Dict[str, Any]:
+def parse_osb_table(text: str) -> Dict[str, Any]:
     metrics: Dict[str, Any] = {}
-
-    for line in stdout.splitlines():
+    for line in text.splitlines():
         m = PIPE_ROW_RE.match(line)
         if not m:
             continue
@@ -126,8 +126,8 @@ def write_csv(path: Path, header: List[str], rows: List[Dict[str, Any]]) -> None
 
 def append_row(csv_path: Path, row: Dict[str, Any]) -> None:
     header, rows = read_csv(csv_path)
-
     new_cols = [k for k in row if k not in header]
+
     if not header:
         write_csv(csv_path, sorted(row), [row])
         return
@@ -150,7 +150,7 @@ def build_command(
     test_iterations: int,
     include_tasks: str,
 ) -> List[str]:
-    workload_params = {
+    params = {
         "number_of_replicas": "0",
         "search_clients": str(search_clients),
         "target_throughput": "",
@@ -163,15 +163,12 @@ def build_command(
         "--kill-running-processes",
         f"--workload-path={workload_path}",
         f"--target-host={target_host}",
-        f"--workload-params={json.dumps(workload_params, separators=(',', ':'))}",
+        f"--workload-params={json.dumps(params, separators=(',', ':'))}",
         f"--include-tasks={include_tasks}",
     ]
 
 
-def run_osb(
-    cmd: List[str],
-    timeout_s: int,
-) -> Tuple[bool, str, str]:
+def run_osb(cmd: List[str], timeout_s: int) -> Tuple[bool, int, str, str]:
     try:
         proc = subprocess.run(
             cmd,
@@ -181,10 +178,42 @@ def run_osb(
             timeout=timeout_s,
             check=False,
         )
-        return False, proc.stdout or "", proc.stderr or ""
-
+        return False, proc.returncode, proc.stdout or "", proc.stderr or ""
     except subprocess.TimeoutExpired as e:
-        return True, e.stdout or "", e.stderr or ""
+        return True, -1, e.stdout or "", e.stderr or ""
+
+
+def dump_results(
+    base_dir: Path,
+    label: str,
+    cmd: List[str],
+    stdout_raw: str,
+    stderr_raw: str,
+    parser_input: str,
+    metrics: Dict[str, Any],
+) -> None:
+    d = base_dir / label
+    d.mkdir(parents=True, exist_ok=True)
+
+    (d / "cmd.txt").write_text(" ".join(cmd) + "\n")
+    (d / "stdout.raw.txt").write_text(stdout_raw)
+    (d / "stderr.raw.txt").write_text(stderr_raw)
+
+    combined = (
+        "===== STDOUT (ANSI STRIPPED) =====\n"
+        + strip_ansi(stdout_raw)
+        + "\n\n===== STDERR (ANSI STRIPPED) =====\n"
+        + strip_ansi(stderr_raw)
+    )
+    (d / "combined.stripped.txt").write_text(combined)
+    (d / "parser_input.txt").write_text(parser_input)
+
+    if metrics:
+        (d / "parsed_metrics.json").write_text(json.dumps(metrics, indent=2))
+    else:
+        (d / "parsed_metrics.json").write_text(
+            json.dumps({"note": "no metrics parsed"}, indent=2)
+        )
 
 
 def parse_search_clients(values: List[str]) -> List[int]:
@@ -205,6 +234,7 @@ def main() -> int:
     ap.add_argument("--max-retries", type=int, default=3)
     ap.add_argument("--csv-path", default="osb_results.csv")
     ap.add_argument("--event-log", default="osb_events.log")
+    ap.add_argument("--results-dump-dir", default="osb_results_dump")
     ap.add_argument("--osb-bin", default="opensearch-benchmark")
     ap.add_argument("--workload-path", default=DEFAULT_WORKLOAD_PATH)
     ap.add_argument("--include-tasks", default=DEFAULT_INCLUDE_TASKS)
@@ -214,6 +244,7 @@ def main() -> int:
     timeout_s = args.timeout_minutes * 60
     csv_path = Path(args.csv_path)
     event_log = Path(args.event_log)
+    dump_dir = Path(args.results_dump_dir)
 
     log_event(event_log, "script started")
 
@@ -221,11 +252,7 @@ def main() -> int:
         attempt = 0
         while True:
             attempt += 1
-            log_event(
-                event_log,
-                f"starting run: search_clients={sc}, attempt={attempt}",
-            )
-
+            log_event(event_log, f"starting run: search_clients={sc}, attempt={attempt}")
             start_ts = utc_ts()
 
             cmd = build_command(
@@ -237,21 +264,32 @@ def main() -> int:
                 args.include_tasks,
             )
 
-            timed_out, stdout, stderr = run_osb(cmd, timeout_s)
+            timed_out, rc, stdout_raw, stderr_raw = run_osb(cmd, timeout_s)
             end_ts = utc_ts()
 
-            if timed_out:
-                log_event(
-                    event_log,
-                    f"run timed out: search_clients={sc}, attempt={attempt}",
-                )
-                metrics = {}
-            else:
-                log_event(
-                    event_log,
-                    f"run completed: search_clients={sc}, attempt={attempt}",
-                )
-                metrics = parse_osb_stdout(stdout)
+            stdout = strip_ansi(stdout_raw)
+            stderr = strip_ansi(stderr_raw)
+
+            metrics = {}
+            parser_input = ""
+
+            if not timed_out:
+                metrics = parse_osb_table(stdout)
+                parser_input = stdout
+                if not metrics:
+                    metrics = parse_osb_table(stderr)
+                    parser_input = stderr
+
+            label = f"sc{sc}_attempt{attempt}_{int(time.time())}"
+            dump_results(
+                dump_dir,
+                label,
+                cmd,
+                stdout_raw,
+                stderr_raw,
+                parser_input,
+                metrics,
+            )
 
             row = {
                 "start_ts_utc": start_ts,
@@ -261,35 +299,24 @@ def main() -> int:
                 "test_iterations": args.test_iterations,
                 "attempt": attempt,
                 "timed_out": timed_out,
+                "return_code": rc,
             }
             row.update(metrics)
             append_row(csv_path, row)
 
             if timed_out:
+                log_event(event_log, f"run timed out: search_clients={sc}, attempt={attempt}")
                 if args.max_retries and attempt >= args.max_retries:
-                    log_event(
-                        event_log,
-                        f"giving up after {attempt} timeouts: search_clients={sc}",
-                    )
+                    log_event(event_log, f"giving up after {attempt} timeouts: search_clients={sc}")
                     break
-
-                log_event(
-                    event_log,
-                    f"retrying run: search_clients={sc}, next_attempt={attempt + 1}",
-                )
                 continue
 
+            log_event(event_log, f"run completed: search_clients={sc}, attempt={attempt}")
             if idx < len(search_clients_list) - 1:
-                log_event(
-                    event_log,
-                    f"pausing {args.pause_seconds}s before next search_clients value",
-                )
                 time.sleep(args.pause_seconds)
             break
 
     log_event(event_log, "script finished")
-    print(f"[OK] Results written to {csv_path.resolve()}")
-    print(f"[OK] Event log written to {event_log.resolve()}")
     return 0
 
 
