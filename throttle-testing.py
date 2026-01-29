@@ -161,6 +161,7 @@ def build_command(
         osb_bin,
         "run",
         "--kill-running-processes",
+        "--report-format=table",
         f"--workload-path={workload_path}",
         f"--target-host={target_host}",
         f"--workload-params={json.dumps(params, separators=(',', ':'))}",
