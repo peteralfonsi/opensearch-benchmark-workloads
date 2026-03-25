@@ -2,15 +2,17 @@
 """
 Iterated OpenSearch Benchmark (OSB) runner using OSB CSV results output.
 
-This version fixes a crash where stdout/stderr may be bytes (not str) after
-timeouts or forced termination, which previously prevented retries.
-
 Behavior:
 - OSB writes per-run results via --results-format=csv --results-file=...
 - Script parses that CSV and appends metrics to a master CSV
 - Retries on timeout
 - Append-only master CSV (never deletes rows)
 - Safe reuse of existing results/dump directories
+- Optional --parallelisms / --parallelism flag to set the dynamic cluster setting
+  search_virtual_threads.parallelism before each run
+
+If no parallelism flag is provided, parallelism is recorded as -1 and no cluster
+setting update is sent.
 """
 
 from __future__ import annotations
@@ -24,6 +26,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, List, Tuple, Optional
+from urllib import request, error
 
 
 DEFAULT_WORKLOAD_PATH = "/home/ec2-user/osb/opensearch-benchmark-workloads/big5"
@@ -41,9 +44,6 @@ def utc_ts() -> str:
 
 
 def safe_text(s: Optional[object]) -> str:
-    """
-    Convert bytes/None/str to str safely.
-    """
     if s is None:
         return ""
     if isinstance(s, bytes):
@@ -52,11 +52,7 @@ def safe_text(s: Optional[object]) -> str:
 
 
 def strip_ansi(s: Optional[object]) -> str:
-    """
-    Strip ANSI escape codes from text that may be str or bytes.
-    """
-    txt = safe_text(s)
-    return ANSI_RE.sub("", txt)
+    return ANSI_RE.sub("", safe_text(s))
 
 
 def log_event(path: Path, msg: str) -> None:
@@ -78,6 +74,63 @@ def norm(s: str) -> str:
     s = re.sub(r"[^\w\s]+", "", s)
     s = re.sub(r"\s+", "_", s)
     return s
+
+
+def ensure_http_url(target_host: str) -> str:
+    if target_host.startswith("http://") or target_host.startswith("https://"):
+        return target_host.rstrip("/")
+    return f"http://{target_host.rstrip('/')}"
+
+
+def parse_int_list_arg(values: Optional[List[str]]) -> List[int]:
+    out: List[int] = []
+    if not values:
+        return out
+    for v in values:
+        for p in v.split(","):
+            p = p.strip()
+            if p:
+                out.append(int(p))
+    return out
+
+
+# -----------------------
+# Cluster setting update
+# -----------------------
+
+def set_cluster_parallelism(target_host: str, parallelism: int, timeout_s: int = 30) -> str:
+    """
+    Set transient cluster setting search_virtual_threads.parallelism.
+
+    Returns response body as text.
+    Raises RuntimeError on failure.
+    """
+    base_url = ensure_http_url(target_host)
+    url = f"{base_url}/_cluster/settings"
+    payload = {
+        "transient": {
+            "search_virtual_threads.parallelism": parallelism
+        }
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = request.Request(
+        url,
+        data=data,
+        method="PUT",
+        headers={"Content-Type": "application/json"},
+    )
+
+    try:
+        with request.urlopen(req, timeout=timeout_s) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+            if resp.status < 200 or resp.status >= 300:
+                raise RuntimeError(f"HTTP {resp.status}: {body}")
+            return body
+    except error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"HTTP {e.code}: {body}") from e
+    except error.URLError as e:
+        raise RuntimeError(f"URL error updating cluster setting: {e}") from e
 
 
 # -----------------------
@@ -270,23 +323,14 @@ def dump_attempt_artifacts(
 
         if results_csv_path.exists():
             (d / "osb_results.csv").write_text(results_csv_path.read_text())
-    except Exception as e:
-        # Dump failures must never stop retries
+    except Exception:
+        # Dump failures must never stop retries or later runs.
         pass
 
 
 # -----------------------
 # Main
 # -----------------------
-
-def parse_search_clients(values: List[str]) -> List[int]:
-    out: List[int] = []
-    for v in values:
-        for p in v.split(","):
-            if p.strip():
-                out.append(int(p.strip()))
-    return out
-
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -305,9 +349,19 @@ def main() -> int:
     ap.add_argument("--osb-bin", default="opensearch-benchmark")
     ap.add_argument("--workload-path", default=DEFAULT_WORKLOAD_PATH)
     ap.add_argument("--include-tasks", default=DEFAULT_INCLUDE_TASKS)
+
+    # Optional dynamic cluster setting values.
+    # Supports either --parallelisms or --parallelism for convenience.
+    ap.add_argument("--parallelisms", nargs="+", default=None)
+    ap.add_argument("--parallelism", nargs="+", default=None)
+
     args = ap.parse_args()
 
-    search_clients = parse_search_clients(args.search_clients)
+    search_clients = parse_int_list_arg(args.search_clients)
+    parallelism_values = parse_int_list_arg(args.parallelisms) or parse_int_list_arg(args.parallelism)
+    if not parallelism_values:
+        parallelism_values = [-1]
+
     timeout_s = args.timeout_minutes * 60
 
     master_csv = Path(args.csv_path)
@@ -315,77 +369,161 @@ def main() -> int:
     results_dir = Path(args.results_dir)
     dump_dir = Path(args.dump_dir) if args.dump_dir else None
 
-    log_event(event_log, "script started")
+    log_event(
+        event_log,
+        f"script started | search_clients={search_clients} | parallelisms={parallelism_values}",
+    )
 
-    for idx, sc in enumerate(search_clients):
-        attempt = 0
-        while True:
-            attempt += 1
-            label = f"sc{sc}_attempt{attempt}_{int(time.time())}"
-            results_csv = results_dir / f"{label}.results.csv"
+    total_run_index = 0
+    total_runs = len(search_clients) * len(parallelism_values)
 
-            log_event(event_log, f"starting run: search_clients={sc}, attempt={attempt}")
+    for p_idx, parallelism in enumerate(parallelism_values):
+        for s_idx, sc in enumerate(search_clients):
+            attempt = 0
 
-            cmd = build_command(
-                args.osb_bin,
-                args.workload_path,
-                args.target_host,
-                sc,
-                args.test_iterations,
-                args.include_tasks,
-                results_csv,
-            )
+            while True:
+                attempt += 1
+                total_run_index += 1
+                label = f"par{parallelism}_sc{sc}_attempt{attempt}_{int(time.time())}"
+                results_csv = results_dir / f"{label}.results.csv"
 
-            timed_out, rc, stdout, stderr = run_osb(cmd, timeout_s)
-
-            metrics = {}
-            note = ""
-
-            if timed_out:
-                note = "timed_out=True"
-                log_event(event_log, f"run timed out: search_clients={sc}, attempt={attempt}")
-            else:
-                if results_csv.exists():
-                    metrics = extract_metrics_from_osb_results_csv(results_csv)
-                    note = f"metrics_found={len(metrics)}"
-                else:
-                    note = "results_file_missing"
-
-            row = {
-                "timestamp_utc": utc_ts(),
-                "target_host": args.target_host,
-                "search_clients": sc,
-                "attempt": attempt,
-                "timed_out": timed_out,
-                "return_code": rc,
-                "results_file": str(results_csv),
-                "note": note,
-            }
-            row.update(metrics)
-            append_master_row(master_csv, row)
-
-            if dump_dir:
-                dump_attempt_artifacts(
-                    dump_dir,
-                    label,
-                    cmd,
-                    stdout,
-                    stderr,
-                    results_csv,
-                    metrics,
-                    note,
+                log_event(
+                    event_log,
+                    f"starting run {total_run_index}/{total_runs}: "
+                    f"parallelism={parallelism}, search_clients={sc}, attempt={attempt}",
                 )
 
-            if timed_out:
-                if args.max_retries and attempt >= args.max_retries:
-                    log_event(event_log, f"giving up after {attempt} retries: search_clients={sc}")
-                    break
-                log_event(event_log, f"retrying run: search_clients={sc}, next_attempt={attempt + 1}")
-                continue
+                setting_update_note = ""
+                if parallelism != -1:
+                    try:
+                        response_body = set_cluster_parallelism(args.target_host, parallelism)
+                        setting_update_note = f"parallelism_set={parallelism}"
+                        log_event(
+                            event_log,
+                            f"updated cluster setting search_virtual_threads.parallelism={parallelism}",
+                        )
+                        if dump_dir:
+                            try:
+                                d = dump_dir / label
+                                d.mkdir(parents=True, exist_ok=True)
+                                (d / "cluster_setting_update_response.json").write_text(response_body)
+                            except Exception:
+                                pass
+                    except Exception as e:
+                        setting_update_note = f"parallelism_update_failed={parallelism}"
+                        log_event(
+                            event_log,
+                            f"ERROR: failed to set search_virtual_threads.parallelism={parallelism}: {e}",
+                        )
+                        row = {
+                            "timestamp_utc": utc_ts(),
+                            "target_host": args.target_host,
+                            "search_clients": sc,
+                            "parallelism": parallelism,
+                            "attempt": attempt,
+                            "timed_out": False,
+                            "return_code": "",
+                            "results_file": str(results_csv),
+                            "note": f"{setting_update_note} | cluster_setting_error={safe_text(e)}",
+                        }
+                        append_master_row(master_csv, row)
 
-            if idx < len(search_clients) - 1:
+                        # Treat this as a failed run setup; do not retry forever.
+                        break
+                else:
+                    setting_update_note = "parallelism_unset"
+
+                cmd = build_command(
+                    args.osb_bin,
+                    args.workload_path,
+                    args.target_host,
+                    sc,
+                    args.test_iterations,
+                    args.include_tasks,
+                    results_csv,
+                )
+
+                timed_out, rc, stdout, stderr = run_osb(cmd, timeout_s)
+
+                metrics: Dict[str, Any] = {}
+                note_parts = [setting_update_note]
+
+                if timed_out:
+                    note_parts.append("timed_out=True")
+                    log_event(
+                        event_log,
+                        f"run timed out: parallelism={parallelism}, search_clients={sc}, attempt={attempt}",
+                    )
+                else:
+                    if results_csv.exists():
+                        metrics = extract_metrics_from_osb_results_csv(results_csv)
+                        note_parts.append(f"metrics_found={len(metrics)}")
+                        if metrics:
+                            log_event(
+                                event_log,
+                                f"run completed: parallelism={parallelism}, search_clients={sc}, "
+                                f"attempt={attempt}, metrics_found={len(metrics)}",
+                            )
+                        else:
+                            log_event(
+                                event_log,
+                                f"WARNING: run completed but no metrics parsed: "
+                                f"parallelism={parallelism}, search_clients={sc}, attempt={attempt}",
+                            )
+                    else:
+                        note_parts.append("results_file_missing")
+                        log_event(
+                            event_log,
+                            f"WARNING: results file missing: parallelism={parallelism}, "
+                            f"search_clients={sc}, attempt={attempt}",
+                        )
+
+                row = {
+                    "timestamp_utc": utc_ts(),
+                    "target_host": args.target_host,
+                    "search_clients": sc,
+                    "parallelism": parallelism,
+                    "attempt": attempt,
+                    "timed_out": timed_out,
+                    "return_code": rc,
+                    "results_file": str(results_csv),
+                    "note": " | ".join(note_parts),
+                }
+                row.update(metrics)
+                append_master_row(master_csv, row)
+
+                if dump_dir:
+                    dump_attempt_artifacts(
+                        dump_dir,
+                        label,
+                        cmd,
+                        stdout,
+                        stderr,
+                        results_csv,
+                        metrics,
+                        row["note"],
+                    )
+
+                if timed_out:
+                    if args.max_retries and attempt >= args.max_retries:
+                        log_event(
+                            event_log,
+                            f"giving up after {attempt} retries: parallelism={parallelism}, search_clients={sc}",
+                        )
+                        break
+                    log_event(
+                        event_log,
+                        f"retrying run: parallelism={parallelism}, search_clients={sc}, "
+                        f"next_attempt={attempt + 1}",
+                    )
+                    continue
+
+                break
+
+            is_last_combo = (p_idx == len(parallelism_values) - 1) and (s_idx == len(search_clients) - 1)
+            if not is_last_combo:
+                log_event(event_log, f"pausing {args.pause_seconds}s before next run")
                 time.sleep(args.pause_seconds)
-            break
 
     log_event(event_log, "script finished")
     return 0
